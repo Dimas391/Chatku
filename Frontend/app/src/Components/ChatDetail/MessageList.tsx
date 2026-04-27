@@ -14,6 +14,8 @@ import { useDimensions } from '@/app/src/utils/dimensions';
 import { scaleWidth } from '@/app/src/utils/responsive';
 
 interface Message {
+  isDestroyed: boolean | undefined;
+  classificationLabel: "Berisiko" | "Tidak Berisiko" | null | undefined;
   id: string;
   text: string;
   time: string;
@@ -113,12 +115,15 @@ const MessageList = ({
           ]}
         >
           <MessageBubble
-            text={item.text}
-            time={item.time}
-            isMe={item.isMe}
-            senderName={item.senderName}
-            status={item.status}
-          />
+          text={item.text}
+          time={item.time}
+          isMe={item.isMe}
+          senderName={item.senderName}
+          status={item.status}
+          classificationLabel={item.classificationLabel}
+          isDestroyed={item.isDestroyed}
+          isRisky={item.classificationLabel === 'Berisiko'}
+        />
         </View>
       </View>
     );

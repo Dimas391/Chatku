@@ -4,6 +4,7 @@ const TOKEN_KEY = '@SafeChat:access_token';
 const REFRESH_TOKEN_KEY = '@SafeChat:refresh_token';
 const USER_ID_KEY = '@SafeChat:user_id';
 const USER_PROFILE_KEY = '@SafeChat:user_profile';
+const PRIVATE_KEY_KEY = '@SafeChat:private_key';
 
 class StorageService {
   
@@ -71,6 +72,21 @@ class StorageService {
   async getUserId() {
     try {
       return await AsyncStorage.getItem(USER_ID_KEY);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async savePrivateKey(privateKey: string) {
+    try {
+      await AsyncStorage.setItem(PRIVATE_KEY_KEY, privateKey);
+    } catch (error) {
+    }
+  }
+
+  async getPrivateKey(): Promise<string | null> {
+    try {
+      return await AsyncStorage.getItem(PRIVATE_KEY_KEY);
     } catch (error) {
       return null;
     }

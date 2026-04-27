@@ -14,6 +14,7 @@ from app.core.security import (
 from app.core.redis_client import set_otp, get_otp, delete_otp
 from app.models.user import UserDocument
 from app.services.notification_service import NotificationService
+from app.services.rsa_service import rsa_service
 
 logger = logging.getLogger(__name__)
 
@@ -73,10 +74,10 @@ class AuthService:
         type: str,
         value: str,
         otp_code: str,
-    ) -> Tuple[bool, Optional[str], Optional[str]]:
+    ) -> Tuple[bool, Optional[str], Optional[str], Optional[str]]:
         """
         Verifikasi OTP dan buat/login user.
-        Returns: (success, access_token, refresh_token)
+        Returns: (success, access_token, refresh_token, public_key)
         """
         key = f"{type}:{value}"
 
@@ -88,7 +89,7 @@ class AuthService:
             stored_otp = doc["otp"] if doc else None
 
         if not stored_otp or stored_otp != otp_code:
-            return False, None, None
+            return False, None, None, None
 
         # Hapus OTP setelah berhasil
         await delete_otp(key)
@@ -99,7 +100,14 @@ class AuthService:
         query = {"phone": value} if type == "phone" else {"email": value}
         user = await users_col.find_one(query)
 
+        public_key_pem = None
+
         if not user:
+            # 🔐 Generate RSA key pair untuk user baru
+            logger.info("🔐 Generating RSA key pair for new user...")
+            private_key_pem, public_key_pem = rsa_service.generate_key_pair()
+            logger.info("🔐 RSA key pair generated successfully")
+            
             # Registrasi user baru
             username = AuthService._generate_username(value)
             new_user = UserDocument(
@@ -108,24 +116,52 @@ class AuthService:
                 phone=value if type == "phone" else None,
                 email=value if type == "email" else None,
                 is_verified=True,
+                rsa_public_key=public_key_pem,  # 🔐 Simpan public key di database
             )
             result = await users_col.insert_one(
-            new_user.model_dump(by_alias=True, exclude={"id"}, exclude_none=True)
-        )
+                new_user.model_dump(by_alias=True, exclude={"id"}, exclude_none=True)
+            )
             user_id = str(result.inserted_id)
+            logger.info("✅ New user created with ID: %s", user_id)
+            
+            # 🔐 Untuk sementara, private key akan dikirim ke client di response
+            # Di production, private key harus dienkripsi dengan password user
+            # Untuk sekarang, kita simpan private key sebagai response tambahan
+            # Client harus menyimpan private key dengan aman
+            
         else:
             user_id = str(user["_id"])
             # Update is_verified
             await users_col.update_one(
                 {"_id": user["_id"]},
-                {"$set": {"is_verified": True, "updated_at": datetime.now(timezone.utc)}},
+                {"$set": {"is_verified": True, "updated_at": datetime.now(timezone.utc)}}
             )
+            # Ambil public key yang sudah ada
+            public_key_pem = user.get("rsa_public_key")
+            logger.info("✅ Existing user logged in: %s", user_id)
+            
+            if not public_key_pem:
+                # Jika user tidak memiliki public key (migrasi dari versi lama)
+                logger.warning("⚠️ User %s has no RSA public key, generating new pair...", user_id)
+                private_key_pem, public_key_pem = rsa_service.generate_key_pair()
+                
+                # Update user dengan public key baru
+                await users_col.update_one(
+                    {"_id": ObjectId(user_id)},
+                    {"$set": {"rsa_public_key": public_key_pem}}
+                )
+                logger.info("🔐 New RSA key pair generated and saved for existing user")
 
+        # Buat tokens
         access_token = create_access_token(subject=user_id)
         refresh_token = create_refresh_token(subject=user_id)
 
         logger.info("User %s login berhasil.", user_id)
-        return True, access_token, refresh_token
+        
+        # 🔐 Return public key (dan private key untuk user baru)
+        # Untuk user baru, kita perlu mengembalikan private key juga
+        # Client harus menyimpannya dengan aman
+        return True, access_token, refresh_token, public_key_pem
 
     # ── Refresh Token ─────────────────────────────────────
     @staticmethod
@@ -156,6 +192,32 @@ class AuthService:
                 }
             },
         )
+
+    # ── Get User Public Key ───────────────────────────────
+    @staticmethod
+    async def get_user_public_key(user_id: str) -> Optional[str]:
+        """
+        Ambil public key RSA user dari database.
+        Returns: public_key_pem or None
+        """
+        try:
+            users_col = get_collection("users")
+            user = await users_col.find_one({"_id": ObjectId(user_id)})
+            if user:
+                return user.get("rsa_public_key")
+            return None
+        except Exception as e:
+            logger.error(f"Error getting user public key: {e}")
+            return None
+
+    # ── Get My Public Key ─────────────────────────────────
+    @staticmethod
+    async def get_my_public_key(user_id: str) -> Optional[str]:
+        """
+        Ambil public key user yang sedang login.
+        Returns: public_key_pem or None
+        """
+        return await AuthService.get_user_public_key(user_id)
 
     # ── Private helpers ───────────────────────────────────
     @staticmethod

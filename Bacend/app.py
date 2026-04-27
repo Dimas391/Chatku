@@ -1,9 +1,13 @@
 import argparse
 import uvicorn # type: ignore
 
+# Stub function to satisfy joblib/pickle when loading the model
+def preprocessing_lengkap(text):
+    return text
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="ChatKu Backend Server")
-    parser.add_argument("--host", default="192.168.1.23", help="Host (default: 192.168.1.23)")
+    parser.add_argument("--host", default="192.168.1.5", help="Host (default: 192.168.1.5)")
     parser.add_argument("--port", type=int, default=8000, help="Port (default: 8000)")
     parser.add_argument("--prod", action="store_true", help="Mode production (multi-worker, tanpa reload)")
     args = parser.parse_args()

@@ -13,8 +13,7 @@ import { useDimensions } from '@/app/src/utils/dimensions';
 import { BaseScreen } from '@/app/src/Components/BaseScreen';
 import ChatDetailHeader from '@/app/src/Components/ChatDetail/ChatDetailHeader';
 import MessageList from '@/app/src/Components/ChatDetail/MessageList';
-import MessageInput from '@/app/src/Components/ChatDetail/MessageInput';
-import notificationService from '@/app/src/services/notificationService';
+import MessageInput from '@/app/src/Components/ChatDetail/MessageInput';  
 import { useProfile } from '@/app/src/hooks/useProfile1';
 import websocketService from '@/app/src/services/websocketService';
 import storageService from '@/app/src/services/storageService';
@@ -61,6 +60,20 @@ const ChatDetailScreen = () => {
     return () => subscription.remove();
   }, []);
 
+  useEffect(() => {
+  console.log('🎬 [CHAT FEATURE] Component mounted, chatId:', chatId);
+  console.log('🎬 [CHAT FEATURE] Current messages count:', messages.length);
+  
+  return () => {
+    console.log('🎬 [CHAT FEATURE] Component unmounted, chatId:', chatId);
+  };
+}, [chatId, messages.length]);
+
+useEffect(() => {
+  console.log('📊 [CHAT FEATURE] Messages updated, count:', messages.length);
+  console.log('📊 [CHAT FEATURE] Messages sample:', messages.slice(-3));
+}, [messages]);
+
   const handleNewMessage = useCallback(async (newMessage: any) => {
   console.log('📨 New message received:', newMessage);
   console.log('🔔 notifMessages value:', notifMessages);
@@ -89,43 +102,8 @@ const ChatDetailScreen = () => {
   }
 }, [notifMessages, chatId, chatName]);
 
-  // 🔴 Setup WebSocket listener untuk pesan baru
-  useEffect(() => {
-    if (!chatId) return;
-
-    const messageHandler = (data: any) => {
-      console.log('📨 WebSocket message received:', data);
-      
-      if (data.chat_id === chatId) {
-        const isMe = data.sender_id === currentUserId;
-        
-        const newMessage = {
-          id: data.id,
-          text: data.content,
-          time: new Date(data.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          senderId: data.sender_id,
-          senderName: data.sender_name || chatName,
-          senderAvatar: data.sender_avatar || chatAvatar,
-          isMe: isMe,
-          status: data.status,
-        };
-        
-        // 🔴 Panggil notifikasi INSTAN
-        handleNewMessage(newMessage);
-        
-        // Scroll ke bawah
-        setTimeout(() => {
-          flatListRef.current?.scrollToEnd({ animated: true });
-        }, 100);
-      }
-    };
-
-    websocketService.on('new_message', messageHandler);
-
-    return () => {
-      websocketService.off('new_message', messageHandler);
-    };
-  }, [chatId, currentUserId, chatName, chatAvatar, handleNewMessage, flatListRef]);
+  // 🔴 WebSocket listener sekarang ditangani sepenuhnya oleh useChatDetail
+  // untuk menghindari duplikasi pesan dan konflik state.
 
   const styles = createStyles(DIMENSIONS, insets);
 

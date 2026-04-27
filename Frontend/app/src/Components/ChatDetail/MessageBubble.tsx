@@ -1,8 +1,6 @@
-import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useDimensions } from '@/app/src/utils/dimensions';
-import { scaleWidth } from '@/app/src/utils/responsive';
 import { useTheme } from '@/app/src/context/ThemeContext';
 
 interface MessageBubbleProps {
@@ -10,137 +8,166 @@ interface MessageBubbleProps {
   time: string;
   isMe: boolean;
   senderName?: string;
-  status?: 'sent' | 'delivered' | 'read';
+  status?: 'sent' | 'delivered' | 'read' | 'sending';
+  classificationLabel?: 'Berisiko' | 'Tidak Berisiko' | null;
+  isDestroyed?: boolean;
+  isRisky?: boolean;
+  isVerified?: boolean;
 }
 
-const MessageBubble = ({
+const MessageBubble: React.FC<MessageBubbleProps> = ({
   text,
   time,
   isMe,
   senderName,
   status,
-}: MessageBubbleProps) => {
-  const { width } = useWindowDimensions();
-  const { DIMENSIONS, SPACING, RADIUS } = useDimensions();
-  const { colors, isDarkMode } = useTheme();
+  classificationLabel,
+  isDestroyed = false,
+  isRisky = false,
+}) => {
+  const { colors } = useTheme();
 
-  const styles = useMemo(
-    () => createStyles(DIMENSIONS, SPACING, RADIUS, colors),
-    [DIMENSIONS, SPACING, RADIUS, colors]
-  );
+  const getStatusIcon = () => {
+    if (!isMe) return null;
+    if (status === 'sending') {
+      return <MaterialCommunityIcons name="clock-outline" size={12} color="#888" />;
+    }
+    switch (status) {
+      case 'sent':
+        return <MaterialCommunityIcons name="check" size={12} color="#888" />;
+      case 'delivered':
+        return <MaterialCommunityIcons name="check-all" size={12} color="#888" />;
+      case 'read':
+        return <MaterialCommunityIcons name="check-all" size={12} color="#4CAF50" />;
+      default:
+        return null;
+    }
+  };
 
-  const maxBubbleWidth = DIMENSIONS.isTablet
-    ? Math.min(scaleWidth(400, width), width * 0.65)
-    : width * 0.75;
+  if (isDestroyed) {
+    return (
+      <View style={[
+        styles.container,
+        isMe ? styles.myContainer : styles.otherContainer,
+        styles.destroyedContainer,
+        { backgroundColor: isMe ? '#FF4444' : '#FF444420' }
+      ]}>
+        {!isMe && senderName && (
+          <Text style={[styles.senderName, { color: colors.textSecondary }]}>
+            {senderName}
+          </Text>
+        )}
+        
+        <View style={styles.destroyedContent}>
+          <MaterialCommunityIcons name="shield-alert" size={16} color="#FF4444" />
+          <Text style={[styles.destroyedText, { color: '#FF4444' }]}>
+            KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM
+          </Text>
+        </View>
+        
+        <View style={styles.footer}>
+          <Text style={[
+            styles.timeText,
+            { color: isMe ? 'rgba(255,255,255,0.7)' : colors.textSecondary }
+          ]}>
+            {time}
+          </Text>
+          <MaterialCommunityIcons name="alert-octagram" size={12} color="#FF4444" />
+          {getStatusIcon()}
+        </View>
+      </View>
+    );
+  }
 
+  // Normal message display
   return (
-    <View
-      style={[
-        styles.messageBubble,
-        { maxWidth: maxBubbleWidth },
-        isMe ? styles.myMessageBubble : styles.otherMessageBubble,
-      ]}
-    >
-      {!isMe && senderName && senderName !== 'Anda' ? (
-        <Text style={[styles.senderName, { color: colors.primary }]} numberOfLines={1}>
+    <View style={[
+      styles.container,
+      isMe ? styles.myContainer : styles.otherContainer,
+      { backgroundColor: isMe ? colors.primary : colors.card },
+    ]}>
+      {!isMe && senderName && (
+        <Text style={[styles.senderName, { color: colors.textSecondary }]}>
           {senderName}
         </Text>
-      ) : null}
-
-      <Text
-        style={[
-          styles.messageText,
-          isMe ? styles.myMessageText : styles.otherMessageText,
-        ]}
-      >
+      )}
+      
+      <Text style={[
+        styles.messageText,
+        { color: isMe ? '#fff' : colors.text }
+      ]}>
         {text}
       </Text>
-
-      <View style={styles.messageFooter}>
-        <Text
-          style={[
-            styles.messageTime,
-            isMe ? styles.myMessageTime : styles.otherMessageTime,
-          ]}
-        >
+      
+      <View style={styles.footer}>
+        <Text style={[
+          styles.timeText,
+          { color: isMe ? 'rgba(255,255,255,0.7)' : colors.textSecondary }
+        ]}>
           {time}
         </Text>
-
-        {isMe && status ? (
-          <MaterialCommunityIcons
-            name={status === 'read' ? 'check-all' : 'check'}
-            size={DIMENSIONS.fontSmall}
-            color={status === 'read' ? '#4FC3F7' : colors.textTertiary}
-            style={styles.messageStatus}
+        
+        {classificationLabel === 'Tidak Berisiko' && (
+          <MaterialCommunityIcons 
+            name="shield-check" 
+            size={12} 
+            color={isMe ? 'rgba(255,255,255,0.7)' : '#4CAF50'} 
           />
-        ) : null}
+        )}
+        
+        {getStatusIcon()}
       </View>
     </View>
   );
 };
 
-const createStyles = (
-  DIMENSIONS: ReturnType<typeof useDimensions>['DIMENSIONS'],
-  SPACING: ReturnType<typeof useDimensions>['SPACING'],
-  RADIUS: ReturnType<typeof useDimensions>['RADIUS'],
-  colors: any
-) =>
-  StyleSheet.create({
-    messageBubble: {
-      paddingHorizontal: SPACING.md,
-      paddingVertical: SPACING.sm,
-      borderRadius: RADIUS.lg,
-      elevation: 1,
-      shadowColor: '#000000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.05,
-      shadowRadius: 2,
-    },
-    myMessageBubble: {
-      backgroundColor: colors.primary,
-      borderBottomRightRadius: RADIUS.xs,
-      alignSelf: 'flex-end',
-    },
-    otherMessageBubble: {
-      backgroundColor: colors.surface,
-      borderBottomLeftRadius: RADIUS.xs,
-      alignSelf: 'flex-start',
-    },
-    senderName: {
-      fontSize: DIMENSIONS.fontTiny,
-      fontWeight: '600',
-      marginBottom: SPACING.xs,
-      maxWidth: '100%',
-    },
-    messageText: {
-      fontSize: DIMENSIONS.fontRegular,
-      lineHeight: DIMENSIONS.fontRegular * 1.4,
-      marginBottom: SPACING.xs,
-    },
-    myMessageText: {
-      color: '#FFFFFF',
-    },
-    otherMessageText: {
-      color: colors.text,
-    },
-    messageFooter: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      alignSelf: 'flex-end',
-    },
-    messageTime: {
-      fontSize: Math.max(DIMENSIONS.fontTiny - 1, 10),
-    },
-    myMessageTime: {
-      color: 'rgba(255,255,255,0.7)',
-    },
-    otherMessageTime: {
-      color: colors.textTertiary,
-    },
-    messageStatus: {
-      marginLeft: SPACING.xs,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    maxWidth: '80%',
+  },
+  myContainer: {
+    borderBottomRightRadius: 4,
+  },
+  otherContainer: {
+    borderBottomLeftRadius: 4,
+  },
+  senderName: {
+    fontSize: 11,
+    marginBottom: 2,
+  },
+  messageText: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginTop: 4,
+    gap: 4,
+  },
+  timeText: {
+    fontSize: 10,
+    marginRight: 4,
+  },
+  destroyedContainer: {
+    borderWidth: 1,
+    borderColor: '#FF4444',
+  },
+  destroyedContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginVertical: 4,
+  },
+  destroyedText: {
+    fontSize: 12,
+    fontWeight: '600',
+    flex: 1,
+  },
+});
 
 export default MessageBubble;

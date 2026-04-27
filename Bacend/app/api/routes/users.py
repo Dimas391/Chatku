@@ -2,7 +2,7 @@ from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File # type: ignore
 from bson import ObjectId # type: ignore
 from datetime import datetime, timezone
-from pydantic import BaseModel 
+from pydantic import BaseModel  # type: ignore
 from app.middleware.auth import get_current_user, get_current_user_id
 from app.core.database import get_collection
 from app.services.media_service import MediaService
@@ -190,6 +190,31 @@ async def update_notification_settings(
     )
     
     return {"success": True, "data": notification_settings}
+
+@router.get("/{user_id}/public-key", summary="Ambil Public Key User")
+async def get_user_public_key(
+    user_id: str,
+    current_user: dict = Depends(get_current_user),
+):
+    """
+    Ambil public key RSA user lain untuk enkripsi end-to-end
+    """
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=400, detail="ID user tidak valid")
+    
+    user = await get_collection("users").find_one(
+        {"_id": ObjectId(user_id), "is_active": True},
+        {"rsa_public_key": 1}
+    )
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan")
+    
+    public_key = user.get("rsa_public_key")
+    if not public_key:
+        raise HTTPException(status_code=404, detail="User belum memiliki public key")
+    
+    return {"public_key": public_key}
 
 @router.patch("/me/privacy", summary="Update Privacy Settings")
 async def update_privacy_settings(

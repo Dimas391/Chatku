@@ -8,7 +8,6 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
-
 class NotificationService:
     """Layanan pengiriman notifikasi ke pengguna."""
 

@@ -17,7 +17,7 @@ class UploadService {
       } as any);
 
       // Gunakan URL langsung, jangan pakai API_CONFIG
-      const baseUrl = 'http://192.168.1.23:8000';
+      const baseUrl = 'http://192.168.1.5:8000';
       const uploadUrl = `${baseUrl}/api/v1/users/me/avatar`;
       
       console.log('📤 Upload URL:', uploadUrl);

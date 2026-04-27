@@ -1,4 +1,3 @@
-  console.log("☎️ Tombol Telepon diklik!");
 import api, { ApiResponse } from './api';
 import storageService from './storageService';
 
@@ -21,6 +20,25 @@ export interface User extends UserProfile {
 }
 
 class UserService {
+  // GET /users/{userId}/public-key - Ambil public key user lain
+  async getUserPublicKey(userId: string): Promise<ApiResponse<{ public_key: string }>> {
+    try {
+      const token = await storageService.getAccessToken();
+      const response = await api.get<{ public_key: string }>(`/users/${userId}/public-key`, token || undefined);
+      
+      if (response.success && response.data) {
+        console.log('🔑 [PUBKEY] Got public key for user:', userId);
+      }
+      return response;
+    } catch (error) {
+      console.error('❌ [PUBKEY] Failed to get public key:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Network error',
+        message: error instanceof Error ? error.message : 'Network error',
+      };
+    }
+  }
   // GET /users/me - Profil saya
   async getMyProfile(): Promise<ApiResponse<UserProfile>> {
     try {

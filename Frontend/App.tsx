@@ -8,7 +8,11 @@ import { ThemeProvider, useTheme } from '@/app/src/context/ThemeContext';
 import { LanguageProvider, useLanguage } from '@/app/src/context/LanguageContext';
 import { View, ActivityIndicator, Text, StyleSheet, Modal, TouchableOpacity, BackHandler } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as SecureStore from 'expo-secure-store';
 import websocketService from '@/app/src/services/websocketService';
+import encryptionService from '@/app/src/services/encryptionService';
+import authService from '@/app/src/services/authService';
+import api from '@/app/src/services/api';
 
 //Import screens 
 import IndexScreen           from '@/app/src/pages/index';
@@ -199,6 +203,7 @@ function AppNavigator() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showBiometricModal, setShowBiometricModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
+  const [encryptionInitialized, setEncryptionInitialized] = useState(false);
   const { isDarkMode, colors } = useTheme();
   const { t } = useLanguage();
 
@@ -220,10 +225,64 @@ function AppNavigator() {
     },
   };
 
+  // ==================== INIT ENCRYPTION ====================
+  const initEncryption = async () => {
+    console.log('🔐 [INIT] Starting encryption initialization...');
+    try {
+      // Cek apakah user sudah memiliki key pair
+      const hasPrivateKey = await SecureStore.getItemAsync('user_private_key');
+      
+      if (!hasPrivateKey) {
+        console.log('🔐 [INIT] No private key found, generating new key pair...');
+        // Generate key pair untuk user
+        const keyPair = await encryptionService.generateUserKeyPair();
+        console.log('🔐 [INIT] Key pair generated successfully');
+        
+        // Kirim public key ke server
+        const publicKey = await encryptionService.getMyPublicKey();
+        if (publicKey) {
+          console.log('🔐 [INIT] Sending public key to server...');
+          try {
+            const token = await storageService.getAccessToken();
+            if (token) {
+              await api.post('/users/me/public-key', { public_key: publicKey }, token);
+              console.log('🔐 [INIT] Public key sent to server');
+            }
+          } catch (error) {
+            console.error('❌ [INIT] Failed to send public key to server:', error);
+          }
+        }
+      } else {
+        console.log('🔐 [INIT] Loading existing keys...');
+        await encryptionService.loadUserKeys();
+        console.log('🔐 [INIT] Keys loaded successfully');
+      }
+      
+      // Ambil server public key
+      console.log('🔐 [INIT] Fetching server public key...');
+      const serverPublicKey = await authService.getServerPublicKey();
+      if (serverPublicKey) {
+        await encryptionService.setServerPublicKey(serverPublicKey);
+        console.log('🔐 [INIT] Server public key set');
+      } else {
+        console.warn('⚠️ [INIT] Failed to get server public key');
+      }
+      
+      setEncryptionInitialized(true);
+      console.log('🔐 [INIT] Encryption initialization completed');
+    } catch (error) {
+      console.error('❌ [INIT] Encryption initialization failed:', error);
+      setEncryptionInitialized(true); // Tetap lanjut meskipun error
+    }
+  };
+
   // ─── Cek metode keamanan saat app dibuka 
   useEffect(() => {
     const checkSecurity = async () => {
       try {
+        // First initialize encryption
+        await initEncryption();
+        
         const method = await biometricService.getActiveSecurityMethod();
         if (method === 'biometric') {
           setShowBiometricModal(true);
@@ -268,11 +327,14 @@ function AppNavigator() {
     setIsAuthenticated(true);
   };
 
-  // ─── Loading saat cek security
-  if (isAuthenticating) {
+  // ─── Loading saat cek security atau encryption
+  if (isAuthenticating || !encryptionInitialized) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#FF6B35" />
+        <Text style={styles.loadingText}>
+          {!encryptionInitialized ? 'Mempersiapkan keamanan...' : 'Memuat...'}
+        </Text>
       </View>
     );
   }
@@ -425,6 +487,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#0f0f0f',
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 14,
+    color: '#666',
   },
   authContainer: {
     flex: 1,

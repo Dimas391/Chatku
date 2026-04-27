@@ -49,6 +49,19 @@ class UserService:
             }
         ).limit(limit)
         return await cursor.to_list(length=limit)
+    
+    @staticmethod
+    async def get_public_key(user_id: str) -> Optional[str]:
+        """Ambil public key user"""
+        if not ObjectId.is_valid(user_id):
+            return None
+        
+        user = await get_collection("users").find_one(
+            {"_id": ObjectId(user_id), "is_active": True},
+            {"rsa_public_key": 1}
+        )
+        
+        return user.get("rsa_public_key") if user else None
 
     @staticmethod
     def format_public(user: dict) -> dict:

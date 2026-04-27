@@ -34,6 +34,16 @@ async def authenticate_websocket(token: str) -> Optional[dict]:
         return None
 
 
+from starlette.websockets import WebSocketState
+
+async def safe_send_json(websocket: WebSocket, data: dict):
+    """Kirim JSON hanya jika koneksi masih terbuka."""
+    try:
+        if websocket.application_state == WebSocketState.CONNECTED:
+            await websocket.send_json(data)
+    except Exception as e:
+        logger.debug(f"Gagal mengirim WS message (koneksi mungkin sudah tutup): {e}")
+
 # ── Main WebSocket Endpoint ───────────────────────────────
 @router.websocket("/ws")
 async def websocket_endpoint(
@@ -44,14 +54,12 @@ async def websocket_endpoint(
     client_host = websocket.client.host if websocket.client else "unknown"
     logger.info(f"🔌 WebSocket connection attempt from: {client_host}")
     
-    # PERBAIKAN: JANGAN accept di sini! Biarkan manager.connect yang melakukan accept
-    # await websocket.accept()  <- HAPUS BARIS INI
-    
     # Autentikasi dulu
     user = await authenticate_websocket(token)
     if not user:
         logger.warning(f"❌ Authentication failed")
-        await websocket.close(code=4001, reason="Token tidak valid")
+        if websocket.application_state != WebSocketState.DISCONNECTED:
+            await websocket.close(code=4001, reason="Token tidak valid")
         return
 
     user_id = str(user["_id"])
@@ -71,7 +79,7 @@ async def websocket_endpoint(
     await manager.notify_user_status(user_id, is_online=True)
 
     # Kirim konfirmasi
-    await websocket.send_json({
+    await safe_send_json(websocket, {
         "event": "connected",
         "user_id": user_id,
         "display_name": display_name,
@@ -92,7 +100,8 @@ async def websocket_endpoint(
     except WebSocketDisconnect:
         logger.info(f"🔌 WebSocket: {display_name} ({user_id}) terputus.")
     except Exception as exc:
-        logger.error(f"WS error ({user_id}): {exc}")
+        if websocket.application_state == WebSocketState.CONNECTED:
+            logger.error(f"WS error ({user_id}): {exc}")
     finally:
         # Cleanup
         manager.disconnect(websocket, user_id)
@@ -116,7 +125,7 @@ async def _handle_message(websocket: WebSocket, user_id: str, data: dict) -> Non
     payload = data.get("data", {})
 
     if event == "ping":
-        await websocket.send_json({"event": "pong", "timestamp": datetime.now(timezone.utc).isoformat()})
+        await safe_send_json(websocket, {"event": "pong", "timestamp": datetime.now(timezone.utc).isoformat()})
 
     elif event == "join_chat":
         chat_id = payload.get("chat_id")
@@ -124,7 +133,7 @@ async def _handle_message(websocket: WebSocket, user_id: str, data: dict) -> Non
             chat = await ChatService.get_chat_by_id(chat_id, user_id)
             if chat:
                 manager.join_chat(user_id, chat_id)
-                await websocket.send_json({
+                await safe_send_json(websocket, {
                     "event": "joined_chat",
                     "chat_id": chat_id,
                 })
@@ -151,7 +160,7 @@ async def _handle_message(websocket: WebSocket, user_id: str, data: dict) -> Non
         await _handle_webrtc_signal(websocket, user_id, payload)
 
     else:
-        await websocket.send_json({
+        await safe_send_json(websocket, {
             "event": "error",
             "message": f"Event tidak dikenal: {event}",
         })
@@ -179,7 +188,7 @@ async def _handle_webrtc_signal(
     call_id = payload.get("call_id")
 
     if not signal_type or not target_user_id:
-        await websocket.send_json({
+        await safe_send_json(websocket, {
             "event": "error",
             "message": "signal type dan target_user_id wajib diisi",
         })
@@ -208,7 +217,7 @@ async def _handle_webrtc_signal(
         await CallService.end_call(call_id, ended_by=user_id)
 
     if not sent:
-        await websocket.send_json({
+        await safe_send_json(websocket, {
             "event": "signal_failed",
             "reason": "target_offline",
             "target_user_id": target_user_id,
@@ -228,7 +237,8 @@ async def call_websocket(
     """
     user = await authenticate_websocket(token)
     if not user:
-        await websocket.close(code=4001, reason="Token tidak valid")
+        if websocket.application_state != WebSocketState.DISCONNECTED:
+            await websocket.close(code=4001, reason="Token tidak valid")
         return
 
     user_id = str(user["_id"])
@@ -236,16 +246,18 @@ async def call_websocket(
     # Verifikasi user adalah peserta panggilan
     call_data = await CallService.get_call(call_id)
     if not call_data:
-        await websocket.close(code=4004, reason="Panggilan tidak ditemukan")
+        if websocket.application_state != WebSocketState.DISCONNECTED:
+            await websocket.close(code=4004, reason="Panggilan tidak ditemukan")
         return
 
     participants = [call_data.get("caller_id"), call_data.get("callee_id")]
     if user_id not in participants:
-        await websocket.close(code=4003, reason="Anda bukan peserta panggilan ini")
+        if websocket.application_state != WebSocketState.DISCONNECTED:
+            await websocket.close(code=4003, reason="Anda bukan peserta panggilan ini")
         return
 
     await manager.connect(websocket, user_id)
-    await websocket.send_json({
+    await safe_send_json(websocket, {
         "event": "call_connected",
         "call_id": call_id,
         "call_type": call_data.get("type"),

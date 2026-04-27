@@ -7,7 +7,6 @@ from app.services.media_service import MediaService
 router = APIRouter(prefix="/media", tags=["Media"])
 media_svc = MediaService()
 
-
 class DeleteMediaRequest(BaseModel):
     url: str
 

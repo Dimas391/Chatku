@@ -11,7 +11,7 @@ const getBaseURL = (): string => {
       console.log('🌐 Using ENV URL:', envUrl);
       return envUrl;
     }
-    const defaultUrl = 'http://192.168.1.23:8000/api/v1';
+    const defaultUrl = 'http://192.168.1.5:8000/api/v1';
     console.log('🌐 Using default URL:', defaultUrl);
     return defaultUrl;
   }
@@ -43,7 +43,7 @@ export const getApiUrl = (endpoint: string): string => {
 // WebSocket URL
 export const getWebSocketURL = (): string => {
   if (__DEV__) {
-    return 'ws://192.168.1.23:8000';
+    return 'ws://192.168.1.5:8000';
   }
   return Constants.expoConfig?.extra?.WS_URL || 'wss://api.chatku.com';
 };

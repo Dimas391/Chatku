@@ -1,0 +1,227 @@
+### TEST KLASIFIKASI PESAN NAIVE BAYES
+### Gunakan extension REST Client di VS Code
+
+@baseUrl = http://192.168.1.5:8000/api/v1
+@chatId = 69e205595c53a541d05fa1c2
+
+# Token untuk user AbaahVV (dari log sebelumnya)
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWUyMDUwYjVjNTNhNTQxZDA1ZmExYzEiLCJleHAiOjE3ODQxOTYxMDcsImlhdCI6MTc3NjQyMDEwNywidHlwZSI6InJlZnJlc2gifQ.0ec2_C_PumNp0pQe6Nqi9beVH3oWZJuD6kqOxh25iuc
+###############################################
+### 1. CEK STATUS MODEL (Apakah model berhasil dimuat)
+###############################################
+
+GET {{baseUrl}}/chats/model-status
+Authorization: Bearer {{authToken}}
+
+###############################################
+### 2. TEST KLASIFIKASI DENGAN KATA POSITIF (Seharusnya: Tidak Berisiko)
+###############################################
+
+### Test: "selamat pagi"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "Saya dari divisi hadiah Traveloka. Anda menang grand prize. Kirim foto KTP + selfie ke 0877-3333-5678 untuk proses."
+}
+
+### Test: "terima kasih"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "akun bank anda adalah 1234"
+}
+
+### Test: "apa kabar"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "apa"
+}
+
+### Test: "senang berkenalan"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "senang berkenalan"
+}
+
+### Test: "ayo belajar bersama"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "ayo belajar bersama"
+}
+
+###############################################
+### 3. TEST KLASIFIKASI DENGAN KATA NEGATIF (Seharusnya: Berisiko)
+###############################################
+
+### Test: "babi"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "babi"
+}
+
+### Test: "anjing"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "anjing"
+}
+
+### Test: "tolol"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "pepek"
+}
+
+### Test: "goblok"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "goblok"
+}
+
+### Test: "bodoh"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "bodoh"
+}
+
+### Test: "sialan"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "sialan"
+}
+
+### Test: "bangsat"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "bangsat"
+}
+
+### Test: "keparat"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "keparat"
+}
+
+### Test: "bunuh"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "bunuh kamu"
+}
+
+###############################################
+### 4. TEST DENGAN KALIMAT LENGKAP
+###############################################
+
+### Kalimat positif
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "terima kasih banyak atas bantuannya"
+}
+
+### Kalimat mengandung kata kasar
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "dasar babi kamu tolol"
+}
+
+### Kalimat ancaman
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "awas nanti saya bunuh kamu"
+}
+
+### Kalimat netral
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "besok kita bertemu di kampus jam 10"
+}
+
+###############################################
+### 5. TEST BATCH (Beberapa kata sekaligus)
+###############################################
+
+### Kata kasar - "memek"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "memek"
+}
+
+### Kata kasar - "kontol"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "kontol"
+}
+
+### Kata kasar - "ngentot"
+POST {{baseUrl}}/chats/test-classify
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "text": "ngentot"
+}
+
+###############################################
+### 6. CEK PESAN YANG SUDAH ADA DI DATABASE
+###############################################
+
+### Lihat pesan terbaru di chat
+GET {{baseUrl}}/chats/{{chatId}}/messages?limit=20
+Authorization: Bearer {{authToken}}

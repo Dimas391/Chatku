@@ -1,8 +1,7 @@
 from datetime import datetime, timezone
 from typing import Optional, List
 from pydantic import BaseModel, EmailStr, Field # type: ignore
-from bson import ObjectId
-
+from bson import ObjectId # type: ignore
 
 # ── Helper untuk ObjectId ─────────────────────────────────
 class PyObjectId(ObjectId):
@@ -47,9 +46,10 @@ class UserDocument(BaseModel):
     is_verified: bool = False
     is_online: bool = False
     last_seen: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    contacts: List[str] = []           # list user_id
-    blocked_users: List[str] = []     # list user_id
-    notification_token: Optional[str] = None  # FCM/APNs push token
+    contacts: List[str] = []
+    blocked_users: List[str] = []
+    notification_token: Optional[str] = None
+    rsa_public_key: Optional[str] = None  # 🔐 TAMBAHKAN INI
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 

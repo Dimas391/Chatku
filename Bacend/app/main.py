@@ -4,18 +4,23 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI # type: ignore
 from fastapi.middleware.cors import CORSMiddleware # type: ignore
 from fastapi.middleware.gzip import GZipMiddleware # type: ignore
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse # type: ignore
 from fastapi.staticfiles import StaticFiles # type: ignore
 
 from app.core.config import settings
 from app.core.database import Database
 from app.core.redis_client import RedisClient
-from app.api.routes import auth, chat, users, calls, websocket, groups, notifications, media, contacts
+from app.api.routes import auth, chat, users, calls, websocket, groups, notifications, media, contacts, security
 from app.api.routes import video_calls
 from app.utils.db_indexes import create_indexes
 from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.logging import RequestLoggingMiddleware
 import os
+
+# Stub function to satisfy joblib/pickle when loading the model
+# This is needed because the model was saved in an environment where this function existed
+def preprocessing_lengkap(text):
+    return text
 
 # Logging 
 logging.basicConfig(
@@ -111,6 +116,7 @@ app.include_router(notifications.router, prefix=API_PREFIX)
 app.include_router(media.router,         prefix=API_PREFIX)
 app.include_router(video_calls.router,   prefix=API_PREFIX)
 app.include_router(contacts.router,      prefix=API_PREFIX)
+app.include_router(security.router,      prefix=API_PREFIX)
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # PERBAIKAN: WebSocket router TANPA prefix

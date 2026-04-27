@@ -64,7 +64,6 @@ async def create_admin(phone: str = None, email: str = None) -> None:
     finally:
         client.close()
 
-
 async def list_admins() -> None:
     """Tampilkan daftar semua admin."""
     client = AsyncIOMotorClient(MONGODB_URL)
@@ -85,7 +84,6 @@ async def list_admins() -> None:
             print("-" * 50)
     finally:
         client.close()
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Manajemen user admin ChatKu")

@@ -1,4 +1,3 @@
-// components/ChatDetail/ChatDetailHeader.tsx
 import React, { useMemo } from 'react';
 import {
   View,
@@ -20,7 +19,7 @@ interface ChatDetailHeaderProps {
   onBackPress: () => void;
   onCallPress: () => void;
   onVideoCallPress: () => void;
-  onMenuPress: () => void;  // Pastikan ini ada
+  onMenuPress: () => void;
 }
 
 const ChatDetailHeader = ({
@@ -91,11 +90,7 @@ const ChatDetailHeader = ({
           onPress={onCallPress}
           hitSlop={{ top: 10, bottom: 10, left: 5, right: 5 }}
         >
-          <MaterialCommunityIcons
-            name="phone"
-            size={DIMENSIONS.iconSmall}
-            color={colors.primary}
-          />
+         
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -103,11 +98,6 @@ const ChatDetailHeader = ({
           onPress={onVideoCallPress}
           hitSlop={{ top: 10, bottom: 10, left: 5, right: 5 }}
         >
-          <MaterialCommunityIcons
-            name="video"
-            size={DIMENSIONS.iconSmall}
-            color={colors.primary}
-          />
         </TouchableOpacity>
 
         <TouchableOpacity

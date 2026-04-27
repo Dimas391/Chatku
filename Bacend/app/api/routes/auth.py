@@ -3,7 +3,9 @@ from pydantic import BaseModel # type: ignore
 from typing import Optional
 
 from app.services.auth_service import AuthService
-from app.middleware.auth import get_current_user_id
+from app.middleware.auth import get_current_user, get_current_user_id
+from app.services.encryption_service import encryption_service
+from cryptography.hazmat.primitives import serialization # type: ignore
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -38,6 +40,7 @@ class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
+    public_key: Optional[str] = None
 
 
 # ── Endpoints ─────────────────────────────────────────────
@@ -113,6 +116,22 @@ async def refresh_token(request: RefreshTokenRequest):
         access_token=new_access_token,
         refresh_token=request.refresh_token,  # refresh token tidak diganti
     )
+
+
+@router.get("/public-key", summary="Ambil Server RSA Public Key")
+async def get_public_key():
+    """
+    Mengambil public key RSA server untuk enkripsi AES key di sisi client.
+    """
+    if not encryption_service.public_key:
+        raise HTTPException(status_code=500, detail="Public key tidak tersedia")
+    
+    public_key_pem = encryption_service.public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+    ).decode('utf-8')
+    
+    return {"public_key": public_key_pem}
 
 
 @router.post(

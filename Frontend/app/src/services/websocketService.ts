@@ -1,6 +1,6 @@
 import storageService from './storageService';
 
-const WS_URL = 'ws://192.168.1.23:8000';
+const WS_URL = 'ws://192.168.1.5:8000';
 
 type Callback = (data: any) => void;
 

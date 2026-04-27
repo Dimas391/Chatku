@@ -3,7 +3,7 @@ import uuid
 import logging
 import mimetypes
 from typing import Tuple, Optional
-from fastapi import UploadFile
+from fastapi import UploadFile # type: ignore
 from datetime import datetime
 
 from app.core.config import settings
@@ -44,7 +44,7 @@ class MediaService:
 
     def get_base_url(self) -> str:
         """Dapatkan base URL dari settings atau default."""
-        base_url = getattr(settings, 'BASE_URL', 'http://192.168.1.23:8000')
+        base_url = getattr(settings, 'BASE_URL', 'http://192.168.1.5:8000')
         return base_url.rstrip('/')
 
     # ── Upload File ───────────────────────────────────────

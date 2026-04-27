@@ -262,20 +262,18 @@ export const useChat = () => {
   };
 
   const loadChats = async () => {
+    console.log('📨 [useChat] loadChats started');
     setLoading(true);
     try {
       const response = await chatService.getChats();
+      console.log('📨 [useChat] chatService.getChats response success:', response.success);
       
       if (response.success && response.data) {
+        console.log('📨 [useChat] Chats found:', response.data.chats.length);
         chatIdsSet.current.clear();
         
         const transformedChats: ChatItem[] = await Promise.all(
-          response.data.chats.filter((chat: ChatData) => {
-            if (chatIdsSet.current.has(chat.id)) {
-              return false; // Filter out duplicate chat
-            }
-            return true; // Keep valid chat
-          }).map(async (chat: ChatData) => {
+          response.data.chats.map(async (chat: ChatData) => {
             let chatName = chat.name;
             let chatAvatar = chat.avatar_url;
 
@@ -305,24 +303,15 @@ export const useChat = () => {
         );
 
         if (isMounted.current) {
+          console.log('📨 [useChat] Setting chats state, count:', transformedChats.length);
           setChats(transformedChats);
           setTimeout(() => joinAllChatRooms(transformedChats), 500);
         }
-        
-        const validChats = transformedChats.filter(chat => chat !== null) as ChatItem[];
-        
-        validChats.sort((a, b) => {
-          const timeA = parseTimeToDate(a.lastMessageTime);
-          const timeB = parseTimeToDate(b.lastMessageTime);
-          return timeB.getTime() - timeA.getTime();
-        });
-        
-        if (isMounted.current) {
-          setChats(validChats);
-          setTimeout(() => joinAllChatRooms(validChats), 500);
-        }
+      } else {
+        console.warn('📨 [useChat] Failed to load chats:', response.message || response.error);
       }
     } catch (error) {
+      console.error('📨 [useChat] Error in loadChats:', error);
     } finally {
       if (isMounted.current) {
         setLoading(false);
@@ -414,5 +403,6 @@ export const useChat = () => {
     currentUserId,
     handleRefresh,
     handleNewChat,
+    loadChats,
   };
 };
