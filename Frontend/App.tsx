@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeProvider, useTheme } from '@/app/src/context/ThemeContext';
 import { LanguageProvider, useLanguage } from '@/app/src/context/LanguageContext';
-import { View, ActivityIndicator, Text, StyleSheet, Modal, TouchableOpacity, BackHandler } from 'react-native';
+import { View, ActivityIndicator, Text, StyleSheet, Modal, TouchableOpacity, BackHandler, Platform } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import * as SecureStore from 'expo-secure-store';
+import { platformStorage } from '@/app/src/utils/platformStorage';
 import websocketService from '@/app/src/services/websocketService';
 import encryptionService from '@/app/src/services/encryptionService';
 import authService from '@/app/src/services/authService';
@@ -38,6 +38,7 @@ import ContactsScreen        from '@/app/src/pages/ContactsScreen';
 import notificationService   from '@/app/src/services/notificationService';
 import biometricService      from '@/app/src/services/biometricService';
 import storageService        from '@/app/src/services/storageService';
+import userService           from '@/app/src/services/userService';
 import Profile1              from '@/app/src/pages/Profile';
 
 import { PinVerifyModal } from '@/app/src/Components/Profile/PinVerifyModal';
@@ -230,49 +231,68 @@ function AppNavigator() {
     console.log('🔐 [INIT] Starting encryption initialization...');
     try {
       // Cek apakah user sudah memiliki key pair
-      const hasPrivateKey = await SecureStore.getItemAsync('user_private_key');
+      const hasPrivateKey = await platformStorage.getItem('user_private_key');
       
       if (!hasPrivateKey) {
         console.log('🔐 [INIT] No private key found, generating new key pair...');
-        // Generate key pair untuk user
-        const keyPair = await encryptionService.generateUserKeyPair();
-        console.log('🔐 [INIT] Key pair generated successfully');
-        
-        // Kirim public key ke server
+        await encryptionService.generateUserKeyPair();
         const publicKey = await encryptionService.getMyPublicKey();
         if (publicKey) {
-          console.log('🔐 [INIT] Sending public key to server...');
           try {
-            const token = await storageService.getAccessToken();
-            if (token) {
-              await api.post('/users/me/public-key', { public_key: publicKey }, token);
-              console.log('🔐 [INIT] Public key sent to server');
-            }
-          } catch (error) {
-            console.error('❌ [INIT] Failed to send public key to server:', error);
+            await userService.saveUserPublicKey(publicKey);
+            console.log('🔐 [INIT] New key pair generated and uploaded');
+          } catch (e) {
+            console.error('⚠️ [INIT] Failed to upload public key:', e);
           }
         }
       } else {
         console.log('🔐 [INIT] Loading existing keys...');
-        await encryptionService.loadUserKeys();
-        console.log('🔐 [INIT] Keys loaded successfully');
+        const success = await encryptionService.loadUserKeys();
+        if (!success) {
+          console.log('🔐 [INIT] Keys invalid or missing after load, regenerating...');
+          await encryptionService.generateUserKeyPair();
+          const publicKey = await encryptionService.getMyPublicKey();
+          if (publicKey) {
+            try {
+              await userService.saveUserPublicKey(publicKey);
+              console.log('🔐 [INIT] New key pair generated and uploaded');
+            } catch (e) {
+              console.error('⚠️ [INIT] Failed to upload public key:', e);
+            }
+          }
+        } else {
+          console.log('🔐 [INIT] Keys loaded successfully, synchronizing with server...');
+          const publicKey = await encryptionService.getMyPublicKey();
+          if (publicKey) {
+            try {
+              await userService.saveUserPublicKey(publicKey);
+              console.log('🔐 [INIT] Public key synchronized with server');
+            } catch (e) {
+              console.error('⚠️ [INIT] Failed to synchronize public key:', e);
+            }
+          }
+        }
       }
       
       // Ambil server public key
       console.log('🔐 [INIT] Fetching server public key...');
-      const serverPublicKey = await authService.getServerPublicKey();
-      if (serverPublicKey) {
-        await encryptionService.setServerPublicKey(serverPublicKey);
-        console.log('🔐 [INIT] Server public key set');
-      } else {
-        console.warn('⚠️ [INIT] Failed to get server public key');
+      try {
+        const serverPublicKey = await authService.getServerPublicKey();
+        if (serverPublicKey) {
+          await encryptionService.setServerPublicKey(serverPublicKey);
+          console.log('🔐 [INIT] Server public key set');
+        } else {
+          console.warn('⚠️ [INIT] Failed to get server public key');
+        }
+      } catch (e) {
+        console.error('⚠️ [INIT] Error fetching server public key:', e);
       }
       
       setEncryptionInitialized(true);
       console.log('🔐 [INIT] Encryption initialization completed');
     } catch (error) {
       console.error('❌ [INIT] Encryption initialization failed:', error);
-      setEncryptionInitialized(true); // Tetap lanjut meskipun error
+      setEncryptionInitialized(true); // Tetap lanjut agar tidak stuck loading
     }
   };
 
@@ -394,7 +414,7 @@ function AppNavigator() {
               headerStyle: { backgroundColor: colors.background },
               headerTitleStyle: { color: colors.text, fontWeight: '600' },
               headerTintColor: colors.primary }} />
-
+                                            
           <Stack.Screen name="Contacts" component={ContactsScreen}
             options={{ headerShown: true, title: t('contacts') || 'Kontak',
               headerStyle: { backgroundColor: colors.background },

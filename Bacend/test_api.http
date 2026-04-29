@@ -1,0 +1,136 @@
+# ============================================================
+# ChatKu API Tests - Enkripsi & Kunci RSA
+# Gunakan dengan ekstensi "REST Client" di VS Code
+# ============================================================
+
+@baseUrl = http://192.168.1.22:8000/api/v1
+@userId1  = 69b821eaab69f25c1b35dfae
+@userId2  = 69e2050b5c53a541d05fa1c1
+
+# ─────────────────────────────────────────────────────────────
+# LANGKAH 1: Login → dapatkan token
+# (Isi OTP dulu lewat Twilio / email, lalu jalankan verify-otp)
+# ─────────────────────────────────────────────────────────────
+
+### 1a. Kirim OTP ke nomor/email
+POST {{baseUrl}}/auth/send-otp
+Content-Type: application/json
+
+{
+  "type": "email",
+  "value": "dimas_kurniawan009@student.pnl.ac.id"
+}
+
+###
+
+### 1b. Verifikasi OTP → dapat access_token
+# Setelah menerima token, copy ke variabel @token di bawah
+POST {{baseUrl}}/auth/verify-otp
+Content-Type: application/json
+
+{
+  "type": "email",
+  "value": "dimas_kurniawan009@student.pnl.ac.id",
+  "otp_code": "901613"
+}
+
+###
+
+# ─── Isi token dari response di atas ────────────────────────
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWYxNjBiZTFlNGExNDNkNzYxYTIxNGYiLCJleHAiOjE3ODAwMTg2MjIsImlhdCI6MTc3NzQyNjYyMiwidHlwZSI6ImFjY2VzcyJ9.yOkFRonFk340-u-61qHL8x6FyrNHIy-Pwg8lF7TEc3s
+
+# ─────────────────────────────────────────────────────────────
+# LANGKAH 2: Cek public key server
+# ─────────────────────────────────────────────────────────────
+
+### 2. GET /security/server-public-key
+# Perhatikan apakah hasilnya "BEGIN PUBLIC KEY" (SPKI) atau "BEGIN RSA PUBLIC KEY" (PKCS#1)
+GET {{baseUrl}}/security/server-public-key
+Content-Type: application/json
+
+###
+
+# ─────────────────────────────────────────────────────────────
+# LANGKAH 3: Cek public key milik USER (penerima pesan)
+# ─────────────────────────────────────────────────────────────
+
+### 3. GET /users/{userId2}/public-key
+# Ini adalah kunci yang dipakai untuk enkripsi saat mengirim pesan ke user lain
+# Perhatikan format keynya: "BEGIN PUBLIC KEY" atau "BEGIN RSA PUBLIC KEY"?
+GET {{baseUrl}}/users/{{userId2}}/public-key
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# ─────────────────────────────────────────────────────────────
+# LANGKAH 4: Cek public key PENGIRIM (diri sendiri)
+# ─────────────────────────────────────────────────────────────
+
+### 4. GET /users/{userId1}/public-key
+# Ini kunci yang dipakai untuk enkripsi encryptedSenderKey (agar pengirim bisa baca pesannya sendiri)
+GET {{baseUrl}}/users/{{userId1}}/public-key
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# ─────────────────────────────────────────────────────────────
+# LANGKAH 5: Cek profil saya (pastikan login berhasil)
+# ─────────────────────────────────────────────────────────────
+
+### 5. GET /users/me
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# ─────────────────────────────────────────────────────────────
+# LANGKAH 6: Upload public key baru (format SPKI) — jika perlu reset
+# ─────────────────────────────────────────────────────────────
+
+### 6. POST /users/me/public-key (upload ulang key dalam format SPKI)
+# Gunakan jika key lama masih PKCS#1 dan perlu diganti manual
+POST {{baseUrl}}/users/me/public-key
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...\n-----END PUBLIC KEY-----"
+}
+
+###
+
+# ─────────────────────────────────────────────────────────────
+# LANGKAH 7: Test kirim pesan dual-encrypted ke chatId tertentu
+# ─────────────────────────────────────────────────────────────
+
+### 7. GET daftar chat (cari chatId yang ingin ditest)
+GET {{baseUrl}}/chats
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# ─── Isi chatId dari response di atas ───────────────────────
+@chatId = GANTI_DENGAN_CHAT_ID
+
+### 8. POST kirim pesan dual-encrypted
+# Ini menguji apakah endpoint backend menerima format payload yang benar
+POST {{baseUrl}}/chats/{{chatId}}/messages/dual-encrypted
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "encrypted_content_user": "TEST_CIPHERTEXT_USER",
+  "encrypted_content_server": "TEST_CIPHERTEXT_SERVER",
+  "encrypted_aes_key_user": "TEST_AES_KEY_USER",
+  "encrypted_aes_key_sender": "TEST_AES_KEY_SENDER",
+  "encrypted_aes_key_server": "TEST_AES_KEY_SERVER",
+  "iv": "TEST_IV_BASE64",
+  "message_hash": "TEST_HASH",
+  "type": "text"
+}
+
+###

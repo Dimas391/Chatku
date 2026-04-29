@@ -73,6 +73,7 @@ class MessageDocument(BaseModel):
     # 🔐 Dual encrypted fields for end-to-end encryption
     encrypted_content_user: Optional[str] = None   # Untuk user (end-to-end)
     encrypted_aes_key_user: Optional[str] = None   # AES key untuk user (RSA encrypted with recipient's public key)
+    encrypted_aes_key_sender: Optional[str] = None # AES key untuk sender (RSA encrypted with sender's public key)
     
     # 🔐 For server classification (temporary, will be deleted after processing)
     encrypted_content_server: Optional[str] = None  # Untuk server (klasifikasi)
@@ -156,6 +157,7 @@ class DualEncryptedMessageRequest(BaseModel):
     encrypted_content_user: str      # dari frontend
     encrypted_content_server: str    # dari frontend
     encrypted_aes_key_user: str      # dari frontend
+    encrypted_aes_key_sender: Optional[str] = None # dari frontend
     encrypted_aes_key_server: str    # dari frontend
     iv: str
     message_hash: str
@@ -168,6 +170,7 @@ class DualEncryptedMessageRequest(BaseModel):
                 "encrypted_content_user": "encrypted_content_for_user",
                 "encrypted_content_server": "encrypted_content_for_server",
                 "encrypted_aes_key_user": "aes_key_encrypted_with_recipient_rsa",
+                "encrypted_aes_key_sender": "aes_key_encrypted_with_sender_rsa",
                 "encrypted_aes_key_server": "aes_key_encrypted_with_server_rsa",
                 "iv": "initialization_vector",
                 "message_hash": "sha256_hash",
@@ -192,6 +195,7 @@ class MessageResponse(BaseModel):
     type: str
     encrypted_content_user: Optional[str] = None  # Dual encryption field
     encrypted_aes_key_user: Optional[str] = None  # Dual encryption field
+    encrypted_aes_key_sender: Optional[str] = None  # Dual encryption field
     encrypted_content: Optional[str] = None       # Legacy support
     content: Optional[str] = None                 # Legacy support
     media_url: Optional[str] = None

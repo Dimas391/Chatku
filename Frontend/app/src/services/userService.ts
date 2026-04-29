@@ -289,6 +289,24 @@ class UserService {
     }
   }
 
+  // PUT /users/me/public-key - Simpan public key saya ke server
+  async saveUserPublicKey(publicKey: string): Promise<ApiResponse<{ success: boolean }>> {
+    try {
+      const token = await storageService.getAccessToken();
+      if (!token) return { success: false, error: 'Token tidak ditemukan' };
+
+      return await api.post<{ success: boolean }>('/users/me/public-key', {
+        public_key: publicKey
+      }, token);
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Network error',
+        message: error instanceof Error ? error.message : 'Network error',
+      };
+    }
+  }
+
   // PUT /users/me/notification-token - Update FCM token
   async updateNotificationToken(token: string): Promise<ApiResponse<{ success: boolean }>> {
     try {

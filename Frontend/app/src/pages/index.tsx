@@ -9,10 +9,13 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import storageService from '@/app/src/services/storageService';
+
 type RootStackParamList = {
   Index: undefined;
   Welcome: undefined;
   Dashboard: undefined;
+  MainTabs: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Index'>;
@@ -23,16 +26,19 @@ const IndexScreen = () => {
   const navigation = useNavigation<NavigationProp>();
 
   useEffect(() => {
-  
-    const timer = setTimeout(() => {
-      // Ganti 'Dashboard' dengan nama route yang sesuai di navigator Anda
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Dashboard' }],
-      });
-    }, 1500); // Delay 1.5 detik untuk efek loading
+    const checkAuth = async () => {
+      const token = await storageService.getAccessToken();
+      
+      // Delay sedikit untuk efek splash
+      setTimeout(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: token ? 'MainTabs' : 'Dashboard' }],
+        });
+      }, 1500);
+    };
 
-    return () => clearTimeout(timer);
+    checkAuth();
   }, [navigation]);
 
   return (

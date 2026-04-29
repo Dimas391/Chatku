@@ -44,7 +44,7 @@ class MediaService:
 
     def get_base_url(self) -> str:
         """Dapatkan base URL dari settings atau default."""
-        base_url = getattr(settings, 'BASE_URL', 'http://192.168.1.5:8000')
+        base_url = getattr(settings, 'BASE_URL', 'http://192.168.88.236:8000')
         return base_url.rstrip('/')
 
     # ── Upload File ───────────────────────────────────────

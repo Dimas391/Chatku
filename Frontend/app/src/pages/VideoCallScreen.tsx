@@ -53,7 +53,7 @@ const DEFAULT_ICE_SERVERS = [
 const loadValidIceServers = async (): Promise<any[]> => {
   try {
     const token = await storageService.getAccessToken();
-    const res = await fetch('http://192.168.1.5:8000/api/v1/calls/ice-servers', {
+    const res = await fetch('http://192.168.1.22:8000/api/v1/calls/ice-servers', {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();

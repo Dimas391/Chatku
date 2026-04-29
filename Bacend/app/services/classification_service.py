@@ -14,7 +14,6 @@ except ModuleNotFoundError:
     logger.error("❌ Module 'Sastrawi' tidak ditemukan. Pastikan sudah menginstal dengan 'pip install Sastrawi'.")
     HAS_SASTRAWI = False
 
-
 # ── Blacklist kata kasar (safety net — berlapis dengan model) ──
 BLACKLIST_KATA_KASAR = {
     # Alat kelamin & seksual
@@ -26,7 +25,7 @@ BLACKLIST_KATA_KASAR = {
     'babi','goblok','tolol','dungu','geblek','kampret',
     'asu','jancok','jancuk','cuk','kon','taik','tai','setan',
     'iblis','laknat','terkutuk','jahanam','lonte','sundal',
-    'pelacur','jalang','murahan','perek',
+    'pelacur','jalang','murahan','perek', 
     # Ancaman kekerasan verbal
     'kubunuh','mampusin','bacok','hajar','tonjok','siksa',
     'aniaya','habisi','musnahkan','gebuk','cekik',

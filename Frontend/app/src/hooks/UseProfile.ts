@@ -65,14 +65,14 @@ export const useProfileSetup = () => {
         }
       }
       
-      // Navigasi ke ChatScreen
+      // Navigasi ke MainTabs (yang berisi ChatScreen)
       Alert.alert(
         'Sukses',
         'Profil berhasil disimpan',
         [
           {
             text: 'OK',
-            onPress: () => navigation.replace('Chat'),
+            onPress: () => navigation.replace('MainTabs'),
           },
         ]
       );
@@ -92,7 +92,7 @@ export const useProfileSetup = () => {
         { text: 'Tetap Isi', style: 'cancel' },
         {
           text: 'Lewati',
-          onPress: () => navigation.replace('Chat'),
+          onPress: () => navigation.replace('MainTabs'),
         },
       ]
     );

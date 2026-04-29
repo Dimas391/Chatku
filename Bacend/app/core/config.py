@@ -16,9 +16,9 @@ class Settings(BaseSettings):
     MONGODB_DB_NAME: str = "Safe_Chat"
 
     # ── Redis ─────────────────────────────────────────────────
-    REDIS_URL: str = "redis:/192.168.1.5:6379/0"
+    REDIS_URL: str = "redis:/192.168.88.236:6379/0"
     
-    BASE_URL: str = "http://192.168.1.5:8000"
+    BASE_URL: str = "http://192.168.88.236:8000"
     
     EMAIL_HOST: str = "smtp.gmail.com"
     EMAIL_PORT: int = 587
@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     AWS_S3_BUCKET: str = "chatku-media"
 
     # ── CORS ──────────────────────────────────────────────────
-    ALLOWED_ORIGINS: str = "http://192.168.1.5:3000,http://192.168.1.5:8081"
+    ALLOWED_ORIGINS: str = "http://192.168.88.236:3000,http://192.168.88.236:8081"
 
     @property
     def allowed_origins_list(self) -> List[str]:

@@ -535,20 +535,35 @@ class ChatService:
                 created_at_str = datetime.now(timezone.utc).isoformat() + 'Z'
             
             # Check if message is destroyed
-            is_destroyed = False
+            is_destroyed = msg.get("is_destroyed", False)
             if msg.get("classification_label") == "Berisiko":
                 is_destroyed = True
             if msg.get("content") and "[KONTEN BERBAHAYA DIHANCURKAN]" in str(msg.get("content", "")):
                 is_destroyed = True
             
-            has_encrypted = msg.get("encrypted_content") is not None and not is_destroyed
+            # Dual-encrypted message fields
+            has_dual_encrypted = msg.get("encrypted_content_user") is not None and not is_destroyed
+            # Legacy encrypted message fields
+            has_encrypted = msg.get("encrypted_content") is not None and not is_destroyed and not has_dual_encrypted
             
             if is_destroyed:
                 content_display = msg.get("content") or "⚠️ [KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM] ⚠️"
                 encrypted_content = None
+                encrypted_content_user = None
+                encrypted_aes_key_user = None
+                encrypted_aes_key_sender = None
+            elif has_dual_encrypted:
+                content_display = None
+                encrypted_content = None  # legacy field kosong
+                encrypted_content_user = msg.get("encrypted_content_user")
+                encrypted_aes_key_user = msg.get("encrypted_aes_key_user")
+                encrypted_aes_key_sender = msg.get("encrypted_aes_key_sender")
             else:
                 content_display = None if has_encrypted else msg.get("content")
                 encrypted_content = msg.get("encrypted_content") if has_encrypted else None
+                encrypted_content_user = None
+                encrypted_aes_key_user = None
+                encrypted_aes_key_sender = None
             
             # Handle ObjectId
             msg_id = msg.get("_id")
@@ -561,9 +576,17 @@ class ChatService:
                 "id": msg_id_str,
                 "chat_id": msg.get("chat_id"),
                 "sender_id": msg.get("sender_id"),
+                "sender_name": msg.get("sender_name"),
+                "sender_avatar": msg.get("sender_avatar"),
                 "type": msg.get("type", "text"),
                 "content": content_display,
+                # Legacy encrypted fields
                 "encrypted_content": encrypted_content,
+                "encrypted_aes_key": msg.get("encrypted_aes_key") if has_encrypted else None,
+                # Dual encrypted fields (new)
+                "encrypted_content_user": encrypted_content_user,
+                "encrypted_aes_key_user": encrypted_aes_key_user,
+                "encrypted_aes_key_sender": encrypted_aes_key_sender,
                 "media_url": msg.get("media_url"),
                 "reply_to_id": msg.get("reply_to_id"),
                 "is_deleted": msg.get("is_deleted", False),

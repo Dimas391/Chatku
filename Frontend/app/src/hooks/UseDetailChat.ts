@@ -147,31 +147,46 @@ export const useChatDetail = () => {
   console.log('🔌 [WEBSOCKET] Setting up message listener for chat:', chatId);
   
   const handler = async (newMessage: any) => {
-    console.log('🔌 [WEBSOCKET] New message received');
+    console.log('🔌 [WEBSOCKET] New message received:', newMessage?.id);
     
     if (newMessage && newMessage.chat_id === chatId && isMounted.current) {
       
       let displayContent = '';
-      let isDestroyed = newMessage.is_destroyed || newMessage.classification_label === "Berisiko";
+      let isDestroyed = newMessage.is_destroyed || newMessage.classification_label?.toLowerCase() === "berisiko";
       
+      // Prioritaskan field dual-encryption (encrypted_content_user) lalu legacy (encrypted_content)
+      const encryptedContent = newMessage.encrypted_content_user || newMessage.encrypted_content;
+      let encryptedAesKey = null;
+      const isMsgMe = newMessage.sender_id === currentUserId;
+      if (isMsgMe && newMessage.encrypted_aes_key_sender) {
+        encryptedAesKey = newMessage.encrypted_aes_key_sender;
+      } else {
+        encryptedAesKey = newMessage.encrypted_aes_key_user || newMessage.encrypted_aes_key;
+      }
+
+      console.log('🔌 [WEBSOCKET] encryptedContent:', !!encryptedContent, '| encryptedAesKey:', !!encryptedAesKey, '| isDestroyed:', isDestroyed);
+
       // 🔐 DECRYPT incoming message if it's encrypted
-      if (newMessage.encrypted_content && !isDestroyed) {
+      if (encryptedContent && !isDestroyed) {
         try {
           const myPrivateKey = await encryptionService.getMyPrivateKey();
           
           if (!myPrivateKey) {
             console.error('🔐 [WEBSOCKET] No private key available');
             displayContent = '[Pesan terenkripsi - tidak ada kunci]';
+          } else if (!encryptedAesKey) {
+            console.error('🔐 [WEBSOCKET] No encrypted AES key available');
+            displayContent = '[Pesan terenkripsi - kunci tidak ditemukan]';
           } else {
             const result = await encryptionService.dualDecryptMessage(
-              newMessage.encrypted_content,
-              newMessage.encrypted_aes_key,
+              encryptedContent,
+              encryptedAesKey,
               newMessage.iv,
               newMessage.message_hash,
               myPrivateKey
             );
             displayContent = result.plaintext;
-            console.log('🔐 [WEBSOCKET] Message decrypted successfully');
+            console.log('🔐 [WEBSOCKET] Message decrypted successfully:', displayContent.substring(0, 30));
           }
         } catch (error) {
           console.error('🔐 [WEBSOCKET] Failed to decrypt:', error);
@@ -183,38 +198,39 @@ export const useChatDetail = () => {
         displayContent = newMessage.content || '[Pesan kosong]';
       }
 
-      // Rest of the code to add message to UI...
-      setMessages(prev => {
-        if (prev.some(msg => msg.id === newMessage.id)) return prev;
+      // Ambil info sender terlebih dahulu (await di luar setMessages)
+      const senderInfo = newMessage.sender_id !== currentUserId
+        ? await fetchSenderInfo(newMessage.sender_id)
+        : null;
 
-        fetchSenderInfo(newMessage.sender_id).then(senderInfo => {
-          const formatted: Message = {
-            id: newMessage.id,
-            text: displayContent,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            senderId: newMessage.sender_id,
-            senderName: newMessage.sender_id === currentUserId
-              ? 'Anda'
-              : senderInfo?.display_name || chatName,
-            senderAvatar: newMessage.sender_id === currentUserId
-              ? currentUser?.avatar_url
-              : senderInfo?.avatar_url || chatAvatar,
-            isMe: newMessage.sender_id === currentUserId,
-            status: newMessage.status,
-            classificationLabel: newMessage.classification_label,
-            isDestroyed: isDestroyed,
-            isVerified: newMessage.is_verified,
-          };
+      const formatted: Message = {
+        id: newMessage.id,
+        text: displayContent,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        senderId: newMessage.sender_id,
+        senderName: newMessage.sender_id === currentUserId
+          ? 'Anda'
+          : newMessage.sender_name || senderInfo?.display_name || chatName,
+        senderAvatar: newMessage.sender_id === currentUserId
+          ? currentUser?.avatar_url
+          : newMessage.sender_avatar || senderInfo?.avatar_url || chatAvatar,
+        isMe: newMessage.sender_id === currentUserId,
+        status: newMessage.status,
+        classificationLabel: newMessage.classification_label,
+        isDestroyed: isDestroyed,
+        isVerified: newMessage.is_verified,
+      };
 
-          setMessages(currentMessages => {
-            if (currentMessages.some(msg => msg.id === formatted.id)) return currentMessages;
-            return [...currentMessages, formatted];
-          });
-          setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
-        });
-
-        return prev;
+      setMessages(currentMessages => {
+        // Jika pesan sudah ada, update kontennya
+        if (currentMessages.some(msg => msg.id === formatted.id)) {
+          return currentMessages.map(msg => msg.id === formatted.id ? formatted : msg);
+        }
+        // Tambahkan pesan baru ke akhir list
+        return [...currentMessages, formatted];
       });
+
+      setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
     }
   };
 
@@ -276,21 +292,44 @@ export const useChatDetail = () => {
           
           let displayContent = '[Pesan kosong]';
           
+          // Prioritaskan dual-encryption fields (encrypted_content_user) lalu legacy
+          const encryptedContent = msg.encrypted_content_user || msg.encrypted_content;
+          
+          let encryptedAesKey = null;
+          if (isMe && msg.encrypted_aes_key_sender) {
+            encryptedAesKey = msg.encrypted_aes_key_sender;
+          } else {
+            encryptedAesKey = msg.encrypted_aes_key_user || msg.encrypted_aes_key;
+          }
+
           // Try to decrypt if encrypted
-          if (msg.encrypted_content && msg.encrypted_aes_key && myPrivateKey) {
+          if (encryptedContent && encryptedAesKey && myPrivateKey) {
             try {
               console.log(`🔐 [LOAD] Decrypting message ${msg.id}...`);
               const result = await encryptionService.dualDecryptMessage(
-                msg.encrypted_content,
-                msg.encrypted_aes_key,
+                encryptedContent,
+                encryptedAesKey,
                 msg.iv || '',
                 msg.message_hash || '',
                 myPrivateKey
               );
               displayContent = result.plaintext;
-            } catch (error) {
-              console.error(`🔐 [LOAD] Failed to decrypt message ${msg.id}:`, error);
-              displayContent = '[Pesan terenkripsi]';
+            } catch (error: any) {
+              const errMsg = error?.message || "";
+              // Pesan mungkin dienkripsi dengan kunci lama (beda perangkat/session)
+              const isKeyMismatch = errMsg.includes('block') ||
+                                    errMsg.includes('invalid') ||
+                                    errMsg.includes('decrypt') ||
+                                    errMsg.includes('PKCS_DECODING_ERROR') ||
+                                    errMsg.includes('OPENSSL');
+              console.warn(`🔐 [LOAD] Cannot decrypt message ${msg.id}:`, errMsg);
+              if (isMe) {
+                displayContent = '[Pesan Anda (terenkripsi)]';
+              } else {
+                displayContent = isKeyMismatch
+                  ? '[🔒 Pesan dari sesi lain - tidak dapat dibuka di perangkat ini]'
+                  : '[Pesan terenkripsi]';
+              }
             }
           } else if (msg.content) {
             displayContent = msg.content;

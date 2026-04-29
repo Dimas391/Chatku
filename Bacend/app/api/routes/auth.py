@@ -41,6 +41,7 @@ class TokenResponse(BaseModel):
     refresh_token: str
     token_type: str = "bearer"
     public_key: Optional[str] = None
+    private_key: Optional[str] = None
 
 
 # ── Endpoints ─────────────────────────────────────────────
@@ -87,7 +88,7 @@ async def verify_otp(request: VerifyOTPRequest):
             detail="OTP harus 6 digit angka",
         )
 
-    success, access_token, refresh_token = await AuthService.verify_otp(
+    success, access_token, refresh_token, public_key, private_key = await AuthService.verify_otp(
         type=request.type,
         value=request.value.strip(),
         otp_code=request.otp_code,
@@ -97,7 +98,12 @@ async def verify_otp(request: VerifyOTPRequest):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Kode verifikasi salah atau telah kedaluwarsa",
         )
-    return TokenResponse(access_token=access_token, refresh_token=refresh_token)
+    return TokenResponse(
+        access_token=access_token, 
+        refresh_token=refresh_token,
+        public_key=public_key,
+        private_key=private_key
+    )
 
 
 @router.post(

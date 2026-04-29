@@ -25,6 +25,9 @@ export interface Message {
   type: string;
   content?: string;
   encrypted_content?: string;
+  encrypted_content_user?: string;
+  encrypted_aes_key?: string;
+  encrypted_aes_key_user?: string;
   media_url?: string;
   reply_to_id?: string;
   is_deleted: boolean;
@@ -143,6 +146,7 @@ class ChatService {
         encrypted_content_user: encryptedData.ciphertextUser,
         encrypted_content_server: encryptedData.ciphertextServer,
         encrypted_aes_key_user: encryptedData.encryptedUserKey,
+        encrypted_aes_key_sender: encryptedData.encryptedSenderKey,
         encrypted_aes_key_server: encryptedData.encryptedServerKey,
         iv: encryptedData.iv,
         message_hash: encryptedData.hash,

@@ -1,6 +1,5 @@
 import storageService from './storageService';
-
-const WS_URL = 'ws://192.168.1.5:8000';
+import { getWebSocketURL } from '../config/api';
 
 type Callback = (data: any) => void;
 
@@ -30,6 +29,7 @@ class WebSocketService {
     this.reconnectAttempts = 0;
 
     try {
+      const WS_URL = getWebSocketURL();
       const wsUrl = `${WS_URL}/ws?token=${token}`;
       
       this.ws = new WebSocket(wsUrl);

@@ -197,24 +197,65 @@ async def get_user_public_key(
     current_user: dict = Depends(get_current_user),
 ):
     """
-    Ambil public key RSA user lain untuk enkripsi end-to-end
+    Ambil public key RSA user lain untuk enkripsi end-to-end.
+    Auto-convert PKCS#1 → SPKI agar kompatibel dengan Android.
     """
     if not ObjectId.is_valid(user_id):
         raise HTTPException(status_code=400, detail="ID user tidak valid")
-    
+
     user = await get_collection("users").find_one(
         {"_id": ObjectId(user_id), "is_active": True},
         {"rsa_public_key": 1}
     )
-    
+
     if not user:
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
-    
+
     public_key = user.get("rsa_public_key")
     if not public_key:
         raise HTTPException(status_code=404, detail="User belum memiliki public key")
-    
-    return {"public_key": public_key}
+
+    # Normalisasi ke SPKI (BEGIN PUBLIC KEY) agar RSA.encrypt() Android tidak crash
+    from app.utils.key_utils import normalize_public_key
+    converted = normalize_public_key(public_key)
+
+    # Simpan hasil konversi ke DB agar tidak perlu konversi ulang
+    if converted != public_key:
+        await get_collection("users").update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"rsa_public_key": converted}}
+        )
+        print(f"[KEY] Updated PKCS#1→SPKI in DB for user {user_id}")
+
+    return {"public_key": converted}
+
+class PublicKeyRequest(BaseModel):
+    public_key: str
+
+@router.post("/me/public-key", summary="Simpan Public Key User")
+async def save_user_public_key(
+    request: PublicKeyRequest,
+    current_user: dict = Depends(get_current_user),
+):
+    """
+    Simpan public key RSA user ke database.
+    Auto-convert PKCS#1 (BEGIN RSA PUBLIC KEY) ke SPKI (BEGIN PUBLIC KEY)
+    agar kompatibel dengan semua platform (Android/iOS/Web).
+    """
+    user_id = str(current_user["_id"])
+    users_col = get_collection("users")
+
+    from app.utils.key_utils import normalize_public_key
+    public_key = normalize_public_key(request.public_key)
+
+    await users_col.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {"rsa_public_key": public_key, "updated_at": datetime.now(timezone.utc)}}
+    )
+
+    key_format = "SPKI" if "BEGIN PUBLIC KEY" in public_key and "RSA" not in public_key else "PKCS#1"
+    return {"success": True, "message": "Public key berhasil disimpan", "format": key_format}
+
 
 @router.patch("/me/privacy", summary="Update Privacy Settings")
 async def update_privacy_settings(

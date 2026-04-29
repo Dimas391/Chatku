@@ -74,10 +74,10 @@ class AuthService:
         type: str,
         value: str,
         otp_code: str,
-    ) -> Tuple[bool, Optional[str], Optional[str], Optional[str]]:
+    ) -> Tuple[bool, Optional[str], Optional[str], Optional[str], Optional[str]]:
         """
         Verifikasi OTP dan buat/login user.
-        Returns: (success, access_token, refresh_token, public_key)
+        Returns: (success, access_token, refresh_token, public_key, private_key)
         """
         key = f"{type}:{value}"
 
@@ -89,7 +89,7 @@ class AuthService:
             stored_otp = doc["otp"] if doc else None
 
         if not stored_otp or stored_otp != otp_code:
-            return False, None, None, None
+            return False, None, None, None, None
 
         # Hapus OTP setelah berhasil
         await delete_otp(key)
@@ -101,6 +101,7 @@ class AuthService:
         user = await users_col.find_one(query)
 
         public_key_pem = None
+        private_key_pem = None
 
         if not user:
             # 🔐 Generate RSA key pair untuk user baru
@@ -161,7 +162,7 @@ class AuthService:
         # 🔐 Return public key (dan private key untuk user baru)
         # Untuk user baru, kita perlu mengembalikan private key juga
         # Client harus menyimpannya dengan aman
-        return True, access_token, refresh_token, public_key_pem
+        return True, access_token, refresh_token, public_key_pem, private_key_pem
 
     # ── Refresh Token ─────────────────────────────────────
     @staticmethod

@@ -22,15 +22,31 @@ async def authenticate_websocket(token: str) -> Optional[dict]:
     """Validasi JWT token dari query param WebSocket."""
     try:
         payload = decode_token(token)
-        if not payload or payload.get("type") != "access":
+        if not payload:
+            logger.warning("❌ WS Auth: Token decode failed (JWTError or invalid token)")
             return None
+            
+        if payload.get("type") != "access":
+            logger.warning(f"❌ WS Auth: Invalid token type: {payload.get('type')}")
+            return None
+            
         user_id = payload.get("sub")
         if not user_id:
+            logger.warning("❌ WS Auth: No 'sub' in payload")
             return None
+            
         user = await get_collection("users").find_one({"_id": ObjectId(user_id)})
-        return user if user and user.get("is_active") else None
+        if not user:
+            logger.warning(f"❌ WS Auth: User not found: {user_id}")
+            return None
+            
+        if not user.get("is_active", True):
+            logger.warning(f"❌ WS Auth: User is inactive: {user_id}")
+            return None
+            
+        return user
     except Exception as e:
-        logger.error(f"Error authenticating websocket: {e}")
+        logger.error(f"❌ WS Auth: Exception during authentication: {e}")
         return None
 
 
