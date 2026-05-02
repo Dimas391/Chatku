@@ -143,6 +143,17 @@ class ConnectionManager:
                 "data": {"user_id": user_id, "is_online": is_online},
             })
 
+    async def notify_profile_updated(self, user_id: str, profile_data: dict) -> None:
+        """Broadcast perubahan profil user ke semua user aktif."""
+        for uid in list(self.active_connections.keys()):
+            await self.send_to_user(uid, {
+                "event": "profile_updated",
+                "data": {
+                    "user_id": user_id,
+                    **profile_data
+                },
+            })
+
     async def notify_incoming_call(
         self,
         callee_id: str,
@@ -166,7 +177,7 @@ class ConnectionManager:
         except Exception as e:
             logger.warning(f"Gagal ambil info caller: {e}")
 
-        print(f"📞 Sending incoming_call to {callee_id}: call_id={call_id}, caller={caller_name}")
+        print(f"Sending incoming_call to {callee_id}: call_id={call_id}, caller={caller_name}")
         
         sent = await self.send_to_user(
             callee_id,
@@ -183,7 +194,7 @@ class ConnectionManager:
             },
         )
         
-        print(f"📞 incoming_call sent: {sent}")
+        print(f"incoming_call sent: {sent}")
         return sent
 
     # ── Status ────────────────────────────────────────────

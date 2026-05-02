@@ -1,26 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+
+const { height } = Dimensions.get('window');
 
 interface RegisterIllustrationProps {
-  iconName?: keyof typeof MaterialCommunityIcons.glyphMap;
-  title?: string;
   subtitle?: string;
 }
 
 const RegisterIllustration = ({ 
-  iconName = 'cellphone-message',
-  subtitle = 'Masukkan nomor telepon atau email Anda\nuntuk memulai'
+  subtitle = 'Masukkan email kamu untuk memulai\npercakapan yang aman dan terenkripsi'
 }: RegisterIllustrationProps) => {
   return (
     <View style={styles.illustrationContainer}>
-      <LinearGradient
-        colors={['#FF6B35', '#FF8C5A']}
-        style={styles.illustrationCircle}
-      >
-        <MaterialCommunityIcons name={iconName} size={60} color="#FFFFFF" />
-      </LinearGradient>
+      <Image
+        source={require('@/assets/register.png')}
+        style={styles.image}
+        resizeMode="contain"
+      />
       <Text style={styles.illustrationText}>
         {subtitle}
       </Text>
@@ -31,26 +27,18 @@ const RegisterIllustration = ({
 const styles = StyleSheet.create({
   illustrationContainer: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 24,
   },
-  illustrationCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-    shadowColor: '#FF6B35',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
+  image: {
+    width: '85%',
+    height: height * 0.25,
+    marginBottom: 14,
   },
   illustrationText: {
-    fontSize: 14,
-    color: '#666666',
+    fontSize: 15,
+    color: '#888888',
     textAlign: 'center',
-    lineHeight: 20,
+    lineHeight: 22,
   },
 });
 

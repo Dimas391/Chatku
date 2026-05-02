@@ -26,6 +26,6 @@ with open('keys/server_public_key.pem', 'wb') as f:
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     ))
 
-print('✅ Server RSA keys generated successfully!')
+print('Server RSA keys generated successfully!')
 print('   Private key: keys/server_private_key.pem')
 print('   Public key: keys/server_public_key.pem')

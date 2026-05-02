@@ -169,5 +169,45 @@ export const styles = StyleSheet.create({
   },
   modalCloseText: { color: '#fff', fontWeight: '800', fontSize: 15 },
 
+  loadingContainer: {
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    marginVertical: 10,
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  refreshButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    borderRadius: 12,
+    marginTop: 20,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#FF6B3533',
+  },
+  refreshButtonText: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  emptyState: {
+    padding: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    marginVertical: 10,
+  },
+  emptyStateText: {
+    marginTop: 12,
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
   someText: { fontSize: 14 },
 });

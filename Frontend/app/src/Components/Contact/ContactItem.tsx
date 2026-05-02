@@ -145,7 +145,7 @@ export const ContactItem: React.FC<ContactItemProps> = ({ contact, onPress }) =>
           <Text style={[styles.contactName, { color: colors.text }]}>
             {contact.name}
           </Text>
-          {contact.isVerified && (
+          {!!contact.isVerified && (
             <MaterialCommunityIcons name="check-decagram" size={14} color="#2196F3" />
           )}
         </View>
@@ -154,7 +154,7 @@ export const ContactItem: React.FC<ContactItemProps> = ({ contact, onPress }) =>
           <Text style={[styles.contactStatus, { color: statusColor }]}>
             {statusText}
           </Text>
-          {contact.mutualFriends && contact.mutualFriends > 0 && (
+          {!!contact.mutualFriends && contact.mutualFriends > 0 && (
             <>
               <Text style={[styles.metaSeparator, { color: colors.textSecondary }]}>•</Text>
               <Text style={[styles.mutualFriends, { color: colors.textSecondary }]}>

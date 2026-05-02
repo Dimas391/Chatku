@@ -62,6 +62,7 @@ export const useProfileSetup = () => {
         const avatarResponse = await profileService.uploadAvatar(avatar);
         
         if (!avatarResponse.success) {
+          throw new Error(avatarResponse.error || 'Gagal mengunggah foto profil');
         }
       }
       

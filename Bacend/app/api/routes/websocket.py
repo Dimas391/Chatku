@@ -23,30 +23,30 @@ async def authenticate_websocket(token: str) -> Optional[dict]:
     try:
         payload = decode_token(token)
         if not payload:
-            logger.warning("❌ WS Auth: Token decode failed (JWTError or invalid token)")
+            logger.warning("WS Auth: Token decode failed (JWTError or invalid token)")
             return None
             
         if payload.get("type") != "access":
-            logger.warning(f"❌ WS Auth: Invalid token type: {payload.get('type')}")
+            logger.warning(f"WS Auth: Invalid token type: {payload.get('type')}")
             return None
             
         user_id = payload.get("sub")
         if not user_id:
-            logger.warning("❌ WS Auth: No 'sub' in payload")
+            logger.warning(" WS Auth: No 'sub' in payload")
             return None
             
         user = await get_collection("users").find_one({"_id": ObjectId(user_id)})
         if not user:
-            logger.warning(f"❌ WS Auth: User not found: {user_id}")
+            logger.warning(f"WS Auth: User not found: {user_id}")
             return None
             
         if not user.get("is_active", True):
-            logger.warning(f"❌ WS Auth: User is inactive: {user_id}")
+            logger.warning(f"WS Auth: User is inactive: {user_id}")
             return None
             
         return user
     except Exception as e:
-        logger.error(f"❌ WS Auth: Exception during authentication: {e}")
+        logger.error(f"WS Auth: Exception during authentication: {e}")
         return None
 
 
@@ -73,7 +73,7 @@ async def websocket_endpoint(
     # Autentikasi dulu
     user = await authenticate_websocket(token)
     if not user:
-        logger.warning(f"❌ Authentication failed")
+        logger.warning(f"Authentication failed")
         if websocket.application_state != WebSocketState.DISCONNECTED:
             await websocket.close(code=4001, reason="Token tidak valid")
         return
@@ -81,7 +81,7 @@ async def websocket_endpoint(
     user_id = str(user["_id"])
     display_name = user.get("display_name", "User")
 
-    logger.info(f"✅ User {display_name} ({user_id}) authenticated")
+    logger.info(f"User {display_name} ({user_id}) authenticated")
 
     # Hubungkan ke manager (di sini akan dilakukan accept)
     await manager.connect(websocket, user_id)
@@ -102,13 +102,13 @@ async def websocket_endpoint(
         "message": "Terhubung ke ChatKu WebSocket",
     })
 
-    logger.info(f"✅ WebSocket: {display_name} ({user_id}) terhubung.")
+    logger.info(f"WebSocket: {display_name} ({user_id}) terhubung.")
 
     try:
         while True:
             raw = await websocket.receive_text()
             data = json.loads(raw)
-            logger.info(f"📥 Received: {data}")
+            logger.info(f"Received: {data}")
             
             # Handle messages...
             await _handle_message(websocket, user_id, data)

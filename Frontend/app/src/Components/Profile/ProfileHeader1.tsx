@@ -43,7 +43,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               <ActivityIndicator size="small" color="#FF6B35" />
             </View>
           ) : profile.avatar ? (
-            <Image source={{ uri: profile.avatar }} style={styles.avatar} />
+            <Image 
+              key={profile.avatar}
+              source={{ uri: profile.avatar }} 
+              style={styles.avatar} 
+            />
           ) : (
             <View style={[styles.avatarPlaceholder, { backgroundColor: colors.card }]}>
               <Text style={[styles.avatarInitial, { color: colors.text }]}>

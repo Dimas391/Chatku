@@ -21,7 +21,7 @@ const DashboardScreen = () => {
   const navigation = useNavigation<DashboardScreenNavigationProp>();
 
   const navigateToChat = () => {
-    navigation.navigate('RegisterScreen');
+    navigation.navigate('Onboarding1');
   };
 
   const handleBackPress = () => {

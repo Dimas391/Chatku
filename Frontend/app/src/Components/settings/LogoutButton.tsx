@@ -25,7 +25,7 @@ const LogoutButton = () => {
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
-                routes: [{ name: 'Register' }],
+                routes: [{ name: 'Dashboard' }],
               })
             );
           },

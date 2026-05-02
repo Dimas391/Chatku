@@ -1,12 +1,16 @@
 import React from 'react';
 import {
   View,
+  Text,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
+  ScrollView,
   Platform,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Import komponen
 import BackgroundDecor from '@/app/src/Components/BackgroundDecor';
@@ -22,6 +26,8 @@ import HelpLink from '@/app/src/Components/verif/HelpLink';
 import { useVerification } from '@/app/src/hooks/useVerification';
 
 const VerificationScreen = () => {
+  const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const {
     type,
     value,
@@ -42,26 +48,31 @@ const VerificationScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      
       <BackgroundDecor />
 
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.keyboardView}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardView}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingTop: insets.top + 10, paddingBottom: insets.bottom + 30 },
+          ]}
         >
           <View style={styles.content}>
-            <VerificationHeader onBackPress={() => {}} />
-            
-            <VerificationIllustration type={type} />
-            
+            <VerificationHeader onBackPress={() => navigation.goBack()} />
+
+            <VerificationIllustration />
+
             <VerificationInfo 
               type={type}
               value={value}
               countryCode={countryCode}
               onEdit={handleEdit}
             />
-            
+
             <OTPInput 
               otp={otp}
               onChange={handleOtpChange}
@@ -69,23 +80,45 @@ const VerificationScreen = () => {
               editable={!isVerifying && !isResending}
               inputRefs={inputRefs}
             />
-            
+
             <ResendTimer 
               timer={timer}
               canResend={canResend}
               onResend={handleResend}
             />
-            
+
             <RegisterButton 
               onPress={() => handleVerify()}
               title={isVerifying ? "Memverifikasi..." : "Verifikasi"}
               loading={isVerifying}
             />
-            
+
             <HelpLink />
+
+            {/* Security info section */}
+            <View style={styles.securitySection}>
+              <View style={styles.securityItem}>
+                <View style={styles.securityIconWrapper}>
+                  <MaterialCommunityIcons name="lock-outline" size={18} color="#FF6B35" />
+                </View>
+                <View style={styles.securityTextWrapper}>
+                  <Text style={styles.securityTitle}>Kode Rahasia</Text>
+                  <Text style={styles.securityDesc}>Jangan bagikan kode OTP kepada siapapun</Text>
+                </View>
+              </View>
+              <View style={styles.securityItem}>
+                <View style={styles.securityIconWrapper}>
+                  <MaterialCommunityIcons name="timer-outline" size={18} color="#FF6B35" />
+                </View>
+                <View style={styles.securityTextWrapper}>
+                  <Text style={styles.securityTitle}>Berlaku Terbatas</Text>
+                  <Text style={styles.securityDesc}>Kode akan kedaluwarsa dalam 5 menit</Text>
+                </View>
+              </View>
+            </View>
           </View>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -95,17 +128,53 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  safeArea: {
-    flex: 1,
-  },
   keyboardView: {
     flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
   content: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: 30,
+  },
+  securitySection: {
+    marginTop: 24,
+    gap: 14,
+    backgroundColor: '#FAFAFA',
+    borderRadius: 16,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+  },
+  securityItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+  },
+  securityIconWrapper: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    backgroundColor: '#FFF3ED',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#FFE4D6',
+  },
+  securityTextWrapper: {
+    flex: 1,
+  },
+  securityTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333333',
+    marginBottom: 2,
+  },
+  securityDesc: {
+    fontSize: 12,
+    color: '#999999',
+    lineHeight: 16,
   },
 });
 

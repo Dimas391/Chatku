@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@/app/src/context/ThemeContext';
-import { KeyVerification } from '@/app/src/hooks/Secuirty';
+import { KeyVerification } from '@/app/src/services/securityService';
 import { styles } from '@/app/src/utils/Security';
 
 interface KeyCardProps {

@@ -1,25 +1,16 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Image, StyleSheet, Dimensions } from 'react-native';
 
-interface VerificationIllustrationProps {
-  type?: 'phone' | 'email';
-}
+const { height } = Dimensions.get('window');
 
-const VerificationIllustration = ({ type = 'phone' }: VerificationIllustrationProps) => {
+const VerificationIllustration = () => {
   return (
     <View style={styles.illustrationContainer}>
-      <LinearGradient
-        colors={['#FF6B35', '#FF8C5A']}
-        style={styles.illustrationCircle}
-      >
-        <MaterialCommunityIcons 
-          name={type === 'phone' ? "cellphone-message" : "email-check"} 
-          size={50} 
-          color="#FFFFFF" 
-        />
-      </LinearGradient>
+      <Image
+        source={require('@/assets/verifikasi_OTP.png')}
+        style={styles.image}
+        resizeMode="contain"
+      />
     </View>
   );
 };
@@ -27,19 +18,11 @@ const VerificationIllustration = ({ type = 'phone' }: VerificationIllustrationPr
 const styles = StyleSheet.create({
   illustrationContainer: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
   },
-  illustrationCircle: {
-    width: 90,
-    height: 90,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#FF6B35',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
+  image: {
+    width: '100%',
+    height: height * 0.30,
   },
 });
 

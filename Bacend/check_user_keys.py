@@ -8,7 +8,7 @@ import urllib.error
 import json
 import sys
 
-BASE_URL = "http://192.168.88.236:8000/api/v1"
+BASE_URL = "http://192.168.1.3:8000/api/v1"
 
 # ── Ganti dengan token valid kamu ──────────────────────────────
 # Bisa ambil dari log Expo / AsyncStorage / SecureStore
@@ -33,16 +33,16 @@ def api_get(path):
 
 def check_key_format(label, public_key):
     if not public_key:
-        print(f"  ❌ {label}: KOSONG / TIDAK ADA")
+        print(f"   {label}: KOSONG / TIDAK ADA")
         return
     first = public_key.strip().split('\n')[0]
     last  = public_key.strip().split('\n')[-1]
     if "BEGIN PUBLIC KEY" in first and "RSA" not in first:
-        print(f"  ✅ {label}: SPKI (BEGIN PUBLIC KEY) — Format benar untuk Android")
+        print(f" {label}: SPKI (BEGIN PUBLIC KEY) — Format benar untuk Android")
     elif "BEGIN RSA PUBLIC KEY" in first:
-        print(f"  ⚠️  {label}: PKCS#1 (BEGIN RSA PUBLIC KEY) — Perlu konversi!")
+        print(f"  {label}: PKCS#1 (BEGIN RSA PUBLIC KEY) — Perlu konversi!")
     else:
-        print(f"  ❓ {label}: Format tidak dikenal → {first}")
+        print(f"  {label}: Format tidak dikenal → {first}")
     print(f"     Footer: {last}")
     print(f"     Panjang key: {len(public_key)} karakter")
 
@@ -77,4 +77,4 @@ if other_id:
     print(f"   Status HTTP: {pk_status}")
     check_key_format("Public Key PENERIMA", pk_data.get("public_key"))
 
-print("\n✅ Selesai. Lihat tanda ⚠️  untuk key yang masih PKCS#1 (bermasalah).")
+print("\nSelesai. Lihat tanda  untuk key yang masih PKCS#1 (bermasalah).")

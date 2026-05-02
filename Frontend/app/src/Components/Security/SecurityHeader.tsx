@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/app/src/context/ThemeContext';
 import { styles } from '@/app/src/utils/Security';
 
@@ -10,9 +11,10 @@ interface SecurityHeaderProps {
 
 export const SecurityHeader: React.FC<SecurityHeaderProps> = ({ onMenuPress }) => {
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, { paddingTop: Math.max(insets.top, 12) }]}>
       <View style={styles.headerLeft}>
         <MaterialCommunityIcons name="shield-lock" size={28} color="#FF6B35" />
         <View>

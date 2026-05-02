@@ -27,11 +27,11 @@ class UserService {
       const response = await api.get<{ public_key: string }>(`/users/${userId}/public-key`, token || undefined);
       
       if (response.success && response.data) {
-        console.log('🔑 [PUBKEY] Got public key for user:', userId);
+        console.log('[PUBKEY] Got public key for user:', userId);
       }
       return response;
     } catch (error) {
-      console.error('❌ [PUBKEY] Failed to get public key:', error);
+      console.error('[PUBKEY] Failed to get public key:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',

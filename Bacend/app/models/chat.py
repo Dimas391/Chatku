@@ -70,12 +70,12 @@ class MessageDocument(BaseModel):
     sender_id: str
     type: MessageType = MessageType.TEXT
     
-    # 🔐 Dual encrypted fields for end-to-end encryption
+    #  Dual encrypted fields for end-to-end encryption
     encrypted_content_user: Optional[str] = None   # Untuk user (end-to-end)
     encrypted_aes_key_user: Optional[str] = None   # AES key untuk user (RSA encrypted with recipient's public key)
     encrypted_aes_key_sender: Optional[str] = None # AES key untuk sender (RSA encrypted with sender's public key)
     
-    # 🔐 For server classification (temporary, will be deleted after processing)
+    # For server classification (temporary, will be deleted after processing)
     encrypted_content_server: Optional[str] = None  # Untuk server (klasifikasi)
     encrypted_aes_key_server: Optional[str] = None  # AES key untuk server (RSA encrypted with server's public key)
     

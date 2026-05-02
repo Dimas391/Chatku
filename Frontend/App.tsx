@@ -35,6 +35,9 @@ import CallsScreen           from '@/app/src/pages/CallsScreen';
 import BottomTabNavigator    from '@/app/src/Components/navigation/BottomTabNavigator';
 import SecurityScreen        from '@/app/src/pages/Securityscreen';
 import ContactsScreen        from '@/app/src/pages/ContactsScreen';
+import Onboarding1Screen     from '@/app/src/pages/Onboarding1';
+import Onboarding2Screen     from '@/app/src/pages/Onboarding2';
+import Onboarding3Screen     from '@/app/src/pages/Onboarding3';
 import notificationService   from '@/app/src/services/notificationService';
 import biometricService      from '@/app/src/services/biometricService';
 import storageService        from '@/app/src/services/storageService';
@@ -47,6 +50,9 @@ export type RootStackParamList = {
   MainTabs: undefined;
   Index: undefined;
   Dashboard: undefined;
+  Onboarding1: undefined;
+  Onboarding2: undefined;
+  Onboarding3: undefined;
   Chat: undefined;
   ChatDetailScreen: {
     chatId: string;
@@ -228,73 +234,75 @@ function AppNavigator() {
 
   // ==================== INIT ENCRYPTION ====================
   const initEncryption = async () => {
-    console.log('🔐 [INIT] Starting encryption initialization...');
+    console.log('[INIT] Starting encryption initialization...');
     try {
       // Cek apakah user sudah memiliki key pair
       const hasPrivateKey = await platformStorage.getItem('user_private_key');
       
       if (!hasPrivateKey) {
-        console.log('🔐 [INIT] No private key found, generating new key pair...');
+        console.log('[INIT] No private key found, generating new key pair...');
         await encryptionService.generateUserKeyPair();
         const publicKey = await encryptionService.getMyPublicKey();
         if (publicKey) {
           try {
             await userService.saveUserPublicKey(publicKey);
-            console.log('🔐 [INIT] New key pair generated and uploaded');
+            console.log('[INIT] New key pair generated and uploaded');
           } catch (e) {
-            console.error('⚠️ [INIT] Failed to upload public key:', e);
+            console.error('[INIT] Failed to upload public key:', e);
           }
         }
       } else {
-        console.log('🔐 [INIT] Loading existing keys...');
+        console.log('[INIT] Loading existing keys...');
         const success = await encryptionService.loadUserKeys();
         if (!success) {
-          console.log('🔐 [INIT] Keys invalid or missing after load, regenerating...');
+          console.log('[INIT] Keys invalid or missing after load, regenerating...');
           await encryptionService.generateUserKeyPair();
           const publicKey = await encryptionService.getMyPublicKey();
           if (publicKey) {
             try {
               await userService.saveUserPublicKey(publicKey);
-              console.log('🔐 [INIT] New key pair generated and uploaded');
+              console.log('[INIT] New key pair generated and uploaded');
             } catch (e) {
-              console.error('⚠️ [INIT] Failed to upload public key:', e);
+              console.error('[INIT] Failed to upload public key:', e);
             }
           }
         } else {
-          console.log('🔐 [INIT] Keys loaded successfully, synchronizing with server...');
+          console.log('[INIT] Keys loaded successfully, synchronizing with server...');
           const publicKey = await encryptionService.getMyPublicKey();
           if (publicKey) {
             try {
               await userService.saveUserPublicKey(publicKey);
-              console.log('🔐 [INIT] Public key synchronized with server');
+              console.log('[INIT] Public key synchronized with server');
             } catch (e) {
-              console.error('⚠️ [INIT] Failed to synchronize public key:', e);
+              console.error('[INIT] Failed to synchronize public key:', e);
             }
           }
         }
       }
       
       // Ambil server public key
-      console.log('🔐 [INIT] Fetching server public key...');
+      console.log('INIT] Fetching server public key...');
       try {
         const serverPublicKey = await authService.getServerPublicKey();
         if (serverPublicKey) {
           await encryptionService.setServerPublicKey(serverPublicKey);
-          console.log('🔐 [INIT] Server public key set');
+          console.log('[INIT] Server public key set');
         } else {
-          console.warn('⚠️ [INIT] Failed to get server public key');
+          console.warn(' [INIT] Failed to get server public key');
         }
       } catch (e) {
-        console.error('⚠️ [INIT] Error fetching server public key:', e);
+        console.error('[INIT] Error fetching server public key:', e);
       }
       
       setEncryptionInitialized(true);
-      console.log('🔐 [INIT] Encryption initialization completed');
+      console.log('[INIT] Encryption initialization completed');
     } catch (error) {
-      console.error('❌ [INIT] Encryption initialization failed:', error);
+      console.error('[INIT] Encryption initialization failed:', error);
       setEncryptionInitialized(true); // Tetap lanjut agar tidak stuck loading
     }
   };
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // ─── Cek metode keamanan saat app dibuka 
   useEffect(() => {
@@ -303,6 +311,16 @@ function AppNavigator() {
         // First initialize encryption
         await initEncryption();
         
+        // Check if user is logged in
+        const token = await storageService.getAccessToken();
+        if (!token) {
+          setIsLoggedIn(false);
+          setIsAuthenticated(true); // Bypass security check to show guest screens
+          setIsAuthenticating(false);
+          return;
+        }
+
+        setIsLoggedIn(true);
         const method = await biometricService.getActiveSecurityMethod();
         if (method === 'biometric') {
           setShowBiometricModal(true);
@@ -392,29 +410,21 @@ function AppNavigator() {
       <StatusBar style={isDarkMode ? 'light' : 'dark'} />
       <NavigationContainer theme={navigationTheme}>
         <CallListener />
-        <Stack.Navigator initialRouteName="MainTabs">
+        <Stack.Navigator 
+          initialRouteName={isLoggedIn ? "MainTabs" : "Dashboard"} 
+          screenOptions={{ animation: 'slide_from_right' }}
+        >
           <Stack.Screen name="MainTabs" component={BottomTabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Index" component={IndexScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={IndexScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Onboarding1" component={Onboarding1Screen} options={{ headerShown: false }} />
+          <Stack.Screen name="Onboarding2" component={Onboarding2Screen} options={{ headerShown: false }} />
+          <Stack.Screen name="Onboarding3" component={Onboarding3Screen} options={{ headerShown: false }} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Verification" component={VerificationScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen} options={{ headerShown: false }} />
 
-          <Stack.Screen name="Dashboard" component={DashboardScreen}
-            options={{ headerShown: true, title: t('dashboard') || 'Dashboard',
-              headerStyle: { backgroundColor: colors.background },
-              headerTitleStyle: { color: colors.text, fontWeight: '600' },
-              headerTintColor: colors.primary }} />
-
-          <Stack.Screen name="RegisterScreen" component={RegisterScreen}
-            options={{ headerShown: true, title: t('register') || 'Daftar Akun',
-              headerStyle: { backgroundColor: colors.background },
-              headerTitleStyle: { color: colors.text, fontWeight: '600' },
-              headerTintColor: colors.primary }} />
-
-          <Stack.Screen name="Verification" component={VerificationScreen}
-            options={{ headerShown: true, title: t('verification') || 'Verifikasi',
-              headerStyle: { backgroundColor: colors.background },
-              headerTitleStyle: { color: colors.text, fontWeight: '600' },
-              headerTintColor: colors.primary }} />
-                                            
           <Stack.Screen name="Contacts" component={ContactsScreen}
             options={{ headerShown: true, title: t('contacts') || 'Kontak',
               headerStyle: { backgroundColor: colors.background },
@@ -427,11 +437,6 @@ function AppNavigator() {
               headerTitleStyle: { color: colors.text, fontWeight: '600' },
               headerTintColor: colors.primary }} />
 
-          <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen}
-            options={{ headerShown: true, title: t('profile_setup') || 'Setup Profil',
-              headerStyle: { backgroundColor: colors.background },
-              headerTitleStyle: { color: colors.text, fontWeight: '600' },
-              headerTintColor: colors.primary }} />
 
           <Stack.Screen name="ChatDetailScreen" component={ChatDetailScreen}
             options={{ headerShown: false }} />

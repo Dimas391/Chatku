@@ -9,6 +9,8 @@ import ProfileScreen from '@/app/src/pages/Profile';
 import CallsScreen from '@/app/src/pages/CallsScreen';
 import SecurityScreen from '@/app/src/pages/Securityscreen';
 import ContactsScreen from '@/app/src/pages/ContactsScreen';
+import { useTheme } from '@/app/src/context/ThemeContext';
+import { useChat } from '@/app/src/hooks/useChat';
 
 import { BottomTabParamList } from './types';
 
@@ -28,20 +30,26 @@ const TAB_CONFIG: Record<
   string,
   { label: string; icon: string; iconOutline: string; badge?: number }
 > = {
-  Chats: { label: 'Chats', icon: 'chat', iconOutline: 'chat-outline', badge: 3 },
-  Calls: { label: 'Calls', icon: 'phone', iconOutline: 'phone-outline' },
+  Chats: { label: 'Chats', icon: 'chat', iconOutline: 'chat-outline' },
   Security: { label: 'Keamanan', icon: 'shield-lock', iconOutline: 'shield-lock-outline' },
   Contacts: { label: 'Kontak', icon: 'account-plus', iconOutline: 'account-plus-outline' },
   Profile: { label: 'Saya', icon: 'account-circle', iconOutline: 'account-circle-outline' },
 };
 
-const ACTIVE_COLOR = '#FF6B35';
-const INACTIVE_COLOR = '#888';
+
 
 const CustomTabBar = ({ state, descriptors, navigation }: any) => {
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
+  const { chats } = useChat();
   const BASE_HEIGHT = 70;
   const bottomPad = Math.max(insets.bottom, 8);
+  
+  const ACTIVE_COLOR = colors.primary || '#FF6B35';
+  const INACTIVE_COLOR = colors.textTertiary || '#888';
+
+  // Hitung total unread count secara dinamis
+  const totalUnreadCount = chats.reduce((sum, chat) => sum + (chat.unreadCount || 0), 0);
 
   return (
     <View
@@ -50,6 +58,8 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
         {
           height: BASE_HEIGHT + bottomPad,
           paddingBottom: bottomPad,
+          backgroundColor: colors.card,
+          borderTopColor: colors.border,
         },
       ]}
     >
@@ -88,7 +98,9 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                 size={28}
                 color={color} 
               />
-              {cfg.badge ? <Badge count={cfg.badge} /> : null}
+              {route.name === 'Chats' && totalUnreadCount > 0 ? (
+                <Badge count={totalUnreadCount} />
+              ) : (cfg.badge ? <Badge count={cfg.badge} /> : null)}
             </View>
             <Text style={[styles.customLabel, { color }]} numberOfLines={1}>
               {cfg.label}
@@ -107,8 +119,7 @@ const BottomTabNavigator: React.FC = () => {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen name="Chats" component={ChatScreen} options={{ title: 'Chats' }} />
-      <Tab.Screen name="Calls" component={CallsScreen} options={{ title: 'Calls' }} />
-       <Tab.Screen name="Security" component={SecurityScreen} options={{ title: 'Keamanan' }} />
+      <Tab.Screen name="Security" component={SecurityScreen} options={{ title: 'Keamanan' }} />
       <Tab.Screen name="Contacts" component={ContactsScreen} options={{ title: 'Kontak' }} /> 
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Saya' }} />
     </Tab.Navigator>
@@ -118,10 +129,8 @@ const BottomTabNavigator: React.FC = () => {
 const styles = StyleSheet.create({
   customTabBar: {
     flexDirection: 'row',
-    backgroundColor: '#0f0f0f',
     borderTopWidth: 1,
-    borderTopColor: '#222',
-    paddingTop: 10, 
+    paddingTop: 10,
   },
   customTabItem: {
     flex: 1,

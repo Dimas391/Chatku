@@ -48,12 +48,12 @@ class AuthService {
     try {
       const response = await api.get<{ public_key: string }>('/security/server-public-key');
       if (response.success && response.data) {
-        console.log('🔑 [SERVER] Got server public key');
+        console.log('[SERVER] Got server public key');
         return response.data.public_key;
       }
       return null;
     } catch (error) {
-      console.error('❌ [SERVER] Failed to get server public key:', error);
+      console.error('[SERVER] Failed to get server public key:', error);
       return null;
     }
   }

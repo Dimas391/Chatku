@@ -14,8 +14,8 @@ import { useDimensions } from '@/app/src/utils/dimensions';
 import { scaleWidth } from '@/app/src/utils/responsive';
 
 interface Message {
-  isDestroyed: boolean | undefined;
-  classificationLabel: "Berisiko" | "Tidak Berisiko" | null | undefined;
+  isDestroyed?: boolean;
+  classificationLabel?: "Berisiko" | "Tidak Berisiko" | null;
   id: string;
   text: string;
   time: string;
@@ -23,7 +23,11 @@ interface Message {
   senderName?: string;
   senderAvatar?: string;
   isMe: boolean;
-  status?: 'sent' | 'delivered' | 'read';
+  status?: 'sent' | 'delivered' | 'read' | 'sending';
+  isRisky?: boolean;
+  isVerified?: boolean;
+  confidence?: number;
+  date?: string;
 }
 
 interface MessageListProps {
@@ -78,52 +82,89 @@ const MessageList = ({
     };
   }, [isTyping, typingAnimation]);
 
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const msgDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    if (msgDate.getTime() === today.getTime()) {
+      return 'Hari Ini';
+    } else if (msgDate.getTime() === yesterday.getTime()) {
+      return 'Kemarin';
+    } else {
+      return date.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      });
+    }
+  };
+
   const renderMessage = ({ item, index }: { item: Message; index: number }) => {
     const showAvatar =
       !item.isMe &&
       (index === 0 || messages[index - 1]?.senderId !== item.senderId);
+
+    const showDateSeparator =
+      index === 0 ||
+      (item.date && messages[index - 1]?.date && 
+       new Date(item.date as string).toDateString() !== new Date(messages[index - 1].date as string).toDateString());
 
     const maxMessageWidth = DIMENSIONS.isTablet
       ? Math.min(scaleWidth(420, width), width * 0.7)
       : width * 0.8;
 
     return (
-      <View
-        style={[
-          styles.messageRow,
-          item.isMe ? styles.myMessageRow : styles.otherMessageRow,
-        ]}
-      >
-        {!item.isMe ? (
-          <View style={styles.avatarWrapper}>
-            {showAvatar ? (
-              <Image
-                source={{ uri: item.senderAvatar || chatAvatar }}
-                style={styles.messageAvatar}
-              />
-            ) : (
-              <View style={styles.avatarPlaceholder} />
-            )}
+      <View key={item.id}>
+        {showDateSeparator && item.date && (
+          <View style={styles.dateSeparator}>
+            <View style={styles.dateBadge}>
+              <Text style={styles.dateText}>{formatDate(item.date)}</Text>
+            </View>
           </View>
-        ) : null}
-
+        )}
         <View
           style={[
-            styles.messageWrapper,
-            item.isMe ? styles.myMessageWrapper : styles.otherMessageWrapper,
-            { maxWidth: maxMessageWidth },
+            styles.messageRow,
+            item.isMe ? styles.myMessageRow : styles.otherMessageRow,
           ]}
         >
-          <MessageBubble
-          text={item.text}
-          time={item.time}
-          isMe={item.isMe}
-          senderName={item.senderName}
-          status={item.status}
-          classificationLabel={item.classificationLabel}
-          isDestroyed={item.isDestroyed}
-          isRisky={item.classificationLabel === 'Berisiko'}
-        />
+          {!item.isMe ? (
+            <View style={styles.avatarWrapper}>
+              {showAvatar ? (
+                <Image
+                  source={{ uri: item.senderAvatar || chatAvatar }}
+                  style={styles.messageAvatar}
+                />
+              ) : (
+                <View style={styles.avatarPlaceholder} />
+              )}
+            </View>
+          ) : null}
+
+          <View
+            style={[
+              styles.messageWrapper,
+              item.isMe ? styles.myMessageWrapper : styles.otherMessageWrapper,
+              { maxWidth: maxMessageWidth },
+            ]}
+          >
+            <MessageBubble
+              text={item.text}
+              time={item.time}
+              isMe={item.isMe}
+              senderName={item.senderName}
+              status={item.status}
+              classificationLabel={item.classificationLabel}
+              isDestroyed={item.isDestroyed}
+              isRisky={item.classificationLabel === 'Berisiko'}
+            />
+          </View>
         </View>
       </View>
     );
@@ -308,6 +349,24 @@ const createStyles = (
       borderRadius: RADIUS.round,
       backgroundColor: '#FF6B35',
       marginHorizontal: scaleWidth(2, screenWidth),
+    },
+    dateSeparator: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginVertical: SPACING.lg,
+      paddingHorizontal: SPACING.md,
+    },
+
+    dateBadge: {
+      paddingHorizontal: SPACING.md,
+      paddingVertical: SPACING.xs,
+    },
+    dateText: {
+      fontSize: DIMENSIONS.fontTiny,
+      color: '#888',
+      fontWeight: '600',
+      textTransform: 'uppercase',
     },
   });
 

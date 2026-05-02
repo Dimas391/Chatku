@@ -12,6 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { useTheme } from '@/app/src/context/ThemeContext';
 
 interface AvatarPickerProps {
   avatar: string | null;
@@ -19,6 +20,7 @@ interface AvatarPickerProps {
 }
 
 const AvatarPicker = ({ avatar, onAvatarChange }: AvatarPickerProps) => {
+  const { colors, isDarkMode } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
 
   // Fungsi untuk meminta izin kamera
@@ -183,7 +185,7 @@ const AvatarPicker = ({ avatar, onAvatarChange }: AvatarPickerProps) => {
             <MaterialCommunityIcons name="camera" size={30} color="#FFFFFF" />
           </LinearGradient>
         )}
-        <View style={styles.editBadge}>
+        <View style={[styles.editBadge, { borderColor: isDarkMode ? colors.surface : '#FFFFFF' }]}>
           <MaterialCommunityIcons 
             name={avatar ? "pencil" : "plus"} 
             size={14} 
@@ -191,7 +193,7 @@ const AvatarPicker = ({ avatar, onAvatarChange }: AvatarPickerProps) => {
           />
         </View>
       </TouchableOpacity>
-      <Text style={styles.avatarHint}>
+      <Text style={[styles.avatarHint, { color: colors.textSecondary }]}>
         {isLoading ? 'Memproses...' : 'Tap untuk menambahkan foto'}
       </Text>
     </View>

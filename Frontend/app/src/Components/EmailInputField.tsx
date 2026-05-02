@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -13,20 +13,32 @@ const EmailInputField = ({
   onChangeText,
   hint = 'Kami akan mengirimkan kode verifikasi ke email Anda'
 }: EmailInputFieldProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <View style={styles.inputWrapper}>
       <Text style={styles.inputLabel}>Alamat Email</Text>
-      <View style={styles.inputContainer}>
-        <MaterialCommunityIcons name="email-outline" size={20} color="#FF6B35" style={styles.inputIcon} />
+      <View style={[
+        styles.inputContainer,
+        isFocused && styles.inputContainerFocused,
+      ]}>
+        <MaterialCommunityIcons 
+          name="email-outline" 
+          size={20} 
+          color={isFocused ? '#FF6B35' : '#AAAAAA'} 
+          style={styles.inputIcon} 
+        />
         <TextInput
           style={styles.input}
           placeholder="contoh@email.com"
-          placeholderTextColor="#999"
+          placeholderTextColor="#BBBBBB"
           value={value}
           onChangeText={onChangeText}
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
       </View>
       <Text style={styles.inputHint}>{hint}</Text>
@@ -40,31 +52,37 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '600',
     color: '#333333',
-    marginBottom: 6,
+    marginBottom: 8,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    height: 50,
+    backgroundColor: '#F8F8F8',
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    height: 52,
+    borderWidth: 1.5,
+    borderColor: '#EEEEEE',
+  },
+  inputContainerFocused: {
+    borderColor: '#FF6B35',
+    backgroundColor: '#FFFFFF',
   },
   inputIcon: {
-    marginRight: 8,
+    marginRight: 10,
   },
   input: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 15,
     color: '#333333',
     paddingVertical: 0,
   },
   inputHint: {
-    fontSize: 11,
+    fontSize: 12,
     color: '#999999',
-    marginTop: 6,
+    marginTop: 8,
     marginLeft: 4,
   },
 });

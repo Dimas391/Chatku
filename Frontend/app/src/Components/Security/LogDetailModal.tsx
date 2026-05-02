@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@/app/src/context/ThemeContext';
-import { ForensicLog } from '@/app/src/hooks/Secuirty';
+import { ForensicLog } from '@/app/src/services/securityService';
 import { styles } from '@/app/src/utils/Security';
 
 const severityColor = (s: ForensicLog['severity']) => {

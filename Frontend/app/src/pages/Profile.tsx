@@ -13,7 +13,7 @@ import {
   Platform,
   Linking,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useTheme } from '@/app/src/context/ThemeContext';
 import { BaseScreen } from '@/app/src/Components/BaseScreen';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -21,6 +21,7 @@ import { RootStackParamList } from '@/app/src/Components/navigation/RootStackPar
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as ImagePicker from 'expo-image-picker';
+import { useCallback } from 'react';
 
 // Import komponen
 import { ProfileHeader } from '@/app/src/Components/Profile/ProfileHeader1';
@@ -119,15 +120,21 @@ const Profile1 = () => {
     handleStatusChange,
     updateAvatar,
     uploadingAvatar,
-    readReceipts,
-    setReadReceipts,
-    lastSeen,
-    setLastSeen,
-    twoFactor,
-    setTwoFactor,
+    reloadProfile, // Ambil fungsi reload
   } = useProfile();
 
-  const currentStatus = STATUS_OPTIONS.find(s => s.key === profile.status)!;
+  // Load security status & profile on focus
+  useEffect(() => {
+    loadSecurityStatus();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      reloadProfile();
+    }, [reloadProfile])
+  );
+
+  const currentStatus = STATUS_OPTIONS.find(s => s.key === profile.status) || STATUS_OPTIONS[0];
 
   const animateAvatar = (callback: () => void) => {
     Animated.sequence([
@@ -147,11 +154,6 @@ const Profile1 = () => {
   const [pinEnabled, setPinEnabled] = useState(false);
   const [loadingBiometric, setLoadingBiometric] = useState(false);
   const [pinSetupVisible, setPinSetupVisible] = useState(false);
-
-  // Load security status
-  useEffect(() => {
-    loadSecurityStatus();
-  }, []);
 
   const loadSecurityStatus = async () => {
     const method = await biometricService.getActiveSecurityMethod();
@@ -439,7 +441,7 @@ const Profile1 = () => {
             onPress={() => navigation.navigate('SecurityScreen' as never)} 
           />
 
-          {/* 🔴 BAGIAN TENTANG */}
+          {/*  BAGIAN TENTANG */}
           <SectionHeader title="TENTANG" />
 
           <SettingRow 

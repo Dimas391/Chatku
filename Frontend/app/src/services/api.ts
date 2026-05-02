@@ -67,17 +67,17 @@ class ApiService {
   async get<T>(endpoint: string, token?: string): Promise<ApiResponse<T>> {
     try {
       const url = getApiUrl(endpoint);
-      console.log('🚀 GET:', url);
+      console.log('GET:', url);
       
       const response = await fetch(url, {
         method: 'GET',
         headers: this.getHeaders(token),
       });
       
-      console.log('📥 Response status:', response.status);
+      console.log(' Response status:', response.status);
       return this.handleResponse<T>(response);
     } catch (error) {
-      console.error('❌ GET Error:', error);
+      console.error('GET Error:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
@@ -89,8 +89,8 @@ class ApiService {
   async post<T>(endpoint: string, data: any, token?: string): Promise<ApiResponse<T>> {
     try {
       const url = getApiUrl(endpoint);
-      console.log('🚀 POST:', url);
-      console.log('📦 Data:', JSON.stringify(data, null, 2));
+      console.log(' POST:', url);
+      console.log(' Data:', JSON.stringify(data, null, 2));
       
       const response = await fetch(url, {
         method: 'POST',
@@ -98,10 +98,10 @@ class ApiService {
         body: JSON.stringify(data),
       });
       
-      console.log('📥 Response status:', response.status);
+      console.log(' Response status:', response.status);
       return this.handleResponse<T>(response);
     } catch (error) {
-      console.error('❌ POST Error:', error);
+      console.error(' POST Error:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
@@ -113,7 +113,7 @@ class ApiService {
   async put<T>(endpoint: string, data: any, token?: string): Promise<ApiResponse<T>> {
     try {
       const url = getApiUrl(endpoint);
-      console.log('🚀 PUT:', url);
+      console.log(' PUT:', url);
       
       const response = await fetch(url, {
         method: 'PUT',
@@ -121,10 +121,10 @@ class ApiService {
         body: JSON.stringify(data),
       });
       
-      console.log('📥 Response status:', response.status);
+      console.log(' Response status:', response.status);
       return this.handleResponse<T>(response);
     } catch (error) {
-      console.error('❌ PUT Error:', error);
+      console.error(' PUT Error:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
@@ -136,8 +136,8 @@ class ApiService {
   async patch<T>(endpoint: string, data: any, token?: string): Promise<ApiResponse<T>> {
     try {
       const url = getApiUrl(endpoint);
-      console.log('🚀 PATCH:', url);
-      console.log('📦 Data:', JSON.stringify(data, null, 2));
+      console.log(' PATCH:', url);
+      console.log(' Data:', JSON.stringify(data, null, 2));
       
       const response = await fetch(url, {
         method: 'PATCH',
@@ -145,10 +145,10 @@ class ApiService {
         body: JSON.stringify(data),
       });
       
-      console.log('📥 Response status:', response.status);
+      console.log('Response status:', response.status);
       return this.handleResponse<T>(response);
     } catch (error) {
-      console.error('❌ PATCH Error:', error);
+      console.error(' PATCH Error:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
@@ -160,17 +160,17 @@ class ApiService {
   async delete<T>(endpoint: string, token?: string): Promise<ApiResponse<T>> {
     try {
       const url = getApiUrl(endpoint);
-      console.log('🚀 DELETE:', url);
+      console.log('DELETE:', url);
       
       const response = await fetch(url, {
         method: 'DELETE',
         headers: this.getHeaders(token),
       });
       
-      console.log('📥 Response status:', response.status);
+      console.log('Response status:', response.status);
       return this.handleResponse<T>(response);
     } catch (error) {
-      console.error('❌ DELETE Error:', error);
+      console.error('DELETE Error:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
@@ -187,7 +187,7 @@ class ApiService {
   ): Promise<ApiResponse<T>> {
     try {
       const url = getApiUrl(endpoint);
-      console.log('🚀 UPLOAD:', url);
+      console.log('UPLOAD:', url);
       
       const formData = new FormData();
       formData.append(fieldName, file);
@@ -201,10 +201,10 @@ class ApiService {
         body: formData,
       });
       
-      console.log('📥 Upload response status:', response.status);
+      console.log('Upload response status:', response.status);
       return this.handleResponse<T>(response);
     } catch (error) {
-      console.error('❌ UPLOAD Error:', error);
+      console.error('UPLOAD Error:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Upload failed',

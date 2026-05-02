@@ -14,6 +14,7 @@ from app.services.media_service import MediaService
 from app.services.websocket_manager import manager
 from app.services.classification_service import ClassificationService, classification_service
 from app.services.encryption_service import encryption_service
+from app.services.security_service import SecurityService
 from app.models.chat import (
     CreateChatRequest,
     CreateGroupRequest,
@@ -54,6 +55,18 @@ async def list_chats(
             "created_at": chat["created_at"].isoformat(),
         })
     return {"chats": result, "total": len(result)}
+
+
+# ── Hapus Chat ────────────────────────────────────────────
+@router.delete("/{chat_id}", summary="Hapus/Keluar dari Chat")
+async def delete_chat(
+    chat_id: str,
+    user_id: str = Depends(get_current_user_id),
+):
+    success = await ChatService.delete_chat(chat_id, user_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Chat tidak ditemukan atau Anda bukan peserta")
+    return {"success": True}
 
 
 # ── Buat / Ambil Personal Chat ────────────────────────────
@@ -229,6 +242,14 @@ async def send_dual_encrypted_message(
         is_destroyed = classification_label == "Berisiko"
         if is_destroyed:
             print("[DUAL] Dangerous content detected! Message will be destroyed.")
+            # Catat ke forensic log
+            await SecurityService.add_forensic_log(
+                user_id=user_id,
+                event="Dangerous Content Detected",
+                detail=f"Sistem mendeteksi konten berbahaya dalam pesan terenkripsi di chat {chat_id}",
+                category="integrity",
+                severity="critical"
+            )
         
         # HAPUS PLAINTEXT DARI MEMORI
         encryption_service.clear_memory(plaintext, server_key)
@@ -270,6 +291,25 @@ async def send_dual_encrypted_message(
         
         message_id = str(result.inserted_id)
         print(f"[DUAL] Message saved. ID: {message_id}")
+        
+        # ✅ Update last message preview di chat room
+        if is_destroyed:
+            preview = "⚠️ Pesan berbahaya telah diblokir oleh sistem"
+        else:
+            preview = "[Pesan terenkripsi]"
+            
+        await get_collection("chats").update_one(
+            {"_id": ObjectId(chat_id)},
+            {
+                "$set": {
+                    "last_message_id": message_id,
+                    "last_message_text": preview,
+                    "last_message_at": datetime.now(timezone.utc),
+                    "last_message_by": user_id,
+                    "updated_at": datetime.now(timezone.utc),
+                }
+            },
+        )
         
         #  BROADCAST ke participant lain (hanya user ciphertext)
         print(" [DUAL] Broadcasting to chat participants...")

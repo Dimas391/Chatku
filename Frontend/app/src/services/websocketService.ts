@@ -166,6 +166,10 @@ class WebSocketService {
     this.on('disconnected', callback);
   }
 
+  onProfileUpdated(callback: Callback) {
+    this.on('profile_updated', callback);
+  }
+
   // ───── Send data ─────
   send(data: any) {
     if (this.isConnected()) {

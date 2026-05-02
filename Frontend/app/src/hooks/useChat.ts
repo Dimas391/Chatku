@@ -72,6 +72,14 @@ export const useChat = () => {
     };
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      // Refresh profile data whenever screen is focused
+      // (e.g. after returning from ProfileSetup)
+      loadUserProfileAndConnect();
+    }, [])
+  );
+
   const loadUserProfileAndConnect = async () => {
     try {
       const token = await storageService.getAccessToken();
@@ -149,6 +157,22 @@ export const useChat = () => {
         updateChatReadStatus(data.chat_id);
       }
     });
+
+    websocketService.onProfileUpdated((data: any) => {
+      if (data && data.user_id) {
+        updateUserProfileInChats(data.user_id, data);
+        
+        // Jika yang diupdate adalah profil saya sendiri, update state userProfile
+        if (data.user_id === currentUserId) {
+          setUserProfile(prev => ({
+            ...prev,
+            displayName: data.display_name || prev.displayName,
+            avatar: data.avatar_url || prev.avatar,
+            username: data.username || prev.username,
+          }));
+        }
+      }
+    });
     
     websocketService.onConnected(() => {
       if (chats.length > 0) {
@@ -167,28 +191,36 @@ export const useChat = () => {
       const existingIndex = prevChats.findIndex(chat => chat.id === messageData.chat_id);
       const formattedTime = formatTime(messageData.created_at || new Date().toISOString());
       const isFromMe = messageData.sender_id === currentUserId;
-      const currentUnread = existingIndex !== -1 ? prevChats[existingIndex].unreadCount : 0;
-      
-      const newChatItem: ChatItem = {
-        id: messageData.chat_id,
-        name: existingIndex !== -1 ? prevChats[existingIndex].name : 'Loading...',
-        avatar: existingIndex !== -1 ? prevChats[existingIndex].avatar : '',
-        lastMessage: messageData.content || 'Media',
-        lastMessageTime: formattedTime,
-        unreadCount: isFromMe ? currentUnread : currentUnread + 1,
-        online: false,
-        typing: false,
-      };
-      
+
       if (existingIndex !== -1) {
+        // Update chat yang sudah ada — pertahankan semua field lama, hanya update pesan & waktu
+        const existing = prevChats[existingIndex];
+        const updatedChat: ChatItem = {
+          ...existing,
+          lastMessage: messageData.content || 'Media',
+          lastMessageTime: formattedTime,
+          unreadCount: isFromMe ? existing.unreadCount : existing.unreadCount + 1,
+          typing: false,
+        };
         const updatedChats = [...prevChats];
-        updatedChats[existingIndex] = newChatItem;
-        const [moved] = updatedChats.splice(existingIndex, 1);
-        updatedChats.unshift(moved);
-        return updatedChats;
+        updatedChats[existingIndex] = updatedChat;
+        // Pindahkan ke posisi teratas
+        updatedChats.splice(existingIndex, 1);
+        return [updatedChat, ...updatedChats];
       } else {
+        // Chat baru — fetch detailnya dari server
         fetchAndJoinNewChat(messageData.chat_id);
-        return [newChatItem, ...prevChats];
+        const placeholderChat: ChatItem = {
+          id: messageData.chat_id,
+          name: 'Loading...',
+          avatar: '',
+          lastMessage: messageData.content || 'Media',
+          lastMessageTime: formattedTime,
+          unreadCount: isFromMe ? 0 : 1,
+          online: false,
+          typing: false,
+        };
+        return [placeholderChat, ...prevChats];
       }
     });
   };
@@ -261,15 +293,42 @@ export const useChat = () => {
     ));
   };
 
-  const loadChats = async () => {
-    console.log('📨 [useChat] loadChats started');
+  const updateUserProfileInChats = (userId: string, profile: any) => {
+    setChats(prev => prev.map(chat => {
+      // Jika ini adalah chat personal dengan user yang profilnya update
+      if (chat.id.includes(userId) || (chat.name && chat.name === profile.display_name)) {
+        // Kita butuh cara pasti untuk tahu apakah chat ini milik userId tersebut
+        // Untuk saat ini, kita bisa berasumsi jika ada yang update profil, 
+        // kita coba update semua chat yang mungkin terkait.
+        // Tapi cara terbaik adalah jika chat item menyimpan otherUserId.
+      }
+      
+      // Update logic: cari chat yang merupakan personal chat dengan userId
+      // Karena kita tidak menyimpan otherUserId di ChatItem, kita perlu 
+      // pendekatan lain atau memodifikasi ChatItem.
+      // Untuk sementara, kita update yang namanya cocok atau kita butuh fetch ulang?
+      // Cara paling aman: update semua chat yang mengandung participant userId
+      return chat;
+    }));
+    
+    // Karena ChatItem tidak menyimpan otherUserId secara eksplisit, 
+    // cara termudah adalah me-trigger reload chat atau update by name/avatar logic
+    // Tapi kita bisa melakukan update cerdas jika kita simpan data mapping.
+    
+    // Mari kita coba update berdasarkan ID user jika kita simpan mappingnya.
+    // Atau cara paling simpel: load ulang daftar chat agar data sinkron dengan server.
+    loadChats();
+  };
+
+  const loadChats = useCallback(async () => {
+    console.log('[useChat] loadChats started');
     setLoading(true);
     try {
       const response = await chatService.getChats();
-      console.log('📨 [useChat] chatService.getChats response success:', response.success);
+      console.log('[useChat] chatService.getChats response success:', response.success);
       
       if (response.success && response.data) {
-        console.log('📨 [useChat] Chats found:', response.data.chats.length);
+        console.log('[useChat] Chats found:', response.data.chats.length);
         chatIdsSet.current.clear();
         
         const transformedChats: ChatItem[] = await Promise.all(
@@ -303,22 +362,22 @@ export const useChat = () => {
         );
 
         if (isMounted.current) {
-          console.log('📨 [useChat] Setting chats state, count:', transformedChats.length);
+          console.log('[useChat] Setting chats state, count:', transformedChats.length);
           setChats(transformedChats);
           setTimeout(() => joinAllChatRooms(transformedChats), 500);
         }
       } else {
-        console.warn('📨 [useChat] Failed to load chats:', response.message || response.error);
+        console.warn('[useChat] Failed to load chats:', response.message || response.error);
       }
     } catch (error) {
-      console.error('📨 [useChat] Error in loadChats:', error);
+      console.error('[useChat] Error in loadChats:', error);
     } finally {
       if (isMounted.current) {
         setLoading(false);
         setRefreshing(false);
       }
     }
-  };
+  }, [currentUserId, joinAllChatRooms]);
 
   const parseTimeToDate = (timeStr: string): Date => {
     // Coba parse sebagai ISO string
@@ -365,8 +424,41 @@ export const useChat = () => {
     loadChats();
   };
 
+  // Hanya cari chat baru dari API, TIDAK overwrite data realtime yang sudah ada
+  const syncNewChats = useCallback(async () => {
+    if (!currentUserId) return;
+    try {
+      const response = await chatService.getChats();
+      if (response.success && response.data) {
+        const apiChats: ChatData[] = response.data.chats;
+        // Cek apakah ada chat ID yang belum ada di local state
+        const hasNewChat = apiChats.some((c: ChatData) => !chatIdsSet.current.has(c.id));
+        if (hasNewChat) {
+          // Ada chat baru → lakukan full reload
+          await loadChats();
+        }
+        // Jika tidak ada chat baru → pertahankan state in-memory (hasil WebSocket tetap aman)
+      }
+    } catch (_) {}
+  }, [currentUserId, loadChats]);
+
   const handleNewChat = () => {
     navigation.navigate('NewChat');
+  };
+
+  const handleDeleteChat = async (chatId: string) => {
+    try {
+      const response = await chatService.deleteChat(chatId);
+      if (response.success) {
+        setChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
+        chatIdsSet.current.delete(chatId);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Failed to delete chat:', error);
+      return false;
+    }
   };
 
  const formatTime = (isoString?: string): string => {
@@ -376,10 +468,13 @@ export const useChat = () => {
 
   useFocusEffect(
     useCallback(() => {
+      // Reconnect WebSocket jika putus
       if (currentUserId && !websocketService.isConnected()) {
         websocketService.connect();
       }
-    }, [currentUserId])
+      // Hanya sync chat baru, TIDAK overwrite data realtime
+      syncNewChats();
+    }, [currentUserId, syncNewChats])
   );
 
   useEffect(() => {
@@ -403,6 +498,7 @@ export const useChat = () => {
     currentUserId,
     handleRefresh,
     handleNewChat,
+    handleDeleteChat,
     loadChats,
   };
 };

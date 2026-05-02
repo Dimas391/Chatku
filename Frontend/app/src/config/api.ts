@@ -8,11 +8,11 @@ const getBaseURL = (): string => {
   if (__DEV__) {
     const envUrl = process.env.EXPO_PUBLIC_API_URL;
     if (envUrl) {
-      console.log('🌐 Using ENV URL:', envUrl);
+      console.log('Using ENV URL:', envUrl);
       return envUrl;
     }
-    const defaultUrl = 'http://192.168.88.236:8000/api/v1';
-    console.log('🌐 Using default URL:', defaultUrl);
+    const defaultUrl = 'http://192.168.1.3:8000/api/v1';
+    console.log('Using default URL:', defaultUrl);
     return defaultUrl;
   }
   return Constants.expoConfig?.extra?.API_BASE_URL || 'https://api.chatku.com/api/v1';
@@ -43,7 +43,7 @@ export const getApiUrl = (endpoint: string): string => {
 // WebSocket URL
 export const getWebSocketURL = (): string => {
   if (__DEV__) {
-    return 'ws://192.168.88.236:8000';
+    return 'ws://192.168.1.3:8000';
   }
   return Constants.expoConfig?.extra?.WS_URL || 'wss://api.chatku.com';
 };

@@ -100,6 +100,26 @@ class ChatService:
             {"_id": ObjectId(chat_id), "participants": user_id}
         )
 
+    @staticmethod
+    async def delete_chat(chat_id: str, user_id: str) -> bool:
+        """Keluarkan user dari chat, hapus chat jika peserta kosong."""
+        chats_col = get_collection("chats")
+        chat = await chats_col.find_one({"_id": ObjectId(chat_id)})
+        if not chat:
+            return False
+
+        if user_id in chat.get("participants", []):
+            await chats_col.update_one(
+                {"_id": ObjectId(chat_id)},
+                {"$pull": {"participants": user_id}}
+            )
+            updated_chat = await chats_col.find_one({"_id": ObjectId(chat_id)})
+            if not updated_chat.get("participants"):
+                await chats_col.delete_one({"_id": ObjectId(chat_id)})
+                await get_collection("messages").delete_many({"chat_id": chat_id})
+            return True
+        return False
+
     # ── Messages (Legacy - Plain Text) ──────────────────────────
     @staticmethod
     async def send_message(
@@ -124,14 +144,14 @@ class ChatService:
         confidence = 1.0
         
         if msg_type == MessageType.TEXT and content:
-            logger.info("🤖 Classifying legacy message...")
+            logger.info(" Classifying legacy message...")
             classification_label, confidence = classification_service.classify(content)
             
             # Jika Berisiko, hancurkan isi pesan (hash)
             if classification_label == "Berisiko":
                 import hashlib
                 content = f"[KONTEN BERBAHAYA DIHANCURKAN]: {hashlib.sha256(content.encode()).hexdigest()[:20]}..."
-                logger.warning("⚠️ Dangerous legacy content destroyed/hashed.")
+                logger.warning("Dangerous legacy content destroyed/hashed.")
 
         new_msg = MessageDocument(
             chat_id=chat_id,
@@ -194,19 +214,19 @@ class ChatService:
         
         try:
             # Step 1: Decrypt AES key dengan RSA
-            logger.info("🔐 Decrypting AES key...")
+            logger.info("Decrypting AES key...")
             aes_key = encryption_service.decrypt_aes_key(encrypted_aes_key)
             
             # Step 2: Decrypt message dengan AES
-            logger.info("🔐 Decrypting message...")
+            logger.info("Decrypting message...")
             plaintext = encryption_service.decrypt_message(encrypted_content, aes_key, iv)
             
             # Step 3: Verify hash
-            logger.info("🔐 Verifying hash...")
+            logger.info("Verifying hash...")
             is_verified = encryption_service.verify_message_hash(plaintext, message_hash)
             
             # Step 4: Klasifikasi pesan
-            logger.info("🤖 Classifying message...")
+            logger.info("Classifying message...")
             classification_label, confidence = classification_service.classify(plaintext)
             
             confidence = float(confidence) if confidence else 0.5
@@ -217,25 +237,25 @@ class ChatService:
             elif hasattr(classification_label, '__str__'):
                 classification_label = str(classification_label)
             
-            # 🔴 HAPUS PLAINTEXT DARI MEMORI (AMAN)
+            # HAPUS PLAINTEXT DARI MEMORI (AMAN)
             encryption_service.clear_memory(plaintext, aes_key)
             plaintext = None
             aes_key = None
             
-            # 🔴 Step 5: Jika BERISIKO, hancurkan SEMUA data agar tidak bisa didekripsi user
+            # Step 5: Jika BERISIKO, hancurkan SEMUA data agar tidak bisa didekripsi user
             if classification_label == "Berisiko":
                 import hashlib
-                logger.warning(f"⚠️ DANGEROUS MESSAGE DETECTED! Destroying all message data.")
+                logger.warning(f"DANGEROUS MESSAGE DETECTED! Destroying all message data.")
                 
                 # Hancurkan semua komponen pesan
-                destroyed_content = f"[⚠️ KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM - {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}⚠️]"
+                destroyed_content = f"[KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM - {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}⚠️]"
                 destroyed_hash = hashlib.sha256(destroyed_content.encode()).hexdigest()
                 
                 message_doc = MessageDocument(
                     chat_id=chat_id,
                     sender_id=sender_id,
                     type=MessageType.TEXT,
-                    # 🔴 Pesan asli TIDAK bisa direcover - semua data encryption dihancurkan
+                    #  Pesan asli TIDAK bisa direcover - semua data encryption dihancurkan
                     encrypted_content=f"BLOCKED_BY_SECURITY_{destroyed_hash[:32]}",
                     encrypted_aes_key="DESTROYED_FOR_SAFETY",
                     iv="DESTROYED_FOR_SAFETY",
@@ -249,7 +269,7 @@ class ChatService:
                     status=MessageStatus.SENT,
                 )
             else:
-                # 🔴 TIDAK BERISIKO - Simpan ciphertext seperti biasa
+                # TIDAK BERISIKO - Simpan ciphertext seperti biasa
                 message_doc = MessageDocument(
                     chat_id=chat_id,
                     sender_id=sender_id,
@@ -271,7 +291,7 @@ class ChatService:
             
             # Update last message preview di chat room
             if classification_label == "Berisiko":
-                preview = "⚠️ Pesan berbahaya telah diblokir oleh sistem"
+                preview = "Pesan berbahaya telah diblokir oleh sistem"
             else:
                 preview = "[Pesan terenkripsi]"
                 
@@ -288,7 +308,7 @@ class ChatService:
                 },
             )
             
-            logger.info(f"✅ Message saved. Classification: {classification_label}")
+            logger.info(f"Message saved. Classification: {classification_label}")
             
             return {
                 "message_id": str(result.inserted_id),
@@ -325,8 +345,8 @@ class ChatService:
         chats_col = get_collection("chats")
         
         try:
-            # 🔐 SERVER DECRYPT untuk klasifikasi
-            logger.info("🔐 Server decrypting with server key...")
+            # SERVER DECRYPT untuk klasifikasi
+            logger.info("Server decrypting with server key...")
             
             # Decrypt server key (server punya private key sendiri)
             # TODO: Gunakan private key server yang sudah ada
@@ -339,18 +359,18 @@ class ChatService:
             # Verify hash
             is_verified = encryption_service.verify_message_hash(plaintext, message_hash)
             
-            # 🔍 KLASIFIKASI
-            logger.info("🤖 Classifying message...")
+            # KLASIFIKASI
+            logger.info("Classifying message...")
             result = classification_service.prediksi(plaintext)
             classification_label = result["label"]
             confidence = result["keyakinan"] / 100
             
-            logger.info(f"📊 Classification: {classification_label} ({confidence:.2f})")
+            logger.info(f"Classification: {classification_label} ({confidence:.2f})")
             
-            # 🔴 HAPUS PLAINTEXT DARI MEMORI
+            # HAPUS PLAINTEXT DARI MEMORI
             encryption_service.clear_memory(plaintext, server_key)
             
-            # 💾 SIMPAN ke database (hanya user ciphertext, bukan server)
+            # IMPAN ke database (hanya user ciphertext, bukan server)
             message_doc = MessageDocument(
                 chat_id=chat_id,
                 sender_id=sender_id,
@@ -371,7 +391,26 @@ class ChatService:
                 message_doc.model_dump(by_alias=True, exclude={"id"})
             )
             
-            logger.info(f"✅ Dual encrypted message saved. Classification: {classification_label}")
+            # Update last message preview di chat room
+            if classification_label == "Berisiko":
+                preview = " Pesan berbahaya telah diblokir oleh sistem"
+            else:
+                preview = "[Pesan terenkripsi]"
+                
+            await chats_col.update_one(
+                {"_id": ObjectId(chat_id)},
+                {
+                    "$set": {
+                        "last_message_id": str(result.inserted_id),
+                        "last_message_text": preview,
+                        "last_message_at": datetime.now(timezone.utc),
+                        "last_message_by": sender_id,
+                        "updated_at": datetime.now(timezone.utc),
+                    }
+                },
+            )
+            
+            logger.info(f"Dual encrypted message saved. Classification: {classification_label}")
             
             return {
                 "message_id": str(result.inserted_id),
@@ -395,7 +434,7 @@ class ChatService:
         """
         Ambil pesan di chat room dengan cursor-based pagination.
         """
-        logger.info(f"📨 [SERVICE] get_messages called for chat: {chat_id}")
+        logger.info(f" [SERVICE] get_messages called for chat: {chat_id}")
         
         messages_col = get_collection("messages")
         query: dict = {
@@ -404,10 +443,10 @@ class ChatService:
         }
         if before_id and ObjectId.is_valid(before_id):
             query["_id"] = {"$lt": ObjectId(before_id)}
-            logger.info(f"📨 [SERVICE] Using before_id: {before_id}")
+            logger.info(f" [SERVICE] Using before_id: {before_id}")
 
         try:
-            logger.info(f"📨 [SERVICE] Query: {query}")
+            logger.info(f"[SERVICE] Query: {query}")
             
             cursor = (
                 messages_col.find(query)
@@ -416,11 +455,11 @@ class ChatService:
             )
             messages = await cursor.to_list(length=limit)
             
-            logger.info(f"📨 [SERVICE] Found {len(messages)} messages")
+            logger.info(f" [SERVICE] Found {len(messages)} messages")
             
             # Log sample message if exists
             if messages:
-                logger.info(f"📨 [SERVICE] Sample message: {messages[0].get('_id')} - {messages[0].get('classification_label')}")
+                logger.info(f" [SERVICE] Sample message: {messages[0].get('_id')} - {messages[0].get('classification_label')}")
             
             # Format messages
             formatted_messages = []
@@ -428,11 +467,11 @@ class ChatService:
                 formatted = ChatService.format_message(msg)
                 formatted_messages.append(formatted)
             
-            logger.info(f"📨 [SERVICE] Formatted {len(formatted_messages)} messages")
+            logger.info(f" [SERVICE] Formatted {len(formatted_messages)} messages")
             return formatted_messages
             
         except Exception as e:
-            logger.error(f"❌ [SERVICE] Error in get_messages: {e}")
+            logger.error(f"[SERVICE] Error in get_messages: {e}")
             import traceback
             traceback.print_exc()
             raise
@@ -521,7 +560,7 @@ class ChatService:
     @staticmethod   
     def format_message(msg: dict) -> dict:
         """Konversi dokumen MongoDB ke dict response."""
-        logger.info(f"📨 [FORMAT] Formatting message: {msg.get('_id')}")
+        logger.info(f"[FORMAT] Formatting message: {msg.get('_id')}")
         
         try:
             # Handle created_at
@@ -547,7 +586,7 @@ class ChatService:
             has_encrypted = msg.get("encrypted_content") is not None and not is_destroyed and not has_dual_encrypted
             
             if is_destroyed:
-                content_display = msg.get("content") or "⚠️ [KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM] ⚠️"
+                content_display = msg.get("content") or "[KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM] "
                 encrypted_content = None
                 encrypted_content_user = None
                 encrypted_aes_key_user = None
@@ -600,11 +639,11 @@ class ChatService:
                 "created_at": created_at_str,
             }
             
-            logger.info(f"📨 [FORMAT] Formatted message: {msg_id_str} - destroyed={is_destroyed}")
+            logger.info(f" [FORMAT] Formatted message: {msg_id_str} - destroyed={is_destroyed}")
             return result
             
         except Exception as e:
-            logger.error(f"❌ [FORMAT] Error formatting message: {e}")
+            logger.error(f"[FORMAT] Error formatting message: {e}")
             # Return minimal response
             return {
                 "id": str(msg.get("_id", "")),

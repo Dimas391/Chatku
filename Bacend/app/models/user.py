@@ -49,7 +49,7 @@ class UserDocument(BaseModel):
     contacts: List[str] = []
     blocked_users: List[str] = []
     notification_token: Optional[str] = None
-    rsa_public_key: Optional[str] = None  # 🔐 TAMBAHKAN INI
+    rsa_public_key: Optional[str] = None  # TAMBAHKAN INI
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 

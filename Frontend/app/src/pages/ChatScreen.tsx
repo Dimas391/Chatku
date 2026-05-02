@@ -31,7 +31,10 @@ const ChatScreen = () => {
     userProfile,
     handleRefresh,
     handleNewChat,
+    handleDeleteChat,
   } = useChat();
+
+
 
   return (
     <BaseScreen>
@@ -40,25 +43,28 @@ const ChatScreen = () => {
         
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.contentContainer}>
-            {/* Header dengan data user real */}
+            {/* Header */}
             <ChatHeader 
               username={userProfile.username}
               avatar={userProfile.avatar}
             />
 
-            {/* Search Bar */}
+            {/* Search Bar - selalu tampil */}
             <ChatSearch 
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
             />
 
-            {/* Chat List dengan refresh control */}
-            <ChatList 
-              chats={chats} 
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-              loading={loading}
-            />
+            {/* Chat List */}
+            <View style={styles.chatListWrapper}>
+              <ChatList 
+                chats={chats} 
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+                loading={loading}
+                onDeleteChat={handleDeleteChat}
+              />
+            </View>
 
             {/* FAB */}
             <ChatFAB onPress={handleNewChat} />
@@ -81,6 +87,9 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 600, 
     alignSelf: 'center',
+  },
+  chatListWrapper: {
+    flex: 1,
   },
 });
 

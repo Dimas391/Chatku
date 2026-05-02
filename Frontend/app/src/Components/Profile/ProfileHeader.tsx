@@ -27,7 +27,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 }) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-  const { colors } = useTheme();
+  const { colors, isDarkMode } = useTheme();
   const { t } = useTranslation();
 
   // Gunakan title dari props atau dari translation
@@ -43,29 +43,45 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         borderBottomColor: colors.border,
       }
     ]}>
-      <TouchableOpacity style={[styles.backButton, { backgroundColor: colors.surface }]} onPress={onBackPress}>
-        <MaterialCommunityIcons name="arrow-left" size={24} color={colors.primary} />
-      </TouchableOpacity>
+      <View style={styles.leftContainer}>
+        <TouchableOpacity 
+          style={[styles.backButton, { backgroundColor: isDarkMode ? '#2C2C2C' : colors.surface }]} 
+          onPress={onBackPress}
+        >
+          <MaterialCommunityIcons name="arrow-left" size={24} color={colors.primary} />
+        </TouchableOpacity>
+      </View>
       
-      <Text style={[styles.headerTitle, { color: colors.text }]}>{headerTitle}</Text>
+      <View style={styles.centerContainer}>
+        <Text style={[styles.headerTitle, { color: colors.text }]} numberOfLines={1}>
+          {headerTitle}
+        </Text>
+      </View>
 
       <View style={styles.rightContainer}>
         {onSkipPress && (
-          <TouchableOpacity onPress={onSkipPress} style={{ marginRight: 15 }}>
+          <TouchableOpacity onPress={onSkipPress} style={{ marginRight: 12 }}>
             <Text style={[styles.skipText, { color: colors.primary }]}>{skipText}</Text>
           </TouchableOpacity>
         )}
         
         {!isEditing ? (
-          <TouchableOpacity onPress={onEdit}>
-            <MaterialCommunityIcons name="pencil" size={22} color={colors.primary} />
+          <TouchableOpacity 
+            onPress={onEdit}
+            style={[styles.actionButton, { backgroundColor: isDarkMode ? '#2C2C2C' : colors.surface }]}
+          >
+            <MaterialCommunityIcons name="pencil" size={20} color={colors.primary} />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={onSave} disabled={isSaving}>
+          <TouchableOpacity 
+            onPress={onSave} 
+            disabled={isSaving}
+            style={[styles.actionButton, { backgroundColor: isDarkMode ? '#2C2C2C' : colors.surface }]}
+          >
             {isSaving ? (
               <ActivityIndicator size="small" color={colors.primary} />
             ) : (
-              <MaterialCommunityIcons name="check" size={24} color={colors.primary} />
+              <MaterialCommunityIcons name="check" size={22} color={colors.primary} />
             )}
           </TouchableOpacity>
         )}
@@ -89,16 +105,32 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     zIndex: 10,
   },
+  leftContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  centerContainer: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   rightContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    minWidth: 40,
     justifyContent: 'flex-end',
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  actionButton: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },

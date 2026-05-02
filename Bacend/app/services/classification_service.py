@@ -11,7 +11,7 @@ try:
     from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory # pyright: ignore[reportMissingImports]
     HAS_SASTRAWI = True
 except ModuleNotFoundError:
-    logger.error("❌ Module 'Sastrawi' tidak ditemukan. Pastikan sudah menginstal dengan 'pip install Sastrawi'.")
+    logger.error("Module 'Sastrawi' tidak ditemukan. Pastikan sudah menginstal dengan 'pip install Sastrawi'.")
     HAS_SASTRAWI = False
 
 # ── Blacklist kata kasar (safety net — berlapis dengan model) ──
@@ -33,6 +33,17 @@ BLACKLIST_KATA_KASAR = {
     'kafir','rasis',
 }
 
+# Kata yang ada di blacklist tapi bisa jadi konteks berbeda (perlu cek konteks)
+BLACKLIST_KATA_AMBIGUOUS = {
+    'porno', 'bugil', 'telanjang', 'mesum',
+}
+
+# Konteks yang memperkuat indikasi negatif untuk kata ambigu
+KONTEKS_NEGATIF = {
+    'yuk','ayo','mau','sini','coba','nonton','lihat','download',
+    'kirim','bagi','share','klik','link','join','masuk'
+}
+
 
 class ClassificationService:
     """
@@ -40,9 +51,11 @@ class ClassificationService:
 
     Alur klasifikasi (berlapis):
     1. Rule: pesan < 4 karakter           → Tidak Berisiko
-    2. Rule: mengandung kata kasar        → Berisiko (langsung, tanpa model)
-    3. Rule: token setelah preprocessing < 2 → Tidak Berisiko
-    4. Model Naïve Bayes TF-IDF
+    2. Rule: kemungkinan nama orang       → Tidak Berisiko
+    3. Rule: mengandung kata kasar keras  → Berisiko
+    4. Rule: kata ambigu + konteks negatif → Berisiko
+    5. Rule: token setelah preprocessing < 2 → Tidak Berisiko
+    6. Model Naïve Bayes TF-IDF (Threshold 65%)
     """
 
     def __init__(self):
@@ -64,18 +77,18 @@ class ClassificationService:
             else:
                 self.stemmer = None
                 sw_base = ['yang','dan','di','dari','ke','pada','ini','itu']
-                logger.warning("⚠️  Sastrawi tidak tersedia, menggunakan fallback stopwords terbatas.")
+                logger.warning("Sastrawi tidak tersedia, menggunakan fallback stopwords terbatas.")
 
             sw_extra = [
                 'anda','kamu','saya','kami','kita','nya','ini','itu',
-                'dengan','untuk','ada','akan','sudah','telah',
+                'with','untuk','ada','akan','sudah','telah',
                 'ya','yg','jg','gak','ga','deh','dong','nih','lah','sih',
                 'ku','mu','klo','tapi','jadi','bisa','agar','juga',
             ]
             self.stopwords = set(sw_base + sw_extra)
             # Kata kasar JANGAN masuk stopwords agar tetap jadi fitur model
             self.stopwords -= self.kata_kasar
-            logger.info(f"✅ NLP initialized ({len(self.stopwords)} stopwords, "
+            logger.info(f"NLP initialized ({len(self.stopwords)} stopwords, "
                         f"{len(self.kata_kasar)} kata kasar di blacklist)")
         except Exception as e:
             logger.error(f"NLP init failed: {e}")
@@ -90,7 +103,7 @@ class ClassificationService:
             model_path = os.path.join(ROOT_DIR, "model", "model_naive_bayes.joblib")
 
             if not os.path.exists(model_path):
-                logger.warning(f"⚠️  Model tidak ditemukan di {model_path}")
+                logger.warning(f"Model tidak ditemukan di {model_path}")
                 return
 
             data = joblib.load(model_path)
@@ -104,19 +117,28 @@ class ClassificationService:
             self.stopwords -= self.kata_kasar  # pastikan tidak tumpang tindih
 
             meta = data.get('metadata', {})
-            logger.info(f"✅ Model loaded | Accuracy={meta.get('accuracy','?')} | "
+            logger.info(f"Model loaded | Accuracy={meta.get('accuracy','?')} | "
                         f"F1={meta.get('f1_score','?')}")
         except Exception as e:
-            logger.error(f"❌ Gagal load model: {e}")
+            logger.error(f"Gagal load model: {e}")
             self.model      = None
             self.vectorizer = None
 
-    # ── Cek Kata Kasar ────────────────────────────────────────────
-    def _mengandung_kata_kasar(self, text: str) -> bool:
-        """Cek per token setelah case folding agar 'KONTOL!!' tetap terdeteksi."""
-        t      = re.sub(r'[^a-z\s]', ' ', str(text).lower())
-        tokens = set(t.split())
-        return bool(tokens & self.kata_kasar)
+    # ── Deteksi Nama Orang ────────────────────────────────────────
+    def _is_kemungkinan_nama(self, text: str) -> bool:
+        """Cek apakah pesan hanya berisi nama (tiap kata diawali kapital & bukan kata kasar)."""
+        words = text.strip().split()
+        if not words or len(words) > 5:
+            return False
+        
+        # Tiap kata diawali huruf besar & hanya berisi alfabet
+        all_cap    = all(w[0].isupper() for w in words if w)
+        no_special = bool(re.match(r'^[A-Za-z\s]+$', text.strip()))
+        
+        # PENTING: Pastikan tidak ada kata kasar di dalam calon nama ini
+        mengandung_kasar = any(w.lower() in self.kata_kasar for w in words)
+        
+        return all_cap and no_special and not mengandung_kasar
 
     # ── Preprocessing (5 Tahap) ───────────────────────────────────
     def preprocess(self, text: str) -> str:
@@ -125,9 +147,10 @@ class ClassificationService:
 
         # 2. Tokenisasi + penandaan pola khusus
         pola = self.pola_url or (
-            r'(bit\.ly|s\.id|rb\.gy|t\.ly|cutt\.ly|tinyurl\.com'
-            r'|shorturl\.at|bit\.do|ow\.ly|is\.gd|tiny\.cc'
-            r'|[\w-]+\.xyz|[\w-]+\.site)\S*'
+            r'((https?|ftp|bit|s|t|rb|cutt)://\S+|'
+            r'(bit\.ly|s\.id|rb\.gy|t\.ly|cutt\.ly|tinyurl\.com|'
+            r'shorturl\.at|bit\.do|ow\.ly|is\.gd|tiny\.cc|'
+            r'[\w-]+\.xyz|[\w-]+\.site)\S*)'
         )
         t = re.sub(pola,                   'URL_CURIGA',     t)
         t = re.sub(r'\b0\d[\d\-]{8,12}\b', 'NOMOR_HP_ASING', t)
@@ -161,43 +184,88 @@ class ClassificationService:
     def classify(self, text: str) -> Tuple[str, float]:
         """
         Returns: (label, confidence)
-        label: 'Berisiko' atau 'Tidak Berisiko'
         """
-        text = str(text).strip()
-
+        original_text = str(text).strip()
+        
         # Lapisan 1: Terlalu pendek
-        if len(text) < 4:
+        if len(original_text) < 4:
             return "Tidak Berisiko", 0.99
 
-        # Lapisan 2: Blacklist kata kasar → langsung Berisiko
-        if self._mengandung_kata_kasar(text):
-            logger.warning(f"📊 [KATA KASAR] Berisiko | '{text[:60]}'")
+        # Lapisan 2: Kemungkinan nama orang
+        if self._is_kemungkinan_nama(original_text):
+            logger.info(f"[NAMA] Tidak Berisiko | '{original_text}'")
+            return "Tidak Berisiko", 0.95
+
+        # --- NORMALISASI EKSTREM (Fix False Negative: a n j i n g, b4ngsat) ---
+        # 1. Leet speak sederhana
+        t_leet = original_text.lower()
+        t_leet = t_leet.replace('4','a').replace('3','e').replace('1','i').replace('0','o').replace('5','s')
+        # 2. Hapus spasi dan simbol (teks rapat)
+        t_flat = re.sub(r'[^a-z]', '', t_leet)
+        
+        kata_kasar_keras = self.kata_kasar - BLACKLIST_KATA_AMBIGUOUS
+        for kasar in kata_kasar_keras:
+            if len(kasar) > 3 and kasar in t_flat:
+                logger.warning(f"[KATA KASAR VARIASI] Berisiko | '{original_text[:60]}'")
+                return "Berisiko", 0.99
+
+        # Persiapan token untuk rule-based standar
+        t_lower = original_text.lower()
+        t_clean = re.sub(r'[^a-z\s]', ' ', t_lower)
+        tokens  = set(t_clean.split())
+
+        # Lapisan 3: Blacklist kata kasar KERAS standar
+        if tokens & kata_kasar_keras:
+            logger.warning(f"[KATA KASAR] Berisiko | '{original_text[:60]}'")
             return "Berisiko", 0.99
 
-        # Preprocessing
-        processed = self.preprocess(text)
-        tokens    = processed.split()
+        # Lapisan 4: Kata ambigu + konteks negatif
+        if (tokens & BLACKLIST_KATA_AMBIGUOUS) and (tokens & KONTEKS_NEGATIF):
+            logger.warning(f"[AMBIGU+KONTEKS] Berisiko | '{original_text[:60]}'")
+            return "Berisiko", 0.92
 
-        # Lapisan 3: Token hampir kosong
-        if len(tokens) < 2:
+        # Lapisan 4b: URL mencurigakan
+        pola_luas = r'((https?|ftp|bit|s|t|rb|cutt)://\S+|(bit\.ly|s\.id|rb\.gy|t\.ly|cutt\.ly|tinyurl\.com|shorturl\.at|bit\.do|ow\.ly|is\.gd|tiny\.cc|[\w-]+\.xyz|[\w-]+\.site)\S*)'
+        if re.search(pola_luas, original_text.lower()):
+            logger.warning(f"[URL] Berisiko | '{original_text[:60]}'")
+            return "Berisiko", 0.92
+
+        # Preprocessing untuk model
+        processed = self.preprocess(original_text)
+        proc_tokens = processed.split()
+
+        # Lapisan 5: Token hasil preprocessing terlalu sedikit
+        if len(proc_tokens) < 2:
             return "Tidak Berisiko", 0.90
 
-        # Lapisan 4: Model tidak tersedia
+        # Lapisan 6: Model Naïve Bayes
         if not self.model or not self.vectorizer:
-            logger.warning("⚠️  Model tidak tersedia, pakai fallback")
             return "Tidak Berisiko", 0.5
 
-        # Lapisan 5: Model Naïve Bayes
         try:
-            vec        = self.vectorizer.transform([processed])
-            prediction = self.model.predict(vec)[0]       # 1=Berisiko, 0=Tidak
-            proba      = self.model.predict_proba(vec)[0]
+            vec   = self.vectorizer.transform([processed])
+            proba = self.model.predict_proba(vec)[0]
+            
+            # Gunakan threshold yang lebih ketat (85%) untuk menghindari False Positive
+            # Terutama untuk pesan yang mengandung kata sapaan umum
+            is_risky   = proba[1] >= 0.85
+            
+            # Khusus salam/sapaan/kata umum: Jika mengandung 'halo', 'apa kabar', 'selamat', 'coba', 'lihat'
+            # Kita lebih toleran kecuali model SANGAT yakin (>95%)
+            common_safe_words = {
+                'halo', 'hallo', 'hai', 'hi', 'pagi', 'siang', 'sore', 'malam', 
+                'apa', 'kabar', 'selamat', 'coba', 'lihat', 'cek', 'mohon'
+            }
+            if tokens & common_safe_words:
+                is_risky = proba[1] >= 0.95
+            
+            label      = "Berisiko" if is_risky else "Tidak Berisiko"
             confidence = float(max(proba))
-            label      = "Berisiko" if prediction == 1 else "Tidak Berisiko"
-            logger.info(f"📊 [MODEL] {label} ({confidence:.2f}) | '{text[:60]}'")
+            
+            logger.info(f"[MODEL] {label} ({confidence:.2f}) | '{original_text[:60]}'")
             return label, confidence
         except Exception as e:
-            logger.error(f"❌ Klasifikasi gagal: {e}")
+            logger.error(f"Klasifikasi gagal: {e}")
             return "Tidak Berisiko", 0.5
 
 

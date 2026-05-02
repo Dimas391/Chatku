@@ -64,19 +64,6 @@ const MessageInput = ({
       )}
       <View style={styles.inputWrapper}>
         <View style={styles.inputContainer}>
-          <TouchableOpacity
-            style={[styles.attachButton, { backgroundColor: colors.surface }]}
-            onPress={onAttach}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            activeOpacity={0.7}
-          >
-            <MaterialCommunityIcons
-              name="plus"
-              size={DIMENSIONS.iconMedium}
-              color={colors.primary}
-            />
-          </TouchableOpacity>
-
           <TextInput
             style={[
               styles.input,

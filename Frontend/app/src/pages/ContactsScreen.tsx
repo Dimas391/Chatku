@@ -164,11 +164,9 @@ const ContactsScreen = () => {
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         {/* 🔴 Modal Invite */}
         <InviteModal visible={inviteVisible} onClose={handleCloseInviteModal} />
-        
         <ContactHeader onInvitePress={handleInviteFriend} />
         <ContactSearch searchQuery={searchQuery} onSearchChange={setSearchQuery} />
         <ContactStats count={filteredContacts.length} />
-        
         {filteredContacts.length === 0 ? (
           <EmptyState searchQuery={searchQuery} onAddContact={handleAddContact} />
         ) : (

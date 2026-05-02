@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   AppState,
+  Alert,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useChatDetail } from '@/app/src/hooks/UseDetailChat';
@@ -38,10 +39,12 @@ const ChatDetailScreen = () => {
     setMessage,
     handleSend,
     handleBack,
-    handleAttach,
-    handleCall,
-    handleVideoCall,
   } = useChatDetail();
+
+  // ✅ 1. Fix: Tambahkan handleAttach
+  const handleAttach = useCallback(() => {
+    Alert.alert('Info', 'Fitur lampiran akan segera tersedia');
+  }, []);
 
   // Ambil current user ID
   useEffect(() => {
@@ -61,49 +64,46 @@ const ChatDetailScreen = () => {
   }, []);
 
   useEffect(() => {
-  console.log('🎬 [CHAT FEATURE] Component mounted, chatId:', chatId);
-  console.log('🎬 [CHAT FEATURE] Current messages count:', messages.length);
-  
-  return () => {
-    console.log('🎬 [CHAT FEATURE] Component unmounted, chatId:', chatId);
-  };
-}, [chatId, messages.length]);
+    console.log('🎬 [CHAT FEATURE] Component mounted, chatId:', chatId);
+    console.log('🎬 [CHAT FEATURE] Current messages count:', messages.length);
+    
+    return () => {
+      console.log('🎬 [CHAT FEATURE] Component unmounted, chatId:', chatId);
+    };
+  }, [chatId, messages.length]);
 
-useEffect(() => {
-  console.log('📊 [CHAT FEATURE] Messages updated, count:', messages.length);
-  console.log('📊 [CHAT FEATURE] Messages sample:', messages.slice(-3));
-}, [messages]);
+  useEffect(() => {
+    console.log('[CHAT FEATURE] Messages updated, count:', messages.length);
+    console.log('[CHAT FEATURE] Messages sample:', messages.slice(-3));
+  }, [messages]);
 
   const handleNewMessage = useCallback(async (newMessage: any) => {
-  console.log('📨 New message received:', newMessage);
-  console.log('🔔 notifMessages value:', notifMessages);
-  console.log('🔔 isMe:', newMessage.isMe);
-  
-  if (newMessage.isMe === false && notifMessages === true) {
-    console.log('🔔✅ Sending message notification...');
+    console.log('New message received:', newMessage);
+    console.log('notifMessages value:', notifMessages);
+    console.log('isMe:', newMessage.isMe);
     
-    try {
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: `Pesan dari ${newMessage.senderName || chatName}`,
-          body: newMessage.text || 'Mengirim pesan',
-          data: { chat_id: chatId, type: 'message' },
-          sound: true,
-          priority: Notifications.AndroidNotificationPriority.HIGH,
-        },
-        trigger: null,
-      });
-      console.log('✅ Message notification sent successfully');
-    } catch (error) {
-      console.error('❌ Failed to send notification:', error);
+    if (newMessage.isMe === false && notifMessages === true) {
+      console.log('📱 Sending message notification...');
+      
+      try {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `Pesan dari ${newMessage.senderName || chatName}`,
+            body: newMessage.text || 'Mengirim pesan',
+            data: { chat_id: chatId, type: 'message' },
+            sound: true,
+            priority: Notifications.AndroidNotificationPriority.HIGH,
+          },
+          trigger: null,
+        });
+        console.log('Message notification sent successfully');
+      } catch (error) {
+        console.error('❌ Failed to send notification:', error);
+      }
+    } else {
+      console.log('🔕 Notification NOT sent. Condition not met.');
     }
-  } else {
-    console.log('🔔❌ Notification NOT sent. Condition not met.');
-  }
-}, [notifMessages, chatId, chatName]);
-
-  // 🔴 WebSocket listener sekarang ditangani sepenuhnya oleh useChatDetail
-  // untuk menghindari duplikasi pesan dan konflik state.
+  }, [notifMessages, chatId, chatName]);
 
   const styles = createStyles(DIMENSIONS, insets);
 
@@ -127,11 +127,9 @@ useEffect(() => {
                 chatName={chatName}
                 chatAvatar={chatAvatar}
                 online={online}
-                onBackPress={handleBack}
-                onCallPress={handleCall}
-                onVideoCallPress={handleVideoCall}
-                onMenuPress={() => console.log('Menu pressed')}
-              />
+                onBackPress={handleBack} onMenuPress={function (): void {
+                  throw new Error('Function not implemented.');
+                } }              />
 
               <MessageList
                 messages={messages}

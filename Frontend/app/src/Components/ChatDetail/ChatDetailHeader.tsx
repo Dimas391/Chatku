@@ -17,9 +17,6 @@ interface ChatDetailHeaderProps {
   chatAvatar: string;
   online: boolean;
   onBackPress: () => void;
-  onCallPress: () => void;
-  onVideoCallPress: () => void;
-  onMenuPress: () => void;
 }
 
 const ChatDetailHeader = ({
@@ -27,9 +24,6 @@ const ChatDetailHeader = ({
   chatAvatar,
   online,
   onBackPress,
-  onCallPress,
-  onVideoCallPress,
-  onMenuPress,
 }: ChatDetailHeaderProps) => {
   const { width } = useWindowDimensions();
   const { DIMENSIONS, SPACING, RADIUS } = useDimensions();
@@ -43,9 +37,28 @@ const ChatDetailHeader = ({
 
   const maxNameWidth =
     width -
-    DIMENSIONS.buttonHeightSmall * 4 -
+    DIMENSIONS.buttonHeightSmall * 2 -
     DIMENSIONS.avatarMedium -
     SPACING.md * 5;
+
+  // Ambil inisial nama untuk fallback avatar
+  const getInitials = (name: string) => {
+    if (!name || name === 'Chat') return '?';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return name.slice(0, 2).toUpperCase();
+  };
+
+  // Warna avatar berdasarkan nama
+  const getAvatarColor = (name: string) => {
+    const colorList = ['#FF6B35', '#6C63FF', '#00B894', '#E17055', '#0984E3', '#A29BFE', '#FD79A8', '#55EFC4'];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) hash += name.charCodeAt(i);
+    return colorList[hash % colorList.length];
+  };
+
+  const [avatarError, setAvatarError] = React.useState(false);
+  const showFallback = avatarError || !chatAvatar || chatAvatar === '';
 
   return (
     <View style={styles.header}>
@@ -53,6 +66,7 @@ const ChatDetailHeader = ({
         style={styles.backButton}
         onPress={onBackPress}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        activeOpacity={0.7}
       >
         <MaterialCommunityIcons
           name="arrow-left"
@@ -63,11 +77,20 @@ const ChatDetailHeader = ({
 
       <TouchableOpacity style={styles.headerInfo} activeOpacity={0.7}>
         <View style={styles.avatarContainer}>
-          <Image
-            source={{ uri: chatAvatar || 'https://via.placeholder.com/100' }}
-            style={styles.headerAvatar}
-          />
-          {online ? <View style={[styles.headerOnlineIndicator, { borderColor: colors.background }]} /> : null}
+          {showFallback ? (
+            <View style={[styles.headerAvatar, styles.avatarFallback, { backgroundColor: getAvatarColor(chatName || 'Chat') }]}>
+              <Text style={styles.initialsText}>{getInitials(chatName || 'Chat')}</Text>
+            </View>
+          ) : (
+            <Image
+              source={{ uri: chatAvatar }}
+              style={styles.headerAvatar}
+              onError={() => setAvatarError(true)}
+            />
+          )}
+          {online && (
+            <View style={[styles.headerOnlineIndicator, { borderColor: colors.header }]} />
+          )}
         </View>
 
         <View style={[styles.textContainer, { maxWidth: maxNameWidth }]}>
@@ -84,34 +107,7 @@ const ChatDetailHeader = ({
         </View>
       </TouchableOpacity>
 
-      <View style={styles.headerActions}>
-        <TouchableOpacity
-          style={styles.headerAction}
-          onPress={onCallPress}
-          hitSlop={{ top: 10, bottom: 10, left: 5, right: 5 }}
-        >
-         
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.headerAction}
-          onPress={onVideoCallPress}
-          hitSlop={{ top: 10, bottom: 10, left: 5, right: 5 }}
-        >
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.headerAction}
-          onPress={onMenuPress}
-          hitSlop={{ top: 10, bottom: 10, left: 5, right: 5 }}
-        >
-          <MaterialCommunityIcons
-            name="dots-vertical"
-            size={DIMENSIONS.iconSmall}
-            color={colors.primary}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -130,7 +126,7 @@ const createStyles = (
       justifyContent: 'space-between',
       paddingHorizontal: SPACING.md,
       paddingVertical: SPACING.sm,
-      paddingTop: insets.top + SPACING.sm,
+      paddingTop: insets.top,
       borderBottomWidth: 1,
       borderBottomColor: colors.border,
       backgroundColor: colors.header,
@@ -162,6 +158,16 @@ const createStyles = (
       height: DIMENSIONS.avatarMedium,
       borderRadius: RADIUS.round,
     },
+    avatarFallback: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#6C63FF',
+    },
+    initialsText: {
+      color: '#FFFFFF',
+      fontSize: DIMENSIONS.fontMedium,
+      fontWeight: '700',
+    },
     headerOnlineIndicator: {
       position: 'absolute',
       bottom: 2,
@@ -178,7 +184,7 @@ const createStyles = (
     },
     headerName: {
       fontSize: DIMENSIONS.fontMedium,
-      lineHeight: DIMENSIONS.fontMedium * 1.1,
+      lineHeight: DIMENSIONS.fontMedium * 1.2,
       fontWeight: '600',
       color: colors.text,
       marginBottom: 2,
@@ -188,19 +194,7 @@ const createStyles = (
       fontSize: DIMENSIONS.fontTiny,
       color: colors.textTertiary,
     },
-    headerActions: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      flexShrink: 0,
-      gap: SPACING.xs,
-    },
-    headerAction: {
-      width: DIMENSIONS.buttonHeightSmall,
-      height: DIMENSIONS.buttonHeightSmall,
-      borderRadius: RADIUS.round,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
+
   });
 
 export default ChatDetailHeader;

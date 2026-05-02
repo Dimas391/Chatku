@@ -13,7 +13,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({ feature }) => {
   const { colors } = useTheme();
 
   return (
-    <View style={[styles.featureRow, { backgroundColor: colors.card }]}>
+    <View style={[styles.featureRow]}>
       <View style={[styles.featureIcon, { backgroundColor: feature.color + '20' }]}>
         <MaterialCommunityIcons name={feature.icon as any} size={22} color={feature.color} />
       </View>

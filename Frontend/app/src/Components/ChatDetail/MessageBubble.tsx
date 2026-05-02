@@ -25,7 +25,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   isDestroyed = false,
   isRisky = false,
 }) => {
-  const { colors } = useTheme();
+  const { colors, isDarkMode } = useTheme();
 
   const getStatusIcon = () => {
     if (!isMe) return null;
@@ -60,7 +60,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         
         <View style={styles.destroyedContent}>
           <MaterialCommunityIcons name="shield-alert" size={16} color="#FF4444" />
-          <Text style={[styles.destroyedText, { color: '#FF4444' }]}>
+          <Text style={[styles.destroyedText, { color: '#ece1e1' }]}>
             KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM
           </Text>
         </View>
@@ -84,7 +84,11 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
     <View style={[
       styles.container,
       isMe ? styles.myContainer : styles.otherContainer,
-      { backgroundColor: isMe ? colors.primary : colors.card },
+      { 
+        backgroundColor: isMe ? colors.primary : colors.card,
+        borderWidth: !isMe && !isDarkMode ? 1 : 0,
+        borderColor: colors.border,
+      },
     ]}>
       {!isMe && senderName && (
         <Text style={[styles.senderName, { color: colors.textSecondary }]}>
@@ -159,14 +163,14 @@ const styles = StyleSheet.create({
   },
   destroyedContent: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 8,
     marginVertical: 4,
   },
   destroyedText: {
     fontSize: 12,
     fontWeight: '600',
-    flex: 1,
+    flexShrink: 1,
   },
 });
 

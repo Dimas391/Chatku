@@ -21,7 +21,7 @@ const lightColors = {
   primaryLight: '#FF8C5A',
   error: '#FF4444',
   success: '#4CAF50',
-  card: '#FFFFFF',
+  card: '#F5F5F5',
   header: '#FFFFFF',
   icon: '#666666',
 };

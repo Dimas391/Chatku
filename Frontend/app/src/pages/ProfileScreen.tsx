@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
   ScrollView,
   Platform,
 } from 'react-native';
 import { useProfileSetup } from '@/app/src/hooks/UseProfile';
+import { useTheme } from '@/app/src/context/ThemeContext';
 
 // Import komponen
 import BackgroundDecor from '@/app/src/Components/BackgroundDecor';
@@ -19,6 +19,7 @@ import TipsBox from '@/app/src/Components/Profile/TipsBox';
 import SaveButton from '@/app/src/Components/Profile/SaveButton';
 
 const ProfileSetupScreen = () => {
+  const { colors, isDarkMode } = useTheme();
   // State untuk kontrol status edit dan save
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -53,67 +54,64 @@ const ProfileSetupScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar 
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'} 
+        backgroundColor={colors.background} 
+      />
       <BackgroundDecor />
       
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.keyboardView}
+      {/* Header - Fixed at top, not scrolling */}
+      <ProfileHeader
+        title="Lengkapi Profil"
+        isEditing={isEditing}
+        isSaving={isSaving}
+        onBackPress={handleBack}
+        onSkipPress={handleSkip}
+        onEdit={handleEdit}
+        onSave={handleSave}
+      />
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardView}
+      >
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
         >
-          <ScrollView 
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.scrollContent}
-          >
-            {/* Header - menggunakan ProfileHeader */}
-            <ProfileHeader
-              title="Lengkapi Profil"
-              isEditing={isEditing}
-              isSaving={isSaving}
-              onBackPress={handleBack}
-              onSkipPress={handleSkip}
-              onEdit={handleEdit}
-              onSave={handleSave}
-            />
+          {/* AvatarPicker */}
+          <AvatarPicker 
+            avatar={avatar}
+            onAvatarChange={handleAvatarChange} 
+          />
 
-            {/* AvatarPicker */}
-            <AvatarPicker 
-              avatar={avatar}
-              onAvatarChange={handleAvatarChange} 
-            />
+          {/* Profile Form */}
+          <ProfileForm 
+            displayName={displayName}
+            onDisplayNameChange={setDisplayName}
+            username={username}
+            onUsernameChange={setUsername}
+            bio={bio}
+            onBioChange={setBio}
+          />
 
-            {/* Profile Form */}
-            <ProfileForm 
-              displayName={displayName}
-              onDisplayNameChange={setDisplayName}
-              username={username}
-              onUsernameChange={setUsername}
-              bio={bio}
-              onBioChange={setBio}
-            />
+          {/* Tips Box */}
+          <TipsBox />
 
-            {/* Tips Box */}
-            <TipsBox />
-
-            {/* Save Button */}
-            <SaveButton 
-              onPress={handleSaveProfile}
-              loading={loading}
-            />
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+          {/* Save Button */}
+          <SaveButton 
+            onPress={handleSaveProfile}
+            loading={loading}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  safeArea: {
     flex: 1,
   },
   keyboardView: {
@@ -123,7 +121,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 24,
     paddingTop: 20,
-    paddingBottom: 30,
+    paddingBottom: 120,
   },
 });
 

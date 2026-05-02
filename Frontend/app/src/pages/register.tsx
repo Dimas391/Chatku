@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import {
   View,
+  Text,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
   ScrollView,
   Platform,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../App';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Import komponen
 import BackgroundDecor from '@/app/src/Components/BackgroundDecor';
 import RegisterHeader from '@/app/src/Components/RegisterHeader';
 import RegisterIllustration from '@/app/src/Components/Illustration';
-import TabSelector from '@/app/src/Components/TabSelector';
-import PhoneInputField from '@/app/src/Components/PhoneInputField';
 import EmailInputField from '@/app/src/Components/EmailInputField';
 import InfoBox from '@/app/src/Components/InfoBox';
 import TermsCheckbox from '@/app/src/Components/TermsCheckbox';
@@ -31,36 +32,23 @@ type RegisterScreenNavigationProp = NativeStackNavigationProp<RootStackParamList
 
 const RegisterScreen = () => {
   const navigation = useNavigation<RegisterScreenNavigationProp>();
+  const insets = useSafeAreaInsets();
   
   // State untuk form
-  const [activeTab, setActiveTab] = useState<'phone' | 'email'>('phone');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [countryCode, setCountryCode] = useState('+62');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Fungsi untuk handle registrasi
   const handleRegister = async () => {
-    // Validasi
-    if (activeTab === 'email') {
-      if (!email) {
-        Alert.alert('Error', 'Email harus diisi');
-        return;
-      }
-      if (!email.includes('@') || !email.includes('.')) {
-        Alert.alert('Error', 'Email tidak valid');
-        return;
-      }
-    } else {
-      if (!phone) {
-        Alert.alert('Error', 'Nomor telepon harus diisi');
-        return;
-      }
-      if (phone.length < 10) {
-        Alert.alert('Error', 'Nomor telepon tidak valid');
-        return;
-      }
+    // Validasi email
+    if (!email) {
+      Alert.alert('Error', 'Email harus diisi');
+      return;
+    }
+    if (!email.includes('@') || !email.includes('.')) {
+      Alert.alert('Error', 'Email tidak valid');
+      return;
     }
 
     if (!agreeTerms) {
@@ -71,24 +59,16 @@ const RegisterScreen = () => {
     setLoading(true);
 
     try {
-      
       const response = await authService.sendOTP({
-        type: activeTab,
-        value: activeTab === 'email' ? email : phone,
-        country_code: activeTab === 'phone' ? countryCode : undefined,
+        type: 'email',
+        value: email,
       });
 
       if (response.success) {
-        // Siapkan params untuk navigasi
-        const params = {
-          type: activeTab,
-          value: activeTab === 'email' ? email : phone,
-          countryCode: activeTab === 'phone' ? countryCode : undefined,
-        };
-        
-        // LANGSUNG NAVIGASI TANPA ALERT
-        navigation.navigate('Verification', params);
-        
+        navigation.navigate('Verification', {
+          type: 'email',
+          value: email,
+        });
       } else {
         Alert.alert('Error', response.error || 'Gagal mengirim kode verifikasi');
       }
@@ -104,44 +84,48 @@ const RegisterScreen = () => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <BackgroundDecor />
       
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.keyboardView}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardView}
+      >
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingTop: insets.top + 10, paddingBottom: insets.bottom + 30 },
+          ]}
         >
-          <ScrollView 
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.scrollContent}
-          >
-            <View style={styles.content}>
-              <RegisterHeader onBackPress={() => navigation.goBack()} />
-              <RegisterIllustration />
-    
-              <TabSelector activeTab={activeTab} onTabChange={setActiveTab} />
-              
-              <View style={styles.formContainer}>
-                {activeTab === 'phone' ? (
-                  <PhoneInputField 
-                    value={phone}
-                    onChangeText={setPhone}
-                    countryCode={countryCode}
-                    onCountryCodeChange={setCountryCode}
-                  />
-                ) : (
-                  <EmailInputField 
-                    value={email}
-                    onChangeText={setEmail}
-                  />
-                )}
+          <View style={styles.content}>
+            <RegisterHeader onBackPress={() => navigation.goBack()} />
+            <RegisterIllustration />
 
-                <InfoBox />
-                <TermsCheckbox checked={agreeTerms} onToggle={() => setAgreeTerms(!agreeTerms)} />
-                <RegisterButton onPress={handleRegister} loading={loading} />
-              </View>
+            {/* Divider */}
+            <View style={styles.dividerContainer}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>Daftar dengan Email</Text>
+              <View style={styles.dividerLine} />
             </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+
+            <View style={styles.formContainer}>
+              <EmailInputField 
+                value={email}
+                onChangeText={setEmail}
+              />
+              <InfoBox />
+              <TermsCheckbox checked={agreeTerms} onToggle={() => setAgreeTerms(!agreeTerms)} />
+              <RegisterButton onPress={handleRegister} loading={loading} />
+            </View>
+
+            {/* Security badge */}
+            <View style={styles.securityBadge}>
+              <MaterialCommunityIcons name="shield-check-outline" size={16} color="#FF6B35" />
+              <Text style={styles.securityText}>
+                Data kamu dilindungi enkripsi end-to-end
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -150,9 +134,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-  },
-  safeArea: {
-    flex: 1,
   },
   keyboardView: {
     flex: 1,
@@ -163,11 +144,37 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: 30,
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#EEEEEE',
+  },
+  dividerText: {
+    paddingHorizontal: 14,
+    fontSize: 13,
+    color: '#AAAAAA',
+    fontWeight: '500',
   },
   formContainer: {
     width: '100%',
+  },
+  securityBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    marginTop: 16,
+    paddingVertical: 12,
+  },
+  securityText: {
+    fontSize: 12,
+    color: '#AAAAAA',
   },
 });
 

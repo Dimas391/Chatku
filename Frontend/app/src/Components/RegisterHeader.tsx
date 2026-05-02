@@ -11,10 +11,10 @@ const RegisterHeader = ({ title = 'Daftar Akun', onBackPress }: RegisterHeaderPr
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.backButton} onPress={onBackPress}>
-        <MaterialCommunityIcons name="arrow-left" size={24} color="#FF6B35" />
+        <MaterialCommunityIcons name="chevron-left" size={28} color="#FF6B35" />
       </TouchableOpacity>
       <Text style={styles.headerTitle}>{title}</Text>
-      <View style={{ width: 40 }} />
+      <View style={styles.placeholder} />
     </View>
   );
 };
@@ -24,20 +24,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 16,
+    paddingVertical: 4,
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#F5F5F5',
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: '#FFF3ED',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#FFE4D6',
   },
   headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333333',
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#222222',
+    letterSpacing: 0.3,
+  },
+  placeholder: {
+    width: 42,
   },
 });
 

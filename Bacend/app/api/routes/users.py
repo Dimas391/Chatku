@@ -81,6 +81,10 @@ async def update_profile(
         {"_id": ObjectId(user_id)}, {"$set": update_fields}
     )
     updated = await users_col.find_one({"_id": ObjectId(user_id)})
+    
+    # Broadcast profile update via WebSocket
+    await manager.notify_profile_updated(user_id, _format_user_public(updated))
+    
     return _format_user_profile(updated)
 
 @router.delete("/me/avatar", summary="Hapus Foto Profil")
@@ -108,6 +112,10 @@ async def delete_avatar(
         {"_id": ObjectId(user_id)},
         {"$set": {"avatar_url": None, "updated_at": datetime.now(timezone.utc)}}
     )
+    
+    # Broadcast profile update via WebSocket
+    updated = await users_col.find_one({"_id": ObjectId(user_id)})
+    await manager.notify_profile_updated(user_id, _format_user_public(updated))
     
     return {"success": True, "message": "Foto profil berhasil dihapus", "avatar_url": None}
 
@@ -389,6 +397,11 @@ async def upload_avatar(
         {"_id": ObjectId(user_id)},
         {"$set": {"avatar_url": url, "updated_at": datetime.now(timezone.utc)}},
     )
+    
+    # Broadcast profile update via WebSocket
+    updated = await get_collection("users").find_one({"_id": ObjectId(user_id)})
+    await manager.notify_profile_updated(user_id, _format_user_public(updated))
+    
     return {"avatar_url": url}
 
 

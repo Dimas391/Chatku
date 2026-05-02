@@ -478,27 +478,27 @@ class EncryptionService {
     hash: string,
     myPrivateKey: string
   ): Promise<{ plaintext: string; isValid: boolean }> {
-    console.log('🔐 [DUAL DECRYPT] Starting... platform:', Platform.OS);
-    console.log('🔐 [DUAL DECRYPT] ciphertext length:', ciphertextUser.length);
-    console.log('🔐 [DUAL DECRYPT] IV available:', !!iv, '| hash available:', !!hash);
+    // console.log('🔐 [DUAL DECRYPT] Starting... platform:', Platform.OS);
+    // console.log('🔐 [DUAL DECRYPT] ciphertext length:', ciphertextUser.length);
+    // console.log('🔐 [DUAL DECRYPT] IV available:', !!iv, '| hash available:', !!hash);
 
     try {
       // 1. Decrypt AES key via RSA private key
       const userKey = await this.decryptWithRSA(encryptedUserKey, myPrivateKey);
-      console.log('🔐 [DUAL DECRYPT] AES key decrypted, length:', userKey.length);
+      // console.log('🔐 [DUAL DECRYPT] AES key decrypted, length:', userKey.length);
 
       // 2. Decrypt message via AES
       const plaintext = await this.decryptAES(ciphertextUser, userKey, iv);
-      console.log('🔐 [DUAL DECRYPT] Plaintext:', plaintext.substring(0, 50));
+      // console.log('🔐 [DUAL DECRYPT] Plaintext:', plaintext.substring(0, 50));
 
       // 3. Verify hash
       const computedHash = await this.hashMessage(plaintext);
       const isValid = computedHash === hash;
-      console.log('🔐 [DUAL DECRYPT] Hash match:', isValid ? '✅ VALID' : '❌ INVALID');
+      // console.log('🔐 [DUAL DECRYPT] Hash match:', isValid ? '✅ VALID' : '❌ INVALID');
 
       return { plaintext, isValid };
     } catch (error) {
-      console.error('❌ [DUAL DECRYPT] Failed:', error);
+      // console.error('❌ [DUAL DECRYPT] Failed:', error);
       throw error;
     }
   }

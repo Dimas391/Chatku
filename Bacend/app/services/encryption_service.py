@@ -23,7 +23,7 @@ class EncryptionService:
         """Load RSA keys untuk dekripsi AES key dari client"""
         try:
             if not os.path.exists("keys/private_key.pem"):
-                logger.warning("⚠️ Private key file not found, generating new keys...")
+                logger.warning("Private key file not found, generating new keys...")
                 self._generate_keys()
                 return
 
@@ -45,7 +45,7 @@ class EncryptionService:
                     format=serialization.PublicFormat.SubjectPublicKeyInfo
                 ))
             
-            logger.info("✅ RSA keys loaded and synchronized successfully")
+            logger.info("RSA keys loaded and synchronized successfully")
         except Exception as e:
             logger.error(f"Failed to load RSA keys: {e}")
             self._generate_keys()
@@ -55,7 +55,7 @@ class EncryptionService:
         # Buat folder keys jika belum ada
         os.makedirs("keys", exist_ok=True)
         
-        logger.info("🔐 Generating new 2048-bit RSA key pair...")
+        logger.info("Generating new 2048-bit RSA key pair...")
         # Generate private key
         private_key = rsa.generate_private_key(
             public_exponent=65537,
@@ -81,7 +81,7 @@ class EncryptionService:
         
         self.private_key = private_key
         self.public_key = public_key
-        logger.info("✨ New RSA keys generated and saved successfully")
+        logger.info("New RSA keys generated and saved successfully")
     
     # ==================== RSA METHODS ====================
     
@@ -174,7 +174,7 @@ class EncryptionService:
             clean_b64 = "".join(encrypted_aes_key_base64.split())
             encrypted = base64.b64decode(clean_b64)
             
-            logger.info(f"🔐 [RSA] Attempting to decrypt {len(encrypted)} bytes of data")
+            logger.info(f"[RSA] Attempting to decrypt {len(encrypted)} bytes of data")
 
             # 1. Coba PKCS1v15 (Default untuk banyak library mobile)
             try:
@@ -215,7 +215,7 @@ class EncryptionService:
             raise ValueError("All RSA decryption attempts failed. Possible causes: wrong public key used by client, corrupted data, or unsupported padding.")
 
         except Exception as e:
-            logger.error(f"❌ [RSA] Server decryption error: {e}")
+            logger.error(f"[RSA] Server decryption error: {e}")
             raise ValueError(f"Server decryption failed: {str(e)}")
     
     def get_public_key_pem(self) -> str:
@@ -277,7 +277,7 @@ class EncryptionService:
             plaintext_bytes = unpadder.update(plaintext_padded) + unpadder.finalize()
             plaintext = plaintext_bytes.decode('utf-8')
             
-            logger.info("🔐 Message decrypted successfully")
+            logger.info("Message decrypted successfully")
             return plaintext
         except Exception as e:
             logger.error(f"Failed to decrypt message: {e}")
@@ -328,7 +328,7 @@ class EncryptionService:
         """
         computed_hash = hashlib.sha256(plaintext.encode('utf-8')).hexdigest()
         is_valid = computed_hash == provided_hash
-        logger.info(f"🔐 Hash verification: {'PASSED' if is_valid else 'FAILED'}")
+        logger.info(f"Hash verification: {'PASSED' if is_valid else 'FAILED'}")
         return is_valid
     
     def compute_message_hash(self, plaintext: str) -> str:

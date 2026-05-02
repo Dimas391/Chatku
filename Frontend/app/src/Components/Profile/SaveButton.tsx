@@ -43,21 +43,22 @@ const SaveButton = ({
 const styles = StyleSheet.create({
   saveButtonWrapper: {
     width: '100%',
-    marginBottom: 12,
+    marginBottom: 8,
     shadowColor: '#FF6B35',
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   saveButton: {
     flexDirection: 'row',
-    paddingVertical: 16,
-    borderRadius: 30,
+    paddingVertical: 12,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
     gap: 8,
   },
   saveButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: 0.5,

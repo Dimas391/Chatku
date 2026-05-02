@@ -105,9 +105,9 @@ class AuthService:
 
         if not user:
             # 🔐 Generate RSA key pair untuk user baru
-            logger.info("🔐 Generating RSA key pair for new user...")
+            logger.info("Generating RSA key pair for new user...")
             private_key_pem, public_key_pem = rsa_service.generate_key_pair()
-            logger.info("🔐 RSA key pair generated successfully")
+            logger.info("RSA key pair generated successfully")
             
             # Registrasi user baru
             username = AuthService._generate_username(value)
@@ -117,15 +117,15 @@ class AuthService:
                 phone=value if type == "phone" else None,
                 email=value if type == "email" else None,
                 is_verified=True,
-                rsa_public_key=public_key_pem,  # 🔐 Simpan public key di database
+                rsa_public_key=public_key_pem,  # Simpan public key di database
             )
             result = await users_col.insert_one(
                 new_user.model_dump(by_alias=True, exclude={"id"}, exclude_none=True)
             )
             user_id = str(result.inserted_id)
-            logger.info("✅ New user created with ID: %s", user_id)
+            logger.info("New user created with ID: %s", user_id)
             
-            # 🔐 Untuk sementara, private key akan dikirim ke client di response
+            # Untuk sementara, private key akan dikirim ke client di response
             # Di production, private key harus dienkripsi dengan password user
             # Untuk sekarang, kita simpan private key sebagai response tambahan
             # Client harus menyimpan private key dengan aman
@@ -139,11 +139,11 @@ class AuthService:
             )
             # Ambil public key yang sudah ada
             public_key_pem = user.get("rsa_public_key")
-            logger.info("✅ Existing user logged in: %s", user_id)
+            logger.info("Existing user logged in: %s", user_id)
             
             if not public_key_pem:
                 # Jika user tidak memiliki public key (migrasi dari versi lama)
-                logger.warning("⚠️ User %s has no RSA public key, generating new pair...", user_id)
+                logger.warning("User %s has no RSA public key, generating new pair...", user_id)
                 private_key_pem, public_key_pem = rsa_service.generate_key_pair()
                 
                 # Update user dengan public key baru
@@ -151,7 +151,7 @@ class AuthService:
                     {"_id": ObjectId(user_id)},
                     {"$set": {"rsa_public_key": public_key_pem}}
                 )
-                logger.info("🔐 New RSA key pair generated and saved for existing user")
+                logger.info("New RSA key pair generated and saved for existing user")
 
         # Buat tokens
         access_token = create_access_token(subject=user_id)
@@ -159,7 +159,7 @@ class AuthService:
 
         logger.info("User %s login berhasil.", user_id)
         
-        # 🔐 Return public key (dan private key untuk user baru)
+        # Return public key (dan private key untuk user baru)
         # Untuk user baru, kita perlu mengembalikan private key juga
         # Client harus menyimpannya dengan aman
         return True, access_token, refresh_token, public_key_pem, private_key_pem

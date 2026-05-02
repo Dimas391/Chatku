@@ -8,7 +8,7 @@ interface TextContentProps {
 }
 
 const TextContent = ({ 
-  appName = 'SafeChat',
+  appName = 'Chatku',
   tagline = 'Chat cepat, aman, dan simpel',
   taglineSub = 'hanya dengan teks.'
 }: TextContentProps) => {

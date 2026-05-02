@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import api, { ApiResponse } from './api';
 import storageService from './storageService';
 
@@ -131,46 +132,32 @@ class ProfileService {
         };
       }
 
-      // Buat FormData untuk upload file
-      const formData = new FormData();
-      
       // Get filename from URI
       const filename = avatarUri.split('/').pop() || 'avatar.jpg';
-      const match = /\.(\w+)$/.exec(filename);
-      const type = match ? `image/${match[1]}` : 'image/jpeg';
+      const ext = filename.split('.').pop()?.toLowerCase() || 'jpg';
+      const type = (ext === 'jpg' || ext === 'jpeg') ? 'image/jpeg' : `image/${ext}`;
 
-      // @ts-ignore - React Native FormData type issue
-      formData.append('file', {
-        uri: avatarUri,
-        name: filename,
-        type,
-      });
-
-      const baseUrl = api.getBaseUrl();
-      const response = await fetch(`${baseUrl}/users/me/avatar`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const data = await response.json();
-      
-      if (!response.ok) {
-        return {
-          success: false,
-          error: data.detail || 'Gagal upload avatar',
-          message: data.detail || 'Gagal upload avatar',
-        };
+      // Pastikan URI diawali dengan file:// untuk Android jika perlu
+      let cleanUri = avatarUri;
+      if (Platform.OS === 'android' && !avatarUri.startsWith('file://') && !avatarUri.startsWith('content://')) {
+        cleanUri = `file://${avatarUri}`;
       }
 
-      return {
-        success: true,
-        data: { avatar_url: data.avatar_url },
-        message: 'Avatar berhasil diupload',
+      // @ts-ignore - React Native FormData type issue
+      const fileData = {
+        uri: cleanUri,
+        name: filename,
+        type,
       };
+
+      const response = await api.uploadFile<{ avatar_url: string }>(
+        '/users/me/avatar',
+        fileData,
+        'file',
+        token
+      );
+
+      return response;
     } catch (error) {
       return {
         success: false,

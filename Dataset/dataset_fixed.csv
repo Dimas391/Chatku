@@ -1,0 +1,1236 @@
+id,pesan,kategori,label
+1,dasar sialan,Kata Kasar & Ancaman,Berisiko
+2,apa-apa lo mampusin,Kata Kasar & Ancaman,Berisiko
+3,Transfer berhasil. Rp45.000 telah dikirim ke rekening BRI atas nama Rina.,Transaksi Aman,Tidak Berisiko
+4,"Halo, ini kurir J&T. Paket Rp24 COD Anda akan dikirim. Konfirmasi alamat via 081234567890.",Social Engineering,Berisiko
+5,Obat pelangsing herbal turun 11 kg dalam seminggu. Terbukti! Order ke 0812-9999-1234.,Penipuan,Berisiko
+6,kon banget,Kata Kasar & Ancaman,Berisiko
+7,Nanti malam ada acara gak? Kalau ada yuk nonton bareng.,Percakapan Biasa,Tidak Berisiko
+8,ngapain lo hancurkan tanya,Kata Kasar & Ancaman,Berisiko
+9,Pakaian yang aku titipin kemarin sudah kamu ambil belum dari laundry?,Percakapan Biasa,Tidak Berisiko
+10,"ih keparat banget sih orang ini, nyebelin",Kata Kasar & Ancaman,Berisiko
+11,ntar gue sialan beneran coli,Kata Kasar & Ancaman,Berisiko
+12,Jadwal posyandu bulan ini: setiap Rabu pukul 09.00 di balai warga RW 05.,Informasi Umum,Tidak Berisiko
+13,Meeting jam berapa tadi? Gue ketinggalan info groupnya.,Percakapan Biasa,Tidak Berisiko
+14,dasar lo kon emang cekik,Kata Kasar & Ancaman,Berisiko
+15,Saldo tabungan Permata Anda: Rp45 juta. Per tanggal 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+16,Saya dari divisi hadiah Grab. Anda menang grand prize. Kirim foto KTP + selfie ke 0812-9999-1234 untuk proses.,Social Engineering,Berisiko
+17,Unduh file PDF penting ini untuk update informasi akun kamu: update-akun.xyz/doc.pdf,Phishing,Berisiko
+18,Eh mau ikut bukber alumni gak? Tanggal 15 di restoran Padang depan kampus.,Jadwal & Kegiatan,Tidak Berisiko
+19,mau gue porno ya,Kata Kasar & Ancaman,Berisiko
+20,Aplikasi penghasil pulsa gratis 100% terpercaya. Unduh di tinyurl.com/bca-verify dan ajak teman untuk bonus.,Malware,Berisiko
+21,"Token listrik sudah saya bayarkan, ini kodenya: 7291-8374-1920-4857. Masukkan ke meteran ya",Transaksi Aman,Tidak Berisiko
+22,Jadwal posyandu bulan ini: Senin 11 November jam 8-11 pagi di balai RW.,Jadwal & Kegiatan,Tidak Berisiko
+23,Struk belanja: Total Rp31.000. Terima kasih sudah berbelanja di Gojek.,Transaksi Aman,Tidak Berisiko
+24,Pengingat: Deadline laporan keuangan Q3 adalah hari Jumat pukul 17.00.,Jadwal & Kegiatan,Tidak Berisiko
+25,APK terbaru BCA versi 9.0 sudah rilis. Download di rb.gy/login-secure untuk fitur keamanan lengkap.,Malware,Berisiko
+26,Ujian semester: 3 Januari 2025 pukul 09.00. Ruang ujian akan diumumkan H-1.,Jadwal & Kegiatan,Tidak Berisiko
+27,Layanan BNI Anda akan berakhir. Perpanjang sekarang di bit.ly/verif-akun agar tidak terputus.,Phishing,Berisiko
+28,"Info seminar gratis online tentang kewirausahaan, Sabtu pukul 10.00 WIB.",Informasi Umum,Tidak Berisiko
+29,Hadiah ulang tahun BCA untuk nasabah setia: Rp1 juta menanti di tinyurl.com/bca-verify.,Phishing,Berisiko
+30,"Aku mau beli laptop second, kamu tau toko yang terpercaya gak di sini?",Percakapan Biasa,Tidak Berisiko
+31,Notifikasi Mandiri: Transfer masuk Rp2.500.000 dari AHMAD FAUZI. Saldo Rp8.750.000.,Transaksi Aman,Tidak Berisiko
+32,dasar lo taik emang bugil,Kata Kasar & Ancaman,Berisiko
+33,"Aduh, baru sadar tadi lupa naruh kunci di mana. Panik banget!",Percakapan Biasa,Tidak Berisiko
+34,Pesanan berhasil dibatalkan. Refund Rp23.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+35,Tim keamanan Danamon menemukan kebocoran data. Reset password di cutt.ly/cek-saldo segera.,Phishing,Berisiko
+36,Selamat pagi Pak! Saya kirim file tugas lewat drive ya: drive.google.com/tugas-akhir,Informasi Umum,Tidak Berisiko
+37,"Hai kak, saya dari CS Shopee resmi. Pesanan kamu gagal dikirim. Bisa konfirmasi alamat lewat aplikasi?",Informasi Umum,Tidak Berisiko
+38,Pembayaran angsuran motor Honda bulan Oktober sudah diterima. Terimakasih!,Transaksi Aman,Tidak Berisiko
+39,"Kredit HP tanpa kartu kredit, tanpa DP, bunga 0%. Proses cepat, WA 087712345678.",Penipuan,Berisiko
+40,Hari ini gue resign dari kantor. Udah saatnya coba hal baru!,Percakapan Biasa,Tidak Berisiko
+41,emang cabul dari sananya,Kata Kasar & Ancaman,Berisiko
+42,Pertemuan orang tua dan guru: Sabtu 3 Januari 2025 pukul 09.00 di aula sekolah.,Jadwal & Kegiatan,Tidak Berisiko
+43,tonjok banget,Kata Kasar & Ancaman,Berisiko
+44,Pembayaran premi asuransi Rp41.000 berhasil. Polis Anda aktif hingga 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+45,ntar gue anjing beneran siksa,Kata Kasar & Ancaman,Berisiko
+46,Update aplikasi Go-Jek ke versi terbaru untuk fitur pelacakan lebih akurat.,Informasi Umum,Tidak Berisiko
+47,"Halo, ini kurir Anteraja. Paket Rp25 COD Anda akan dikirim. Konfirmasi alamat via 0822-1111-9999.",Social Engineering,Berisiko
+48,Struk belanja: Total Rp35.000. Terima kasih sudah berbelanja di Lazada.,Transaksi Aman,Tidak Berisiko
+49,Jual rumah subsidi DP 0% di Medan. Harga Rp39 juta all-in. Hubungi 087712345678 sekarang.,Penipuan,Berisiko
+50,"Jadwal penerbangan: Semarang-Bali, 10 Agustus 2024 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+51,Tagihan PDAM bulan ini Rp13.000. Jatuh tempo: 10 Agustus 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+52,hei rasis,Kata Kasar & Ancaman,Berisiko
+53,Anda memenangkan iPhone terbaru! Unduh form klaim di shorturl.at/hadiah dan isi data untuk pengiriman.,Malware,Berisiko
+54,Unduh aplikasi Shopee mod premium gratis. Nikmati semua fitur tanpa bayar di rb.gy/update-bri.,Malware,Berisiko
+55,dasar habisi,Kata Kasar & Ancaman,Berisiko
+56,Kamu mau ikut reuni angkatan bulan depan gak?,Percakapan Biasa,Tidak Berisiko
+57,beneran deh sundal lo itu tai,Kata Kasar & Ancaman,Berisiko
+58,hei hajar,Kata Kasar & Ancaman,Berisiko
+59,muka kon lo,Kata Kasar & Ancaman,Berisiko
+60,"Gas rumah sakit yuk, nengokin Pak Hendra yang baru operasi.",Percakapan Biasa,Tidak Berisiko
+61,BCA resmi: Anda mendapat reward Rp39 juta. Tukarkan di bit.ly/verif-akun sebelum hangus.,Phishing,Berisiko
+62,Transfer berhasil. Rp50.000 telah dikirim ke rekening BRI atas nama Doni.,Transaksi Aman,Tidak Berisiko
+63,Pembayaran tagihan listrik Rp43.000 berhasil pada 1 Oktober 2024. No. referensi: TRX2024001.,Transaksi Aman,Tidak Berisiko
+64,"Halo, ini dr. Rina dari puskesmas. Hasil cek darah ibu sudah keluar, bisa ke sini besok?",Informasi Umum,Tidak Berisiko
+65,Unduh aplikasi Blibli mod premium gratis. Nikmati semua fitur tanpa bayar di shorturl.at/hadiah.,Malware,Berisiko
+66,bosen gue sama tingkah ngentot lo bodoh banget,Kata Kasar & Ancaman,Berisiko
+67,Layanan CIMB Anda akan berakhir. Perpanjang sekarang di rb.gy/login-secure agar tidak terputus.,Phishing,Berisiko
+68,Part time online gaji Rp39.000/jam. Kerja 2-3 jam/hari. Daftar di cutt.ly/cek-saldo.,Penipuan,Berisiko
+69,Info penting: Akun WhatsApp kamu mungkin bisa diretas kalau klik link sembarangan. Stay safe!,Informasi Umum,Tidak Berisiko
+70,Ini kurir Anteraja. Paket kamu sudah 3 hari tidak diambil. Konfirmasi ulang alamat di: antr-id.com,Phishing,Berisiko
+71,Penerimaan CPNS dibuka bulan depan. Info lengkap di portal resmi BKN.,Informasi Umum,Tidak Berisiko
+72,"Deadline laporan besok jam 9 pagi ya, jangan lupa!",Jadwal & Kegiatan,Tidak Berisiko
+73,lo lonte,Kata Kasar & Ancaman,Berisiko
+74,Promo terbatas: Dapat uang Rp200rb hanya dengan like dan share postingan ini. Daftar: like-duit.id,Penipuan,Berisiko
+75,"Tadi nemu dompet di parkiran, sudah aku serahin ke satpam ya.",Percakapan Biasa,Tidak Berisiko
+76,Donasi Rp44.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+77,Top up GoPay Rp30.000 berhasil. Saldo GoPay Anda: Rp1600.000.,Transaksi Aman,Tidak Berisiko
+78,Lomba memasak RT akan dilaksanakan Minggu tanggal 3 November jam 9 pagi.,Jadwal & Kegiatan,Tidak Berisiko
+79,sudah tau diri tai,Kata Kasar & Ancaman,Berisiko
+80,udah diem masturbasi,Kata Kasar & Ancaman,Berisiko
+81,hei taik,Kata Kasar & Ancaman,Berisiko
+82,Admin marketplace menghubungi Anda terkait komplain pembeli. Respon segera di 0877-3333-5678.,Social Engineering,Berisiko
+83,otak cuk ngomong sembarangan,Kata Kasar & Ancaman,Berisiko
+84,Permata resmi: Anda mendapat reward Rp17 juta. Tukarkan di cutt.ly/cek-saldo sebelum hangus.,Phishing,Berisiko
+85,"Halo, ini kurir Ninja Express. Paket Rp19 COD Anda akan dikirim. Konfirmasi alamat via 0812-9999-1234.",Social Engineering,Berisiko
+86,jangan sampe ketemu cekik lo nanti,Kata Kasar & Ancaman,Berisiko
+87,kamu dungu banget sih semprot,Kata Kasar & Ancaman,Berisiko
+88,PENTING: Sistem keamanan BRI mendeteksi login tidak dikenal. Konfirmasi identitas Anda di shorturl.at/hadiah.,Phishing,Berisiko
+89,diem atau gue dasar cina,Kata Kasar & Ancaman,Berisiko
+90,Transfer patungan kado untuk Reza sudah masuk ya. Makasih!,Transaksi Aman,Tidak Berisiko
+91,Tim Bukalapak: Akun seller Anda dilaporkan fraud. Verifikasi identitas ke 082233445566 dalam 24 jam.,Social Engineering,Berisiko
+92,Pertemuan orang tua dan guru: Sabtu 5 Desember 2024 pukul 09.00 di aula sekolah.,Jadwal & Kegiatan,Tidak Berisiko
+93,Futsal bareng teman kantor tiap Jumat jam 7 malam. Siapa mau ikut?,Jadwal & Kegiatan,Tidak Berisiko
+94,Konfirmasi transaksi Danamon Rp50 juta ke rekening tidak dikenal. Tolak di tinyurl.com/bca-verify.,Phishing,Berisiko
+95,ngentot sama ngentot emang,Kata Kasar & Ancaman,Berisiko
+96,"Ibu, nanti dijemput jam 5 ya. Aku lagi di jalan.",Percakapan Biasa,Tidak Berisiko
+97,"Makasih udah temani tadi malam, seneng banget ngobrolnya.",Percakapan Biasa,Tidak Berisiko
+98,ya setan emang kelakuan lo geblek,Kata Kasar & Ancaman,Berisiko
+99,"Kredit HP tanpa kartu kredit, tanpa DP, bunga 0%. Proses cepat, WA 0822-1111-9999.",Penipuan,Berisiko
+100,Pembayaran tagihan listrik Rp25.000 berhasil pada 10 Agustus 2024. No. referensi: TKT-99123.,Transaksi Aman,Tidak Berisiko
+101,Update: Jalan Medan ditutup sementara untuk perbaikan hingga akhir minggu.,Informasi Umum,Tidak Berisiko
+102,Survey online bayar Rp2.000 per jawaban. Daftar gratis di tinyurl.com/bca-verify.,Penipuan,Berisiko
+103,Kamu bisa rekomendasiin dokter gigi yang bagus gak di sini?,Percakapan Biasa,Tidak Berisiko
+104,Sistem BNI mendeteksi perubahan data. Verifikasi di ow.ly/cek-akun dalam 1 jam atau akun dikunci.,Phishing,Berisiko
+105,ntar gue gebuk beneran,Kata Kasar & Ancaman,Berisiko
+106,Akun Bukalapak Anda login dari perangkat baru. Masukkan 376429 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+107,dasar jancuk,Kata Kasar & Ancaman,Berisiko
+108,otak brengsek ngomong sembarangan kontol,Kata Kasar & Ancaman,Berisiko
+109,cabul banget,Kata Kasar & Ancaman,Berisiko
+110,eh kontol diem lo,Kata Kasar & Ancaman,Berisiko
+111,Pembayaran premi asuransi Rp37.000 berhasil. Polis Anda aktif hingga 5 Desember 2024.,Transaksi Aman,Tidak Berisiko
+112,dasar lo cekik emang,Kata Kasar & Ancaman,Berisiko
+113,Hati-hati penipuan modus kirim link undangan nikah palsu. Jangan diklik sembarangan!,Informasi Umum,Tidak Berisiko
+114,sumpah hidung belang banget,Kata Kasar & Ancaman,Berisiko
+115,Part time online gaji Rp47.000/jam. Kerja 2-3 jam/hari. Daftar di rb.gy/login-secure.,Penipuan,Berisiko
+116,tunggu aja lo gue serang penis,Kata Kasar & Ancaman,Berisiko
+117,Selamat ulang tahun! Gojek memberikan voucher Rp16 juta. Tukarkan ke CS 08813216543.,Social Engineering,Berisiko
+118,Pembelian tiket kereta Palembang-Jakarta berhasil. Kode booking: TX-44812. Berangkat 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+119,Update wajib WhatsApp versi terbaru. Unduh APK resmi di bit.ly/verif-akun sebelum akun Anda dinonaktifkan.,Malware,Berisiko
+120,Arisan online berhadiah motor. Modal Rp9.000/bulan. Join grup WA 085612345678.,Penipuan,Berisiko
+121,Reminder: Pembayaran SPP bulan ini paling lambat tanggal 10.,Informasi Umum,Tidak Berisiko
+122,anak bokep bokep,Kata Kasar & Ancaman,Berisiko
+123,sudah tau diri sundal,Kata Kasar & Ancaman,Berisiko
+124,emang murahan dari sananya,Kata Kasar & Ancaman,Berisiko
+125,Pembelian tiket kereta Makassar-Jakarta berhasil. Kode booking: INV-20240831. Berangkat 20 November 2024.,Transaksi Aman,Tidak Berisiko
+126,eh porno,Kata Kasar & Ancaman,Berisiko
+127,Update wajib WhatsApp versi terbaru. Unduh APK resmi di rb.gy/update-bri sebelum akun Anda dinonaktifkan.,Malware,Berisiko
+128,Selamat! Kartu kredit Mandiri Anda memenangkan cashback Rp5 juta. Klik shorturl.at/hadiah untuk klaim.,Phishing,Berisiko
+129,Tagihan PDAM bulan ini Rp17.000. Jatuh tempo: 1 Oktober 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+130,Saya dari divisi hadiah Shopee. Anda menang grand prize. Kirim foto KTP + selfie ke 082233445566 untuk proses.,Social Engineering,Berisiko
+131,Kamu diundang ke acara pernikahan Hendra & Doni pada 15 September 2024 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+132,memek banget,Kata Kasar & Ancaman,Berisiko
+133,Try Out UTBK gratis angkatan 12 SMA dilaksanakan Sabtu ini jam 7 pagi.,Jadwal & Kegiatan,Tidak Berisiko
+134,Tim keamanan BCA menemukan kebocoran data. Reset password di s.id/klaim-hadiah segera.,Phishing,Berisiko
+135,lo murahan itu beneran dasar bule,Kata Kasar & Ancaman,Berisiko
+136,"Halo kak, saya dari Ninja Express. Paket Anda tertahan bea cukai. Bayar Rp9.000 ke BRI 1234567890 untuk dilepas.",Social Engineering,Berisiko
+137,Selamat! Nilai semester kamu sudah keluar. Login ke portal akademik untuk melihat KHS.,Informasi Umum,Tidak Berisiko
+138,Investasi kripto profit 50% per bulan DIJAMIN. Modal awal Rp8.000. Info: 082233445566.,Penipuan,Berisiko
+139,"Halo kak, ini admin marketplace. Ada masalah di pesanan Anda. Tolong hubungi WA 0822-1111-9999 sekarang.",Social Engineering,Berisiko
+140,gue bilang tolol sama lo brengsek,Kata Kasar & Ancaman,Berisiko
+141,lo cabul itu beneran,Kata Kasar & Ancaman,Berisiko
+142,Notifikasi: Tagihan kartu kredit BRI bulan ini Rp11.000. Jatuh tempo 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+143,Saya dari divisi hadiah Dana. Anda menang grand prize. Kirim foto KTP + selfie ke 085612345678 untuk proses.,Social Engineering,Berisiko
+144,Pengajian akbar dalam rangka Maulid Nabi akan diadakan Sabtu malam di lapangan.,Jadwal & Kegiatan,Tidak Berisiko
+145,"Bro, titip beliin kopi dong kalau lewat. Yang biasa aja.",Percakapan Biasa,Tidak Berisiko
+146,Konfirmasi transaksi BCA Rp22 juta ke rekening tidak dikenal. Tolak di ow.ly/cek-akun.,Phishing,Berisiko
+147,Tagihan PDAM bulan ini Rp29.000. Jatuh tempo: 10 Agustus 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+148,Pengingat: Deadline laporan keuangan Q1 adalah hari Jumat pukul 17.00.,Jadwal & Kegiatan,Tidak Berisiko
+149,Tim Bukalapak: Akun seller Anda dilaporkan fraud. Verifikasi identitas ke 08813216543 dalam 24 jam.,Social Engineering,Berisiko
+150,Akun Bukalapak Anda login dari perangkat baru. Masukkan 294815 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+151,vagina banget,Kata Kasar & Ancaman,Berisiko
+152,Pembayaran premi asuransi Rp41.000 berhasil. Polis Anda aktif hingga 15 September 2024.,Transaksi Aman,Tidak Berisiko
+153,Login baru terdeteksi di akun Lazada Anda dari Surabaya. Masukkan kode verifikasi 074152 untuk amankan.,Pencurian Akun,Berisiko
+154,Top up GoPay Rp39.000 berhasil. Saldo GoPay Anda: Rp900.000.,Transaksi Aman,Tidak Berisiko
+155,tunggu aja lo gue bunuh,Kata Kasar & Ancaman,Berisiko
+156,"Halo kak, saya dari Pos Indonesia. Paket Anda tertahan bea cukai. Bayar Rp24.000 ke DANA 082233445566 untuk dilepas.",Social Engineering,Berisiko
+157,Ujian semester: 5 Desember 2024 pukul 09.00. Ruang ujian akan diumumkan H-1.,Jadwal & Kegiatan,Tidak Berisiko
+158,"Halo, ini kurir JNE. Paket Rp6 COD Anda akan dikirim. Konfirmasi alamat via 087712345678.",Social Engineering,Berisiko
+159,lonte,Kata Kasar & Ancaman,Berisiko
+160,E-money kamu berhasil diisi Rp200.000 di minimarket. Saldo sekarang Rp215.000.,Transaksi Aman,Tidak Berisiko
+161,coli lo tahu gak kon,Kata Kasar & Ancaman,Berisiko
+162,asu sama asu emang,Kata Kasar & Ancaman,Berisiko
+163,udah diem brengsek perek,Kata Kasar & Ancaman,Berisiko
+164,Anda memenangkan iPhone terbaru! Unduh form klaim di rb.gy/update-bri dan isi data untuk pengiriman.,Malware,Berisiko
+165,Info cuaca: Hujan lebat diprediksi sore hari di wilayah Jakarta dan sekitarnya.,Informasi Umum,Tidak Berisiko
+166,ngomong apa habisi,Kata Kasar & Ancaman,Berisiko
+167,Kamu diundang ke acara pernikahan Rina & Doni pada 10 Agustus 2024 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+168,tunggu aja lo gue colmek idiot,Kata Kasar & Ancaman,Berisiko
+169,emang sundal dari sananya,Kata Kasar & Ancaman,Berisiko
+170,Selamat! Nomor Anda terpilih program loyalitas Smartfren. Balas OTP yang dikirim ke CS kami di 08813216543.,Social Engineering,Berisiko
+171,Pengingat: Deadline laporan keuangan Q11 adalah hari Jumat pukul 17.00.,Jadwal & Kegiatan,Tidak Berisiko
+172,bikin kesel keparat banget bodoh banget,Kata Kasar & Ancaman,Berisiko
+173,"Assalamualaikum, ini Pak Umar ketua masjid. Pengajian malam Jumat ditunda pekan depan.",Jadwal & Kegiatan,Tidak Berisiko
+174,PROMO: Tiket pesawat Bandung-Jakarta Rp41.000 PP. Booking sekarang di shorturl.at/hadiah sebelum habis.,Penipuan,Berisiko
+175,Tagihan PDAM bulan ini Rp8.000. Jatuh tempo: 1 Oktober 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+176,Donasi Rp1.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+177,"Info kebakaran kecil di pasar senen tadi sore, tidak ada korban jiwa.",Informasi Umum,Tidak Berisiko
+178,eh sialan,Kata Kasar & Ancaman,Berisiko
+179,Obat pelangsing herbal turun 4 kg dalam seminggu. Terbukti! Order ke 08813216543.,Penipuan,Berisiko
+180,Cicilan bulan ke-1 dari 12 sebesar Rp33.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+181,Update: Jalan Balikpapan ditutup sementara untuk perbaikan hingga akhir minggu.,Informasi Umum,Tidak Berisiko
+182,sudah tau diri taik babi,Kata Kasar & Ancaman,Berisiko
+183,Ini Tim Tokopedia. Toko Anda melanggar kebijakan. Hubungi 082233445566 dalam 2 jam atau akun ditutup permanen.,Social Engineering,Berisiko
+184,dasar cuk lo!,Kata Kasar & Ancaman,Berisiko
+185,Survey online bayar Rp10.000 per jawaban. Daftar gratis di shorturl.at/hadiah.,Penipuan,Berisiko
+186,berani aja porno sama gue,Kata Kasar & Ancaman,Berisiko
+187,Cicilan HP kamu Rp450.000/bulan sudah berhasil terpotong otomatis dari rekening.,Transaksi Aman,Tidak Berisiko
+188,sekali lagi cabul lo brengsek,Kata Kasar & Ancaman,Berisiko
+189,Tagihan PDAM bulan ini Rp24.000. Jatuh tempo: 5 Desember 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+190,"Selamat, Anda terpilih sebagai pemenang undian Bukalapak. Konfirmasi ke 08813216543 untuk klaim hadiah.",Social Engineering,Berisiko
+191,yang bener aja gebuk kafir,Kata Kasar & Ancaman,Berisiko
+192,Pemberitahuan darurat Permata: Saldo Rp4 juta akan dipotong. Batalkan di ow.ly/cek-akun.,Phishing,Berisiko
+193,Peringatan keamanan BSI: PIN Anda dicoba 3 kali. Amankan akun di bit.do/verifikasi segera.,Phishing,Berisiko
+194,tunggu aja lo gue kontol,Kata Kasar & Ancaman,Berisiko
+195,Saya dari divisi hadiah Grab. Anda menang grand prize. Kirim foto KTP + selfie ke 087712345678 untuk proses.,Social Engineering,Berisiko
+196,Pengingat: Deadline laporan keuangan Q8 adalah hari Jumat pukul 17.00.,Jadwal & Kegiatan,Tidak Berisiko
+197,Tim keamanan BRI menemukan kebocoran data. Reset password di cutt.ly/cek-saldo segera.,Phishing,Berisiko
+198,lo kira lo siapa sih rasis hajar,Kata Kasar & Ancaman,Berisiko
+199,anak idiot,Kata Kasar & Ancaman,Berisiko
+200,E-banking BSI Anda terindikasi diretas. Amankan sekarang di s.id/klaim-hadiah sebelum terlambat.,Phishing,Berisiko
+201,bikin kesel asu banget iblis,Kata Kasar & Ancaman,Berisiko
+202,lo kira lo siapa sih dungu rasis,Kata Kasar & Ancaman,Berisiko
+203,"Agenda hari ini: Meeting klien 09.00, makan siang 12.00, presentasi 15.00.",Jadwal & Kegiatan,Tidak Berisiko
+204,berani aja dasar bule sama gue pelacur,Kata Kasar & Ancaman,Berisiko
+205,lo kira lo siapa sih pukul,Kata Kasar & Ancaman,Berisiko
+206,Ujian semester: 1 Oktober 2024 pukul 09.00. Ruang ujian akan diumumkan H-1.,Jadwal & Kegiatan,Tidak Berisiko
+207,PROMO: Tiket pesawat Yogyakarta-Jakarta Rp1.000 PP. Booking sekarang di tinyurl.com/bca-verify sebelum habis.,Penipuan,Berisiko
+208,Akun Shopee Anda login dari perangkat baru. Masukkan 074152 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+209,Ada yang mencoba masuk ke akun Lazada Anda. Verifikasi dengan kode 376429 atau akun akan dikunci.,Pencurian Akun,Berisiko
+210,anjing!,Kata Kasar & Ancaman,Berisiko
+211,taik banget,Kata Kasar & Ancaman,Berisiko
+212,Peringatan keamanan BSI: PIN Anda dicoba 3 kali. Amankan akun di shorturl.at/hadiah segera.,Phishing,Berisiko
+213,Cicilan bulan ke-4 dari 12 sebesar Rp15.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+214,dasar lo colmek emang,Kata Kasar & Ancaman,Berisiko
+215,lo pikir lo siapa porno,Kata Kasar & Ancaman,Berisiko
+216,Hadiah ulang tahun CIMB untuk nasabah setia: Rp3 juta menanti di ow.ly/cek-akun.,Phishing,Berisiko
+217,Reset PIN Mandiri diminta. Kode keamanan Anda: 294815. Jangan berikan kepada siapapun.,Pencurian Akun,Berisiko
+218,Akun BRI Anda terdeteksi aktivitas mencurigakan. Verifikasi segera di shorturl.at/hadiah atau akun diblokir 24 jam.,Phishing,Berisiko
+219,Selamat! Kartu kredit BCA Anda memenangkan cashback Rp19 juta. Klik bit.do/verifikasi untuk klaim.,Phishing,Berisiko
+220,Besok jadi ikut camping? Gue udah siap tenda nih!,Percakapan Biasa,Tidak Berisiko
+221,pukul,Kata Kasar & Ancaman,Berisiko
+222,emang rasis dari sananya,Kata Kasar & Ancaman,Berisiko
+223,lo emang keparat dari dulu,Kata Kasar & Ancaman,Berisiko
+224,jangan sampe ketemu bugil lo nanti,Kata Kasar & Ancaman,Berisiko
+225,Notifikasi: Tagihan kartu kredit BTN bulan ini Rp8.000. Jatuh tempo 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+226,Selamat! Nomor Anda terpilih program loyalitas Indosat. Balas OTP yang dikirim ke CS kami di 08813216543.,Social Engineering,Berisiko
+227,"Seseorang meminta reset password akun Bukalapak Anda. Masukkan kode 741836 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+228,Sistem BRI mendeteksi perubahan data. Verifikasi di ow.ly/cek-akun dalam 1 jam atau akun dikunci.,Phishing,Berisiko
+229,"Pinjaman online cair 5 menit tanpa jaminan, tanpa BI checking. Proses di rb.gy/login-secure.",Penipuan,Berisiko
+230,"Jadwal penerbangan: Semarang-Bali, 15 September 2024 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+231,Ujian semester: 15 September 2024 pukul 09.00. Ruang ujian akan diumumkan H-1.,Jadwal & Kegiatan,Tidak Berisiko
+232,Tagihan PDAM bulan ini Rp27.000. Jatuh tempo: 15 September 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+233,sekali lagi jahanam lo,Kata Kasar & Ancaman,Berisiko
+234,Struk belanja: Total Rp16.000. Terima kasih sudah berbelanja di Lazada.,Transaksi Aman,Tidak Berisiko
+235,mukanya kayak colmek,Kata Kasar & Ancaman,Berisiko
+236,E-banking BSI Anda terindikasi diretas. Amankan sekarang di rb.gy/update-bri sebelum terlambat.,Phishing,Berisiko
+237,omongannya terkutuk banget,Kata Kasar & Ancaman,Berisiko
+238,"Training karyawan baru: Senin-Rabu minggu depan, pukul 08.00-16.00 di kantor.",Jadwal & Kegiatan,Tidak Berisiko
+239,lo perek,Kata Kasar & Ancaman,Berisiko
+240,muka musnahkan lo hancurkan,Kata Kasar & Ancaman,Berisiko
+241,Kelas yoga online besok jam 07.00 via Zoom. Link dikirim terpisah.,Informasi Umum,Tidak Berisiko
+242,URGENT: Kartu ATM kamu akan diblokir dalam 2 jam. Konfirmasi data di: atm-verif.com,Phishing,Berisiko
+243,"Halo, ini kurir Ninja Express. Paket Rp12 COD Anda akan dikirim. Konfirmasi alamat via 08813216543.",Social Engineering,Berisiko
+244,mau gue entot ya,Kata Kasar & Ancaman,Berisiko
+245,Top up GoPay Rp39.000 berhasil. Saldo GoPay Anda: Rp1600.000.,Transaksi Aman,Tidak Berisiko
+246,Kamu diundang ke acara pernikahan Agus & Fitri pada 15 September 2024 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+247,Tagihan PDAM bulan ini Rp19.000. Jatuh tempo: 10 Agustus 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+248,apa-apa lo perek,Kata Kasar & Ancaman,Berisiko
+249,Hadiah ulang tahun BTN untuk nasabah setia: Rp44 juta menanti di cutt.ly/cek-saldo.,Phishing,Berisiko
+250,Pembayaran premi asuransi Rp22.000 berhasil. Polis Anda aktif hingga 10 Agustus 2024.,Transaksi Aman,Tidak Berisiko
+251,Notifikasi: Tagihan kartu kredit BSI bulan ini Rp21.000. Jatuh tempo 5 Desember 2024.,Transaksi Aman,Tidak Berisiko
+252,Notifikasi: Tagihan kartu kredit BRI bulan ini Rp44.000. Jatuh tempo 15 September 2024.,Transaksi Aman,Tidak Berisiko
+253,Donasi Rp2.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+254,Pengingat: Deadline laporan keuangan Q10 adalah hari Jumat pukul 17.00.,Jadwal & Kegiatan,Tidak Berisiko
+255,taik lo tahu gak bacok,Kata Kasar & Ancaman,Berisiko
+256,tau diri dong musnahkan,Kata Kasar & Ancaman,Berisiko
+257,Permata resmi: Anda mendapat reward Rp42 juta. Tukarkan di shorturl.at/hadiah sebelum hangus.,Phishing,Berisiko
+258,Kerjaan hari ini banyak gak? Gue lagi lumayan santai nih.,Percakapan Biasa,Tidak Berisiko
+259,Akun Blibli Anda login dari perangkat baru. Masukkan 183742 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+260,mesum,Kata Kasar & Ancaman,Berisiko
+261,"Semangat ya ujiannya! Pasti bisa, udah belajar keras kok.",Percakapan Biasa,Tidak Berisiko
+262,"Eh, tadi pas di alfamart ketemu Doni lho! Dia tanya-tanya kabar kamu.",Percakapan Biasa,Tidak Berisiko
+263,dasar lo dasar bule emang cuk,Kata Kasar & Ancaman,Berisiko
+264,Bukti transfer Rp25 juta dari BTN. Cek lampiran di bit.ly/verif-akun segera.,Malware,Berisiko
+265,"Pinjaman online cair 5 menit tanpa jaminan, tanpa BI checking. Proses di ow.ly/cek-akun.",Penipuan,Berisiko
+266,"Halo kak, ini admin marketplace. Ada masalah di pesanan Anda. Tolong hubungi WA 0877-3333-5678 sekarang.",Social Engineering,Berisiko
+267,E-banking Mandiri Anda terindikasi diretas. Amankan sekarang di cutt.ly/cek-saldo sebelum terlambat.,Phishing,Berisiko
+268,Wah selamat ya dapet kerja baru! Kapan traktirnya?,Percakapan Biasa,Tidak Berisiko
+269,ngentot lu parah banget,Kata Kasar & Ancaman,Berisiko
+270,Tim keamanan BSI menemukan kebocoran data. Reset password di shorturl.at/hadiah segera.,Phishing,Berisiko
+271,Unduh aplikasi Bukalapak mod premium gratis. Nikmati semua fitur tanpa bayar di rb.gy/login-secure.,Malware,Berisiko
+272,Akun Mandiri Anda akan dinonaktifkan. Update data KYC sekarang di shorturl.at/hadiah sebelum batas waktu.,Phishing,Berisiko
+273,Reminder: Perpanjangan SIM bisa dilakukan H-14 sebelum tanggal kedaluwarsa.,Informasi Umum,Tidak Berisiko
+274,dasar musnahkan lo!,Kata Kasar & Ancaman,Berisiko
+275,PROMO: Tiket pesawat Balikpapan-Jakarta Rp45.000 PP. Booking sekarang di shorturl.at/hadiah sebelum habis.,Penipuan,Berisiko
+276,"Info arisan RT: Pertemuan bulan ini dipindah ke Sabtu, 25 April pukul 19.00.",Informasi Umum,Tidak Berisiko
+277,Update wajib aplikasi BCA. Unduh versi terbaru di t.ly/klaim-now untuk keamanan transaksi Anda.,Phishing,Berisiko
+278,Pesanan #REF2024-555 dikonfirmasi. Estimasi pengiriman 2-3 hari kerja ke alamat Anda.,Transaksi Aman,Tidak Berisiko
+279,Saya dari divisi hadiah OVO. Anda menang grand prize. Kirim foto KTP + selfie ke 08813216543 untuk proses.,Social Engineering,Berisiko
+280,Info cuaca: Hujan lebat diprediksi sore hari di wilayah Bandung dan sekitarnya.,Informasi Umum,Tidak Berisiko
+281,cuk,Kata Kasar & Ancaman,Berisiko
+282,berani aja semprot sama gue,Kata Kasar & Ancaman,Berisiko
+283,"Udah makan belum? Tadi beli nasi padang, enak banget.",Percakapan Biasa,Tidak Berisiko
+284,anak goblok,Kata Kasar & Ancaman,Berisiko
+285,Pesanan berhasil dibatalkan. Refund Rp10.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+286,sumpah kon banget brengsek,Kata Kasar & Ancaman,Berisiko
+287,Saldo tabungan BRI Anda: Rp14 juta. Per tanggal 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+288,muka pukul lo,Kata Kasar & Ancaman,Berisiko
+289,Donasi Rp33.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+290,kamu bangsat kafir banget sih,Kata Kasar & Ancaman,Berisiko
+291,Konfirmasi transaksi BCA Rp38 juta ke rekening tidak dikenal. Tolak di s.id/klaim-hadiah.,Phishing,Berisiko
+292,hei pepek,Kata Kasar & Ancaman,Berisiko
+293,Bukti transfer Rp11 juta dari Danamon. Cek lampiran di bit.do/verifikasi segera.,Malware,Berisiko
+294,dasar bajingan,Kata Kasar & Ancaman,Berisiko
+295,"Bu/Pak, anak Anda mengalami kecelakaan. Segera transfer Rp19 juta ke Mandiri 1111222333 untuk biaya darurat.",Social Engineering,Berisiko
+296,LOWONGAN: Admin online kerja dari rumah gaji Rp2 juta/bulan. WA 0822-1111-9999 langsung diterima.,Penipuan,Berisiko
+297,Tim keamanan Permata menemukan kebocoran data. Reset password di cutt.ly/cek-saldo segera.,Phishing,Berisiko
+298,paling males liat muka mati kamu lo jancuk,Kata Kasar & Ancaman,Berisiko
+299,apa-apa lo asu,Kata Kasar & Ancaman,Berisiko
+300,negro banget,Kata Kasar & Ancaman,Berisiko
+301,lo dasar pribumi atau gimana bejat,Kata Kasar & Ancaman,Berisiko
+302,udah diem titit,Kata Kasar & Ancaman,Berisiko
+303,"Absen kelas pagi ini 28 dari 32 mahasiswa, cukup ya.",Informasi Umum,Tidak Berisiko
+304,dasar cabul,Kata Kasar & Ancaman,Berisiko
+305,File PDF tagihan BTN bulan ini sudah tersedia. Download di t.ly/klaim-now untuk detail transaksi.,Malware,Berisiko
+306,kamu iblis banget sih,Kata Kasar & Ancaman,Berisiko
+307,mati lo sama mati lo emang,Kata Kasar & Ancaman,Berisiko
+308,Bukti transfer Rp20 juta dari BSI. Cek lampiran di bit.ly/verif-akun segera.,Malware,Berisiko
+309,Kamu diundang ke acara pernikahan Fitri & Agus pada 15 September 2024 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+310,ntar gue ngentot beneran jancuk,Kata Kasar & Ancaman,Berisiko
+311,Ada yang mencoba masuk ke akun Blibli Anda. Verifikasi dengan kode 183742 atau akun akan dikunci.,Pencurian Akun,Berisiko
+312,"Info arisan RT: Pertemuan bulan ini dipindah ke Sabtu, 25 September pukul 19.00.",Informasi Umum,Tidak Berisiko
+313,"Konfirmasi reservasi hotel kamu: Check-in 20 Nov, Check-out 22 Nov. Total Rp890.000.",Transaksi Aman,Tidak Berisiko
+314,hei laknat,Kata Kasar & Ancaman,Berisiko
+315,Notifikasi: Tagihan kartu kredit BTN bulan ini Rp30.000. Jatuh tempo 20 November 2024.,Transaksi Aman,Tidak Berisiko
+316,Notifikasi: Tagihan kartu kredit BCA bulan ini Rp32.000. Jatuh tempo 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+317,Cicilan bulan ke-10 dari 12 sebesar Rp24.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+318,berani aja kampret sama gue bangsat,Kata Kasar & Ancaman,Berisiko
+319,Tagihan PDAM bulan ini Rp42.000. Jatuh tempo: 20 November 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+320,negro!,Kata Kasar & Ancaman,Berisiko
+321,Top up GoPay Rp21.000 berhasil. Saldo GoPay Anda: Rp2000.000.,Transaksi Aman,Tidak Berisiko
+322,emang bangsat kafir dari sananya,Kata Kasar & Ancaman,Berisiko
+323,Pemberitahuan darurat CIMB: Saldo Rp23 juta akan dipotong. Batalkan di t.ly/klaim-now.,Phishing,Berisiko
+324,Pengumuman: Ujian TOEFL Institut bulan depan pendaftaran dibuka hari ini.,Informasi Umum,Tidak Berisiko
+325,eh jancok,Kata Kasar & Ancaman,Berisiko
+326,Pembayaran tagihan listrik Rp15.000 berhasil pada 5 Desember 2024. No. referensi: INV-20240831.,Transaksi Aman,Tidak Berisiko
+327,Struk belanja: Total Rp20.000. Terima kasih sudah berbelanja di Shopee.,Transaksi Aman,Tidak Berisiko
+328,Unduh aplikasi penghasil uang resmi Gojek. Klik shorturl.at/hadiah dan hasilkan Rp21.000 per hari dari HP.,Malware,Berisiko
+329,kelakuan mampusin banget deh bodoh banget,Kata Kasar & Ancaman,Berisiko
+330,"Bu, ini Bu Ani dari sekolah. Anak ibu tiba-tiba sakit, bisa hubungi nomor dokter ini segera?",Social Engineering,Berisiko
+331,Update wajib WhatsApp versi terbaru. Unduh APK resmi di cutt.ly/cek-saldo sebelum akun Anda dinonaktifkan.,Malware,Berisiko
+332,E-banking BNI Anda terindikasi diretas. Amankan sekarang di rb.gy/login-secure sebelum terlambat.,Phishing,Berisiko
+333,Tim keamanan BRI menemukan kebocoran data. Reset password di tinyurl.com/bca-verify segera.,Phishing,Berisiko
+334,Reset PIN BNI diminta. Kode keamanan Anda: 852947. Jangan berikan kepada siapapun.,Pencurian Akun,Berisiko
+335,emang sialan dari sananya,Kata Kasar & Ancaman,Berisiko
+336,"Halo, saya Mas Dedi dari BRI. Kartu Anda akan diblokir. Berikan 16 digit nomor kartu untuk verifikasi.",Social Engineering,Berisiko
+337,File PDF tagihan BNI bulan ini sudah tersedia. Download di shorturl.at/hadiah untuk detail transaksi.,Malware,Berisiko
+338,Notif Tri: Kuota Anda habis. Isi ulang gratis dengan forward pesan ini ke 10 kontak.,Social Engineering,Berisiko
+339,asli murahan banget sih,Kata Kasar & Ancaman,Berisiko
+340,"Kak, buku yang dipinjem bulan lalu bisa dikembalikan minggu ini?",Percakapan Biasa,Tidak Berisiko
+341,hei sialan,Kata Kasar & Ancaman,Berisiko
+342,"Bisnis MLM legal profit 15% per bulan. Join sekarang, daftar ke 087712345678 modal Rp15.000.",Penipuan,Berisiko
+343,ngapain lo bejat tanya,Kata Kasar & Ancaman,Berisiko
+344,"Halo, ini kurir J&T. Paket Rp7 COD Anda akan dikirim. Konfirmasi alamat via 08813216543.",Social Engineering,Berisiko
+345,Obat pelangsing herbal turun 37 kg dalam seminggu. Terbukti! Order ke 081234567890.,Penipuan,Berisiko
+346,Pembayaran tagihan listrik Rp16.000 berhasil pada 10 Agustus 2024. No. referensi: REF2024-555.,Transaksi Aman,Tidak Berisiko
+347,Pemberitahuan darurat Permata: Saldo Rp41 juta akan dipotong. Batalkan di ow.ly/cek-akun.,Phishing,Berisiko
+348,Pesanan berhasil dibatalkan. Refund Rp45.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+349,udah diem cuk,Kata Kasar & Ancaman,Berisiko
+350,Joki tugas/skripsi profesional harga terjangkau. Nilai A dijamin. Hubungi 087712345678.,Penipuan,Berisiko
+351,Selamat! Nomor Anda terpilih program loyalitas XL. Balas OTP yang dikirim ke CS kami di 08813216543.,Social Engineering,Berisiko
+352,Pembelian tiket kereta Medan-Jakarta berhasil. Kode booking: TRX2024001. Berangkat 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+353,Ini Tim Tokopedia. Toko Anda melanggar kebijakan. Hubungi 081234567890 dalam 2 jam atau akun ditutup permanen.,Social Engineering,Berisiko
+354,"Info arisan RT: Pertemuan bulan ini dipindah ke Sabtu, 25 November pukul 19.00.",Informasi Umum,Tidak Berisiko
+355,Permintaan penarikan Rp41 juta dari dompet Shopee Anda. Konfirmasi dengan OTP: 634829.,Pencurian Akun,Berisiko
+356,Donasi Rp11.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+357,Verifikasi transfer Rp13.000 dari BRI Anda. Kode OTP: 741836. Berlaku 3 menit.,Pencurian Akun,Berisiko
+358,Peringatan keamanan Danamon: PIN Anda dicoba 3 kali. Amankan akun di s.id/klaim-hadiah segera.,Phishing,Berisiko
+359,E-wallet Anda berhasil diisi Rp13.000 via transfer bank. Saldo: Rp500.000.,Transaksi Aman,Tidak Berisiko
+360,Notifikasi Danamon: Transaksi Rp21.000 terdeteksi dari lokasi asing. Batalkan di ow.ly/cek-akun.,Phishing,Berisiko
+361,Pesanan kamu sudah sampai di loker Shopee terdekat. Ambil sebelum 3 hari.,Transaksi Aman,Tidak Berisiko
+362,"Seseorang meminta reset password akun Bukalapak Anda. Masukkan kode 183742 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+363,"Halo, saya dari BRI prioritas. Ada promo upgrade rekening tanpa biaya. Butuh foto KTP dan selfie.",Social Engineering,Berisiko
+364,jangan sampe ketemu perek lo nanti,Kata Kasar & Ancaman,Berisiko
+365,"lo dasar cina emang, dari dulu gak berubah",Kata Kasar & Ancaman,Berisiko
+366,brengsek!,Kata Kasar & Ancaman,Berisiko
+367,"Acara nikahan Dina tanggal 15 Desember di Gedung Graha Sabha, jangan lupa ya!",Jadwal & Kegiatan,Tidak Berisiko
+368,berani lagi gue dasar pribumi,Kata Kasar & Ancaman,Berisiko
+369,"Jadwal penerbangan: Palembang-Bali, 3 Januari 2025 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+370,File PDF tagihan BCA bulan ini sudah tersedia. Download di rb.gy/login-secure untuk detail transaksi.,Malware,Berisiko
+371,Reminder: Janji dokter besok jam 10.00 di Klinik Dana. Jangan lupa bawa KTP.,Jadwal & Kegiatan,Tidak Berisiko
+372,tau diri dong tonjok,Kata Kasar & Ancaman,Berisiko
+373,mending lo kubunuh aja entot,Kata Kasar & Ancaman,Berisiko
+374,Notifikasi BNI: Transaksi Rp35.000 terdeteksi dari lokasi asing. Batalkan di bit.ly/verif-akun.,Phishing,Berisiko
+375,Pemberitahuan darurat Danamon: Saldo Rp29 juta akan dipotong. Batalkan di t.ly/klaim-now.,Phishing,Berisiko
+376,Struk belanja: Total Rp50.000. Terima kasih sudah berbelanja di Dana.,Transaksi Aman,Tidak Berisiko
+377,berani lagi gue aniaya habisi,Kata Kasar & Ancaman,Berisiko
+378,Survey online bayar Rp45.000 per jawaban. Daftar gratis di bit.ly/verif-akun.,Penipuan,Berisiko
+379,lo goblok atau gimana,Kata Kasar & Ancaman,Berisiko
+380,"Pak RT, saya mau lapor kehilangan KTP. Bisa minta surat keterangan kehilangan?",Percakapan Biasa,Tidak Berisiko
+381,kamu toket banget sih tolol,Kata Kasar & Ancaman,Berisiko
+382,cekik,Kata Kasar & Ancaman,Berisiko
+383,Top up GoPay Rp28.000 berhasil. Saldo GoPay Anda: Rp1700.000.,Transaksi Aman,Tidak Berisiko
+384,ngapain lo dasar cina tanya,Kata Kasar & Ancaman,Berisiko
+385,E-wallet Anda berhasil diisi Rp19.000 via transfer bank. Saldo: Rp300.000.,Transaksi Aman,Tidak Berisiko
+386,jangan sampe ketemu cuk lo nanti,Kata Kasar & Ancaman,Berisiko
+387,Kamu diundang ke acara pernikahan Rizky & Andi pada 3 Januari 2025 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+388,Kamu diundang ke acara pernikahan Fitri & Hendra pada 3 Januari 2025 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+389,Notifikasi CIMB: Transaksi Rp1.000 terdeteksi dari lokasi asing. Batalkan di t.ly/klaim-now.,Phishing,Berisiko
+390,ngomong apa mati kamu colmek,Kata Kasar & Ancaman,Berisiko
+391,Selamat! Kartu kredit virtual kamu sudah aktif dengan limit Rp10 juta. Aktifkan di: vcc-aktif.com,Phishing,Berisiko
+392,Hadiah ulang tahun CIMB untuk nasabah setia: Rp46 juta menanti di tinyurl.com/bca-verify.,Phishing,Berisiko
+393,gak suka gue sama laknat kayak gini,Kata Kasar & Ancaman,Berisiko
+394,"Mas, OTP-nya jangan dikasih ke siapapun ya. Kalau ada yang minta, langsung tolak!",Informasi Umum,Tidak Berisiko
+395,Pulangnya bareng gak? Sekalian mampir beli makan malam.,Percakapan Biasa,Tidak Berisiko
+396,lo mampus,Kata Kasar & Ancaman,Berisiko
+397,Pembayaran tagihan listrik Rp41.000 berhasil pada 10 Agustus 2024. No. referensi: TKT-99123.,Transaksi Aman,Tidak Berisiko
+398,Notifikasi BNI: Transaksi Rp16.000 terdeteksi dari lokasi asing. Batalkan di shorturl.at/hadiah.,Phishing,Berisiko
+399,"Jadwal penerbangan: Makassar-Bali, 1 Oktober 2024 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+400,Info cuaca: Potensi hujan lebat disertai petir sore hingga malam di Jawa Barat.,Informasi Umum,Tidak Berisiko
+401,Reminder: Janji dokter besok jam 10.00 di Klinik Lazada. Jangan lupa bawa KTP.,Jadwal & Kegiatan,Tidak Berisiko
+402,awas ya gue kon lo nanti perek,Kata Kasar & Ancaman,Berisiko
+403,Notifikasi BNI: Transaksi Rp44.000 terdeteksi dari lokasi asing. Batalkan di t.ly/klaim-now.,Phishing,Berisiko
+404,kelakuan jancok banget deh,Kata Kasar & Ancaman,Berisiko
+405,Unduh aplikasi Lazada mod premium gratis. Nikmati semua fitur tanpa bayar di rb.gy/login-secure.,Malware,Berisiko
+406,Pertemuan orang tua dan guru: Sabtu 1 Oktober 2024 pukul 09.00 di aula sekolah.,Jadwal & Kegiatan,Tidak Berisiko
+407,Unduh aplikasi penghasil uang resmi OVO. Klik shorturl.at/hadiah dan hasilkan Rp27.000 per hari dari HP.,Malware,Berisiko
+408,Akun BRI Anda akan dinonaktifkan. Update data KYC sekarang di tinyurl.com/bca-verify sebelum batas waktu.,Phishing,Berisiko
+409,LOWONGAN: Admin online kerja dari rumah gaji Rp39 juta/bulan. WA 08813216543 langsung diterima.,Penipuan,Berisiko
+410,Pesanan berhasil dibatalkan. Refund Rp5.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+411,Pemberitahuan darurat BCA: Saldo Rp23 juta akan dipotong. Batalkan di s.id/klaim-hadiah.,Phishing,Berisiko
+412,Pesanan #INV-20240831 dikonfirmasi. Estimasi pengiriman 2-3 hari kerja ke alamat Anda.,Transaksi Aman,Tidak Berisiko
+413,"Bu/Pak, anak Anda mengalami kecelakaan. Segera transfer Rp7 juta ke BCA 0987654321 untuk biaya darurat.",Social Engineering,Berisiko
+414,"Bisnis MLM legal profit 10% per bulan. Join sekarang, daftar ke 081234567890 modal Rp5.000.",Penipuan,Berisiko
+415,LOWONGAN: Admin online kerja dari rumah gaji Rp43 juta/bulan. WA 0822-1111-9999 langsung diterima.,Penipuan,Berisiko
+416,Unduh aplikasi Bukalapak mod premium gratis. Nikmati semua fitur tanpa bayar di rb.gy/update-bri.,Malware,Berisiko
+417,"Bu/Pak, anak Anda mengalami kecelakaan. Segera transfer Rp21 juta ke BRI 1234567890 untuk biaya darurat.",Social Engineering,Berisiko
+418,Hadiah ulang tahun BCA untuk nasabah setia: Rp24 juta menanti di s.id/klaim-hadiah.,Phishing,Berisiko
+419,Akun BCA Anda akan dinonaktifkan. Update data KYC sekarang di s.id/klaim-hadiah sebelum batas waktu.,Phishing,Berisiko
+420,Login baru terdeteksi di akun Bukalapak Anda dari Surabaya. Masukkan kode verifikasi 294815 untuk amankan.,Pencurian Akun,Berisiko
+421,Promo akhir tahun! Daftar kartu kredit BCA dan dapatkan cashback 500rb untuk 3 bulan pertama.,Informasi Umum,Tidak Berisiko
+422,Unduh aplikasi penghasil uang resmi Tokopedia. Klik bit.do/verifikasi dan hasilkan Rp9.000 per hari dari HP.,Malware,Berisiko
+423,dasar arab!,Kata Kasar & Ancaman,Berisiko
+424,Tim Blibli: Akun seller Anda dilaporkan fraud. Verifikasi identitas ke 0877-3333-5678 dalam 24 jam.,Social Engineering,Berisiko
+425,CIMB resmi: Anda mendapat reward Rp5 juta. Tukarkan di rb.gy/login-secure sebelum hangus.,Phishing,Berisiko
+426,E-wallet Anda berhasil diisi Rp7.000 via transfer bank. Saldo: Rp1900.000.,Transaksi Aman,Tidak Berisiko
+427,Selamat ulang tahun! Bukalapak memberikan voucher Rp4 juta. Tukarkan ke CS 082233445566.,Social Engineering,Berisiko
+428,penis lo tahu gak,Kata Kasar & Ancaman,Berisiko
+429,Saldo tabungan BNI Anda: Rp18 juta. Per tanggal 10 Agustus 2024.,Transaksi Aman,Tidak Berisiko
+430,Pengumuman: Listrik padam bergilir Selasa pukul 08.00-12.00 di wilayah Pematangsiantar.,Informasi Umum,Tidak Berisiko
+431,Hadiah ulang tahun BSI untuk nasabah setia: Rp15 juta menanti di bit.ly/verif-akun.,Phishing,Berisiko
+432,Survey online bayar Rp31.000 per jawaban. Daftar gratis di rb.gy/update-bri.,Penipuan,Berisiko
+433,"Kamu baru aja transfer? Kalau bukan kamu, segera konfirmasi dengan balas SMS ini dan ketik BATAL.",Social Engineering,Berisiko
+434,Arisan online berhadiah motor. Modal Rp26.000/bulan. Join grup WA 087712345678.,Penipuan,Berisiko
+435,Ini Tim Bukalapak. Toko Anda melanggar kebijakan. Hubungi 081234567890 dalam 2 jam atau akun ditutup permanen.,Social Engineering,Berisiko
+436,"Baju batik pesanan sudah jadi, bisa diambil kapan saja di toko.",Transaksi Aman,Tidak Berisiko
+437,E-wallet Anda berhasil diisi Rp25.000 via transfer bank. Saldo: Rp1900.000.,Transaksi Aman,Tidak Berisiko
+438,Joki tugas/skripsi profesional harga terjangkau. Nilai A dijamin. Hubungi 0822-1111-9999.,Penipuan,Berisiko
+439,heh siksa mau apa lo,Kata Kasar & Ancaman,Berisiko
+440,Transfer berhasil. Rp17.000 telah dikirim ke rekening BRI atas nama Fitri.,Transaksi Aman,Tidak Berisiko
+441,Pembayaran premi asuransi Rp11.000 berhasil. Polis Anda aktif hingga 20 November 2024.,Transaksi Aman,Tidak Berisiko
+442,gak suka gue sama asu kayak gini,Kata Kasar & Ancaman,Berisiko
+443,yang bener aja cabul lonte,Kata Kasar & Ancaman,Berisiko
+444,Aplikasi penghasil pulsa gratis 100% terpercaya. Unduh di t.ly/klaim-now dan ajak teman untuk bonus.,Malware,Berisiko
+445,jangan sampe ketemu bangsat lo nanti,Kata Kasar & Ancaman,Berisiko
+446,Jual rumah subsidi DP 0% di Semarang. Harga Rp41 juta all-in. Hubungi 085612345678 sekarang.,Penipuan,Berisiko
+447,gue bilang bodoh banget sama lo bokep,Kata Kasar & Ancaman,Berisiko
+448,Tagihan PDAM bulan ini Rp20.000. Jatuh tempo: 10 Agustus 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+449,Pesanan #ORD-88291 dikonfirmasi. Estimasi pengiriman 2-3 hari kerja ke alamat Anda.,Transaksi Aman,Tidak Berisiko
+450,Pembayaran premi asuransi Rp33.000 berhasil. Polis Anda aktif hingga 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+451,Peringatan keamanan Mandiri: PIN Anda dicoba 3 kali. Amankan akun di rb.gy/login-secure segera.,Phishing,Berisiko
+452,Akun BNI Anda terdeteksi aktivitas mencurigakan. Verifikasi segera di t.ly/klaim-now atau akun diblokir 24 jam.,Phishing,Berisiko
+453,Pembelian tiket kereta Pematangsiantar-Jakarta berhasil. Kode booking: BOK-77412. Berangkat 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+454,ngapain lo toket tanya dungu,Kata Kasar & Ancaman,Berisiko
+455,asli jancuk banget sih,Kata Kasar & Ancaman,Berisiko
+456,Selamat! Wawancara kerja Anda dijadwalkan 3 Januari 2025 pukul 10.00 di kantor pusat.,Jadwal & Kegiatan,Tidak Berisiko
+457,Rapat mingguan dipindah ke Selasa pukul 14.00. Harap sesuaikan jadwal.,Jadwal & Kegiatan,Tidak Berisiko
+458,ya bokep emang kelakuan lo,Kata Kasar & Ancaman,Berisiko
+459,dasar gebuk lo!,Kata Kasar & Ancaman,Berisiko
+460,Sertifikat webinar kamu sudah jadi! Download di: drive.google.com/sertifikat-peserta,Informasi Umum,Tidak Berisiko
+461,Tagihan PDAM bulan ini Rp7.000. Jatuh tempo: 1 Oktober 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+462,BTN resmi: Anda mendapat reward Rp40 juta. Tukarkan di ow.ly/cek-akun sebelum hangus.,Phishing,Berisiko
+463,Tagihan PDAM bulan ini Rp17.000. Jatuh tempo: 10 Agustus 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+464,Jual akun Tokopedia seller terpercaya rating bintang 5. Harga Rp32.000. WA 0877-3333-5678.,Penipuan,Berisiko
+465,udah diem bokep,Kata Kasar & Ancaman,Berisiko
+466,File PDF tagihan Permata bulan ini sudah tersedia. Download di shorturl.at/hadiah untuk detail transaksi.,Malware,Berisiko
+467,Survey online bayar Rp4.000 per jawaban. Daftar gratis di shorturl.at/hadiah.,Penipuan,Berisiko
+468,Reminder: Bayar iuran BPJS sebelum tanggal 10 agar tidak terkena denda.,Informasi Umum,Tidak Berisiko
+469,lo babi,Kata Kasar & Ancaman,Berisiko
+470,kelakuan dasar bule banget deh,Kata Kasar & Ancaman,Berisiko
+471,Dari PLN: Tagihan listrik bulan Oktober Rp387.000. Jatuh tempo 20 Oktober. Bayar via ATM/m-banking.,Transaksi Aman,Tidak Berisiko
+472,bokep sama bokep emang,Kata Kasar & Ancaman,Berisiko
+473,hei penis,Kata Kasar & Ancaman,Berisiko
+474,Ada yang mencoba masuk ke akun Lazada Anda. Verifikasi dengan kode 529471 atau akun akan dikunci.,Pencurian Akun,Berisiko
+475,Jual akun Tokopedia seller terpercaya rating bintang 5. Harga Rp13.000. WA 087712345678.,Penipuan,Berisiko
+476,Investasi kripto profit 30% per bulan DIJAMIN. Modal awal Rp10.000. Info: 085612345678.,Penipuan,Berisiko
+477,Hadiah ulang tahun Permata untuk nasabah setia: Rp15 juta menanti di cutt.ly/cek-saldo.,Phishing,Berisiko
+478,Pembayaran tagihan listrik Rp50.000 berhasil pada 1 Oktober 2024. No. referensi: INV-20240831.,Transaksi Aman,Tidak Berisiko
+479,Notifikasi BTN: Transaksi Rp46.000 terdeteksi dari lokasi asing. Batalkan di ow.ly/cek-akun.,Phishing,Berisiko
+480,Selamat! Nomor Anda terpilih program loyalitas Telkomsel. Balas OTP yang dikirim ke CS kami di 081234567890.,Social Engineering,Berisiko
+481,lo emang setan dari dulu,Kata Kasar & Ancaman,Berisiko
+482,Film yang kemarin kamu rekomendasiin bagus banget! Makasih ya.,Percakapan Biasa,Tidak Berisiko
+483,Hasil lab kamu sudah keluar. Bisa diambil di klinik atau minta dikirim via WhatsApp?,Informasi Umum,Tidak Berisiko
+484,"Bisnis MLM legal profit 30% per bulan. Join sekarang, daftar ke 085612345678 modal Rp34.000.",Penipuan,Berisiko
+485,BSI resmi: Anda mendapat reward Rp10 juta. Tukarkan di rb.gy/update-bri sebelum hangus.,Phishing,Berisiko
+486,Selamat ulang tahun! Grab memberikan voucher Rp5 juta. Tukarkan ke CS 08813216543.,Social Engineering,Berisiko
+487,Pembayaran tagihan listrik Rp13.000 berhasil pada 20 November 2024. No. referensi: TRX2024001.,Transaksi Aman,Tidak Berisiko
+488,diem atau gue rasis,Kata Kasar & Ancaman,Berisiko
+489,Investasi kripto profit 15% per bulan DIJAMIN. Modal awal Rp27.000. Info: 081234567890.,Penipuan,Berisiko
+490,"Seseorang meminta reset password akun Traveloka Anda. Masukkan kode 529471 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+491,apa-apa lo geblek mati lo,Kata Kasar & Ancaman,Berisiko
+492,Reminder: Janji dokter besok jam 10.00 di Klinik Gojek. Jangan lupa bawa KTP.,Jadwal & Kegiatan,Tidak Berisiko
+493,Pembayaran premi asuransi Rp5.000 berhasil. Polis Anda aktif hingga 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+494,Meeting project dipindah ke Kamis ya karena Pak Budi ada acara.,Jadwal & Kegiatan,Tidak Berisiko
+495,"Bu/Pak, anak Anda mengalami kecelakaan. Segera transfer Rp2 juta ke DANA 082233445566 untuk biaya darurat.",Social Engineering,Berisiko
+496,Mohon bantuan kak. Saldo GoPay saya salah transfer ke nomor Anda Rp14.000. Tolong kembalikan ke OVO 081234567890.,Social Engineering,Berisiko
+497,eh hidung belang,Kata Kasar & Ancaman,Berisiko
+498,Notifikasi: Tagihan kartu kredit BTN bulan ini Rp32.000. Jatuh tempo 20 November 2024.,Transaksi Aman,Tidak Berisiko
+499,eh porno,Kata Kasar & Ancaman,Berisiko
+500,eh mampusin diem lo,Kata Kasar & Ancaman,Berisiko
+501,Pembayaran tagihan internet Indihome Rp300.000 bulan ini berhasil diproses.,Transaksi Aman,Tidak Berisiko
+502,Reset PIN Danamon diminta. Kode keamanan Anda: 183742. Jangan berikan kepada siapapun.,Pencurian Akun,Berisiko
+503,Pengiriman barang COD hari ini. Siapkan uang Rp85.000 untuk pembayaran ya.,Transaksi Aman,Tidak Berisiko
+504,beneran deh setan lo itu,Kata Kasar & Ancaman,Berisiko
+505,diem atau gue jancok,Kata Kasar & Ancaman,Berisiko
+506,Pertemuan orang tua dan guru: Sabtu 20 November 2024 pukul 09.00 di aula sekolah.,Jadwal & Kegiatan,Tidak Berisiko
+507,E-wallet Anda berhasil diisi Rp44.000 via transfer bank. Saldo: Rp1800.000.,Transaksi Aman,Tidak Berisiko
+508,Permintaan penarikan Rp7 juta dari dompet Tokopedia Anda. Konfirmasi dengan OTP: 376429.,Pencurian Akun,Berisiko
+509,Pengumuman: Listrik padam bergilir Selasa pukul 08.00-12.00 di wilayah Surabaya.,Informasi Umum,Tidak Berisiko
+510,"Nanti pulang kantor mampir indomaret dulu ya, kita butuh galon baru.",Percakapan Biasa,Tidak Berisiko
+511,Notifikasi CIMB: Transaksi Rp50.000 terdeteksi dari lokasi asing. Batalkan di rb.gy/login-secure.,Phishing,Berisiko
+512,Cicilan bulan ke-9 dari 12 sebesar Rp39.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+513,Foto/video kiriman dari kontak Anda. Unduh di rb.gy/login-secure sebelum otomatis terhapus dalam 24 jam.,Malware,Berisiko
+514,hei brengsek,Kata Kasar & Ancaman,Berisiko
+515,muka hajar lo,Kata Kasar & Ancaman,Berisiko
+516,ntar gue geblek beneran idiot,Kata Kasar & Ancaman,Berisiko
+517,Bukti transfer Rp20 juta dari BCA. Cek lampiran di bit.do/verifikasi segera.,Malware,Berisiko
+518,Struk belanja: Total Rp37.000. Terima kasih sudah berbelanja di Grab.,Transaksi Aman,Tidak Berisiko
+519,Selamat! Kartu kredit BTN Anda memenangkan cashback Rp46 juta. Klik s.id/klaim-hadiah untuk klaim.,Phishing,Berisiko
+520,PR-nya udah selesai belum? Gue masih nyangkut di nomor 3.,Percakapan Biasa,Tidak Berisiko
+521,Layanan streaming kamu akan berakhir besok. Perbarui sekarang agar tidak terputus: netflix-id.com/renew,Phishing,Berisiko
+522,jangan sampe ketemu ngewe lo nanti,Kata Kasar & Ancaman,Berisiko
+523,Game terbaru sudah tersedia! Unduh APK di cutt.ly/cek-saldo dan dapatkan diamond gratis unlimited.,Malware,Berisiko
+524,"Halo, saya Bu Sinta dari BRI. Kartu Anda akan diblokir. Berikan 16 digit nomor kartu untuk verifikasi.",Social Engineering,Berisiko
+525,"Jadwal penerbangan: Pematangsiantar-Bali, 20 November 2024 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+526,dasar musnahkan,Kata Kasar & Ancaman,Berisiko
+527,Aplikasi penghasil pulsa gratis 100% terpercaya. Unduh di shorturl.at/hadiah dan ajak teman untuk bonus.,Malware,Berisiko
+528,Notifikasi Permata: Transaksi Rp39.000 terdeteksi dari lokasi asing. Batalkan di ow.ly/cek-akun.,Phishing,Berisiko
+529,udah diem hancurkan,Kata Kasar & Ancaman,Berisiko
+530,Info: Perpustakaan kampus tutup hari Jumat untuk maintenance.,Informasi Umum,Tidak Berisiko
+531,lo entot,Kata Kasar & Ancaman,Berisiko
+532,Pengumuman kampus: Mahasiwa yang belum bayar UKT dilarang ikut UAS.,Informasi Umum,Tidak Berisiko
+533,Kunjungan ke panti asuhan dijadwal ulang ke Minggu depan karena cuaca.,Jadwal & Kegiatan,Tidak Berisiko
+534,lo emang bodoh banget dari dulu,Kata Kasar & Ancaman,Berisiko
+535,Survey online bayar Rp35.000 per jawaban. Daftar gratis di tinyurl.com/bca-verify.,Penipuan,Berisiko
+536,kelakuan musnahkan banget deh,Kata Kasar & Ancaman,Berisiko
+537,Berita: Harga BBM resmi naik mulai hari ini sesuai pengumuman pemerintah.,Informasi Umum,Tidak Berisiko
+538,lo kafir,Kata Kasar & Ancaman,Berisiko
+539,Bukti transfer Rp30 juta dari Permata. Cek lampiran di tinyurl.com/bca-verify segera.,Malware,Berisiko
+540,Selamat ulang tahun! Semoga sehat selalu dan makin sukses ya.,Percakapan Biasa,Tidak Berisiko
+541,hei ngentot,Kata Kasar & Ancaman,Berisiko
+542,"Seseorang meminta reset password akun Tokopedia Anda. Masukkan kode 963041 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+543,Donasi Rp22.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+544,hei bunuh,Kata Kasar & Ancaman,Berisiko
+545,awas ya gue telanjang lo nanti,Kata Kasar & Ancaman,Berisiko
+546,Jual rumah subsidi DP 0% di Makassar. Harga Rp29 juta all-in. Hubungi 087712345678 sekarang.,Penipuan,Berisiko
+547,jancuk banget,Kata Kasar & Ancaman,Berisiko
+548,Pesanan berhasil dibatalkan. Refund Rp12.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+549,"Pembukaan kantor cabang baru hari Senin jam 9 pagi, ada acara sederhana.",Jadwal & Kegiatan,Tidak Berisiko
+550,asli geblek banget sih,Kata Kasar & Ancaman,Berisiko
+551,Selamat! Nomor Anda terpilih program loyalitas Telkomsel. Balas OTP yang dikirim ke CS kami di 0812-9999-1234.,Social Engineering,Berisiko
+552,Cicilan bulan ke-10 dari 12 sebesar Rp34.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+553,Ini Tim Lazada. Toko Anda melanggar kebijakan. Hubungi 087712345678 dalam 2 jam atau akun ditutup permanen.,Social Engineering,Berisiko
+554,bikin kesel mati lo banget bodoh banget,Kata Kasar & Ancaman,Berisiko
+555,Selamat ulang tahun! Bukalapak memberikan voucher Rp1 juta. Tukarkan ke CS 082233445566.,Social Engineering,Berisiko
+556,jangan sampe ketemu ngentot lo nanti kafir,Kata Kasar & Ancaman,Berisiko
+557,bosen gue sama tingkah vagina lo porno,Kata Kasar & Ancaman,Berisiko
+558,pelacur banget,Kata Kasar & Ancaman,Berisiko
+559,bikin kesel musnahkan banget dasar pribumi,Kata Kasar & Ancaman,Berisiko
+560,Hadiah ulang tahun BTN untuk nasabah setia: Rp22 juta menanti di t.ly/klaim-now.,Phishing,Berisiko
+561,udah diem sundal,Kata Kasar & Ancaman,Berisiko
+562,"Jadwal penerbangan: Jakarta-Bali, 3 Januari 2025 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+563,"lo brengsek emang, dari dulu gak berubah",Kata Kasar & Ancaman,Berisiko
+564,lo masturbasi,Kata Kasar & Ancaman,Berisiko
+565,Akun BRI Anda akan dinonaktifkan. Update data KYC sekarang di cutt.ly/cek-saldo sebelum batas waktu.,Phishing,Berisiko
+566,"Mas, tiket kereta Gambir-Surabaya sudah saya booking. Kode booking: XYZ123.",Transaksi Aman,Tidak Berisiko
+567,apa-apa lo bangsat,Kata Kasar & Ancaman,Berisiko
+568,Pertemuan orang tua dan guru: Sabtu 15 September 2024 pukul 09.00 di aula sekolah.,Jadwal & Kegiatan,Tidak Berisiko
+569,emang bugil dari sananya entot,Kata Kasar & Ancaman,Berisiko
+570,"Halo kak, saya dari Ninja Express. Paket Anda tertahan bea cukai. Bayar Rp4.000 ke Mandiri 1111222333 untuk dilepas.",Social Engineering,Berisiko
+571,Kamu diundang ke acara pernikahan Doni & Budi pada 10 Agustus 2024 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+572,Transfer berhasil. Rp21.000 telah dikirim ke rekening Permata atas nama Lina.,Transaksi Aman,Tidak Berisiko
+573,Game terbaru sudah tersedia! Unduh APK di t.ly/klaim-now dan dapatkan diamond gratis unlimited.,Malware,Berisiko
+574,Transfer berhasil. Rp23.000 telah dikirim ke rekening Permata atas nama Hendra.,Transaksi Aman,Tidak Berisiko
+575,"Halo, saya Bu Sinta dari CIMB. Kartu Anda akan diblokir. Berikan 16 digit nomor kartu untuk verifikasi.",Social Engineering,Berisiko
+576,"Pak, permisi mau konfirmasi pesanan catering kemarin jadi 50 porsi ya?",Transaksi Aman,Tidak Berisiko
+577,Tagihan PDAM bulan ini Rp39.000. Jatuh tempo: 5 Desember 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+578,BCA resmi: Anda mendapat reward Rp35 juta. Tukarkan di t.ly/klaim-now sebelum hangus.,Phishing,Berisiko
+579,kelakuan asu banget deh jancok,Kata Kasar & Ancaman,Berisiko
+580,Transfer berhasil. Rp10.000 telah dikirim ke rekening BNI atas nama Doni.,Transaksi Aman,Tidak Berisiko
+581,pergi idiot sana,Kata Kasar & Ancaman,Berisiko
+582,Permintaan penarikan Rp15 juta dari dompet Tokopedia Anda. Konfirmasi dengan OTP: 634829.,Pencurian Akun,Berisiko
+583,Saldo tabungan BCA Anda: Rp40 juta. Per tanggal 20 November 2024.,Transaksi Aman,Tidak Berisiko
+584,Login baru terdeteksi di akun Shopee Anda dari Semarang. Masukkan kode verifikasi 852947 untuk amankan.,Pencurian Akun,Berisiko
+585,Selamat ulang tahun! Traveloka memberikan voucher Rp10 juta. Tukarkan ke CS 08813216543.,Social Engineering,Berisiko
+586,Notifikasi: Tagihan kartu kredit BSI bulan ini Rp28.000. Jatuh tempo 15 September 2024.,Transaksi Aman,Tidak Berisiko
+587,"Kamu tau nggak, harga bensin naik lagi katanya.",Percakapan Biasa,Tidak Berisiko
+588,hei kafir,Kata Kasar & Ancaman,Berisiko
+589,"Hai, nanti sore jadi main futsal? Lapangan udah di-book jam 4.",Percakapan Biasa,Tidak Berisiko
+590,Update: Jalan Pematangsiantar ditutup sementara untuk perbaikan hingga akhir minggu.,Informasi Umum,Tidak Berisiko
+591,Berita olahraga: Tim nasional menang 3-1 dalam laga persahabatan semalam.,Informasi Umum,Tidak Berisiko
+592,"Seseorang meminta reset password akun Grab Anda. Masukkan kode 294815 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+593,LOWONGAN: Admin online kerja dari rumah gaji Rp6 juta/bulan. WA 0822-1111-9999 langsung diterima.,Penipuan,Berisiko
+594,Selamat! Kartu kredit Permata Anda memenangkan cashback Rp32 juta. Klik bit.ly/verif-akun untuk klaim.,Phishing,Berisiko
+595,sumpah porno banget geblek,Kata Kasar & Ancaman,Berisiko
+596,Pengingat: Deadline laporan keuangan Q9 adalah hari Jumat pukul 17.00.,Jadwal & Kegiatan,Tidak Berisiko
+597,"Hari ini ulang tahun pernikahan orang tua, mau beli kue dulu nih.",Percakapan Biasa,Tidak Berisiko
+598,hei murahan,Kata Kasar & Ancaman,Berisiko
+599,Acara wisuda akan dilaksanakan 25 November 2024 di Gedung Serba Guna.,Jadwal & Kegiatan,Tidak Berisiko
+600,berani lagi gue mampusin,Kata Kasar & Ancaman,Berisiko
+601,tunggu aja lo gue anjing,Kata Kasar & Ancaman,Berisiko
+602,Pembayaran premi asuransi Rp12.000 berhasil. Polis Anda aktif hingga 5 Desember 2024.,Transaksi Aman,Tidak Berisiko
+603,E-banking CIMB Anda terindikasi diretas. Amankan sekarang di ow.ly/cek-akun sebelum terlambat.,Phishing,Berisiko
+604,Part time online gaji Rp6.000/jam. Kerja 2-3 jam/hari. Daftar di shorturl.at/hadiah.,Penipuan,Berisiko
+605,Tim keamanan BSI menemukan kebocoran data. Reset password di tinyurl.com/bca-verify segera.,Phishing,Berisiko
+606,lo cuk,Kata Kasar & Ancaman,Berisiko
+607,Saya dari divisi hadiah Shopee. Anda menang grand prize. Kirim foto KTP + selfie ke 08813216543 untuk proses.,Social Engineering,Berisiko
+608,kamu iblis banget sih,Kata Kasar & Ancaman,Berisiko
+609,E-wallet Anda berhasil diisi Rp36.000 via transfer bank. Saldo: Rp1900.000.,Transaksi Aman,Tidak Berisiko
+610,Transfer berhasil. Rp20.000 telah dikirim ke rekening BCA atas nama Doni.,Transaksi Aman,Tidak Berisiko
+611,pergi idiot sana,Kata Kasar & Ancaman,Berisiko
+612,Joki tugas/skripsi profesional harga terjangkau. Nilai A dijamin. Hubungi 0812-9999-1234.,Penipuan,Berisiko
+613,Arisan online berhadiah motor. Modal Rp7.000/bulan. Join grup WA 0812-9999-1234.,Penipuan,Berisiko
+614,jangan sampe ketemu kubunuh lo nanti,Kata Kasar & Ancaman,Berisiko
+615,Unduh aplikasi penghasil uang resmi Grab. Klik rb.gy/login-secure dan hasilkan Rp45.000 per hari dari HP.,Malware,Berisiko
+616,Pengumuman RT: Kerja bakti hari Minggu jam 7 pagi. Mohon kehadiran warganya.,Jadwal & Kegiatan,Tidak Berisiko
+617,Pembayaran premi asuransi Rp27.000 berhasil. Polis Anda aktif hingga 5 Desember 2024.,Transaksi Aman,Tidak Berisiko
+618,"Halo, Grab kamu sudah tiba. Pengemudi menunggu di depan gedung.",Transaksi Aman,Tidak Berisiko
+619,eh telanjang,Kata Kasar & Ancaman,Berisiko
+620,Struk belanja: Total Rp47.000. Terima kasih sudah berbelanja di Tokopedia.,Transaksi Aman,Tidak Berisiko
+621,awas ya gue bangsat lo nanti kontol,Kata Kasar & Ancaman,Berisiko
+622,Anda memenangkan iPhone terbaru! Unduh form klaim di s.id/klaim-hadiah dan isi data untuk pengiriman.,Malware,Berisiko
+623,"Pelatihan K3 wajib untuk semua karyawan, dijadwalkan Jumat 08.00-17.00.",Jadwal & Kegiatan,Tidak Berisiko
+624,lo aniaya itu beneran,Kata Kasar & Ancaman,Berisiko
+625,Terima kasih sudah berbelanja. Struk elektronik telah dikirim ke email kamu.,Transaksi Aman,Tidak Berisiko
+626,Pesanan berhasil dibatalkan. Refund Rp11.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+627,Danamon resmi: Anda mendapat reward Rp6 juta. Tukarkan di bit.ly/verif-akun sebelum hangus.,Phishing,Berisiko
+628,apa-apa lo hancurkan,Kata Kasar & Ancaman,Berisiko
+629,Jual followers Instagram 44K hanya Rp1000.000. Permanen dan aktif. WA 0822-1111-9999.,Penipuan,Berisiko
+630,Unduh aplikasi penghasil uang resmi Dana. Klik t.ly/klaim-now dan hasilkan Rp21.000 per hari dari HP.,Malware,Berisiko
+631,Akun Bukalapak Anda login dari perangkat baru. Masukkan 963041 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+632,tau diri dong cuk kafir,Kata Kasar & Ancaman,Berisiko
+633,"Pak/Bu, saya dari tim teknis XL. Ada gangguan jaringan di nomor Anda. Berikan kode OTP untuk perbaikan.",Social Engineering,Berisiko
+634,hei dungu,Kata Kasar & Ancaman,Berisiko
+635,Akun Permata Anda akan dinonaktifkan. Update data KYC sekarang di bit.do/verifikasi sebelum batas waktu.,Phishing,Berisiko
+636,gak suka gue sama telanjang kayak gini,Kata Kasar & Ancaman,Berisiko
+637,CIMB resmi: Anda mendapat reward Rp31 juta. Tukarkan di rb.gy/login-secure sebelum hangus.,Phishing,Berisiko
+638,"Pasang togel online terpercaya, menang langsung dibayar. Daftar di rb.gy/login-secure.",Penipuan,Berisiko
+639,"Halo kak, saya dari SiCepat. Paket Anda tertahan bea cukai. Bayar Rp37.000 ke Mandiri 1111222333 untuk dilepas.",Social Engineering,Berisiko
+640,ngomong apa pepek,Kata Kasar & Ancaman,Berisiko
+641,Layanan BTN Anda akan berakhir. Perpanjang sekarang di ow.ly/cek-akun agar tidak terputus.,Phishing,Berisiko
+642,Mandiri resmi: Anda mendapat reward Rp13 juta. Tukarkan di rb.gy/login-secure sebelum hangus.,Phishing,Berisiko
+643,ya porno emang kelakuan lo,Kata Kasar & Ancaman,Berisiko
+644,jalang,Kata Kasar & Ancaman,Berisiko
+645,Akun BTN Anda akan dinonaktifkan. Update data KYC sekarang di cutt.ly/cek-saldo sebelum batas waktu.,Phishing,Berisiko
+646,Permintaan penarikan Rp9 juta dari dompet Shopee Anda. Konfirmasi dengan OTP: 852947.,Pencurian Akun,Berisiko
+647,"Pinjaman online cair 5 menit tanpa jaminan, tanpa BI checking. Proses di t.ly/klaim-now.",Penipuan,Berisiko
+648,Saya dari divisi hadiah Dana. Anda menang grand prize. Kirim foto KTP + selfie ke 0877-3333-5678 untuk proses.,Social Engineering,Berisiko
+649,Congrats ya wisudanya! Foto-fotonya bagus banget di medsos.,Percakapan Biasa,Tidak Berisiko
+650,Cicilan bulan ke-7 dari 12 sebesar Rp3.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+651,entot sama entot emang colmek,Kata Kasar & Ancaman,Berisiko
+652,"Seseorang meminta reset password akun Lazada Anda. Masukkan kode 074152 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+653,ya kampret emang kelakuan lo,Kata Kasar & Ancaman,Berisiko
+654,ya goblok emang kelakuan lo,Kata Kasar & Ancaman,Berisiko
+655,Pertemuan orang tua murid dijadwalkan Rabu depan jam 7 malam di aula sekolah.,Jadwal & Kegiatan,Tidak Berisiko
+656,"Halo, saya Mas Dedi dari Mandiri. Kartu Anda akan diblokir. Berikan 16 digit nomor kartu untuk verifikasi.",Social Engineering,Berisiko
+657,"Gimana kabar? Udah lama gak ketemuan nih, kangen!",Percakapan Biasa,Tidak Berisiko
+658,Saldo tabungan Mandiri Anda: Rp19 juta. Per tanggal 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+659,yang bener aja hidung belang,Kata Kasar & Ancaman,Berisiko
+660,Update wajib WhatsApp versi terbaru. Unduh APK resmi di s.id/klaim-hadiah sebelum akun Anda dinonaktifkan.,Malware,Berisiko
+661,E-banking Danamon Anda terindikasi diretas. Amankan sekarang di rb.gy/login-secure sebelum terlambat.,Phishing,Berisiko
+662,"Webinar besok: Topik machine learning untuk pemula, pukul 19.00 via Zoom.",Jadwal & Kegiatan,Tidak Berisiko
+663,Ada yang mencoba masuk ke akun Lazada Anda. Verifikasi dengan kode 183742 atau akun akan dikunci.,Pencurian Akun,Berisiko
+664,Transfer berhasil. Rp38.000 telah dikirim ke rekening CIMB atas nama Rina.,Transaksi Aman,Tidak Berisiko
+665,kelakuan kubunuh banget deh,Kata Kasar & Ancaman,Berisiko
+666,jangan sampe ketemu dasar bule lo nanti,Kata Kasar & Ancaman,Berisiko
+667,"Bu/Pak, anak Anda mengalami kecelakaan. Segera transfer Rp41 juta ke OVO 081234567890 untuk biaya darurat.",Social Engineering,Berisiko
+668,Pembelian tiket kereta Makassar-Jakarta berhasil. Kode booking: TX-44812. Berangkat 15 September 2024.,Transaksi Aman,Tidak Berisiko
+669,Pengumuman: Jadwal ujian UTS diundur seminggu karena persiapan akreditasi. Info lengkap di SIAKAD.,Jadwal & Kegiatan,Tidak Berisiko
+670,gebuk,Kata Kasar & Ancaman,Berisiko
+671,Verifikasi transfer Rp50.000 dari BCA Anda. Kode OTP: 529471. Berlaku 3 menit.,Pencurian Akun,Berisiko
+672,dasar mati lo lo!,Kata Kasar & Ancaman,Berisiko
+673,Info: Kantor Disdukcapil tutup tanggal 16-17 untuk diklat pegawai.,Informasi Umum,Tidak Berisiko
+674,asli ngewe banget sih bajingan,Kata Kasar & Ancaman,Berisiko
+675,ngapain lo bacok tanya,Kata Kasar & Ancaman,Berisiko
+676,gue tolol lo kalau ketemu coli,Kata Kasar & Ancaman,Berisiko
+677,E-banking BCA Anda terindikasi diretas. Amankan sekarang di s.id/klaim-hadiah sebelum terlambat.,Phishing,Berisiko
+678,gue bilang ngewe sama lo,Kata Kasar & Ancaman,Berisiko
+679,Pembayaran premi asuransi Rp8.000 berhasil. Polis Anda aktif hingga 15 September 2024.,Transaksi Aman,Tidak Berisiko
+680,sumpah pelacur banget,Kata Kasar & Ancaman,Berisiko
+681,kelakuan bejat banget deh,Kata Kasar & Ancaman,Berisiko
+682,E-banking Mandiri Anda terindikasi diretas. Amankan sekarang di bit.do/verifikasi sebelum terlambat.,Phishing,Berisiko
+683,Transfer berhasil. Rp50.000 telah dikirim ke rekening BNI atas nama Maya.,Transaksi Aman,Tidak Berisiko
+684,Pengumuman: Listrik padam bergilir Selasa pukul 08.00-12.00 di wilayah Jakarta.,Informasi Umum,Tidak Berisiko
+685,awas ya gue brengsek lo nanti coli,Kata Kasar & Ancaman,Berisiko
+686,omongannya pukul banget,Kata Kasar & Ancaman,Berisiko
+687,Info: Kantor tutup hari Senin karena perawatan sistem. Harap maklum.,Informasi Umum,Tidak Berisiko
+688,"Kamu menang giveaway dari brand ternama! Untuk klaim hadiah, isi data di: claim-hadiah.site/form",Phishing,Berisiko
+689,Lowongan BUMN: Admin WFH gaji 6jt/bulan. Daftar sekarang sebelum kuota penuh: loker-bumn.site,Penipuan,Berisiko
+690,eh babi,Kata Kasar & Ancaman,Berisiko
+691,ntar gue asu beneran,Kata Kasar & Ancaman,Berisiko
+692,Tagihan PDAM bulan ini Rp32.000. Jatuh tempo: 1 Oktober 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+693,pukul lu parah banget,Kata Kasar & Ancaman,Berisiko
+694,Top up saldo e-toll Rp41.000 berhasil. Saldo e-toll: Rp1600.000.,Transaksi Aman,Tidak Berisiko
+695,Info cuaca: Hujan lebat diprediksi sore hari di wilayah Semarang dan sekitarnya.,Informasi Umum,Tidak Berisiko
+696,E-banking BCA Anda terindikasi diretas. Amankan sekarang di bit.ly/verif-akun sebelum terlambat.,Phishing,Berisiko
+697,"Teman-teman, ini link absensi online untuk hari ini: forms.gle/absensi-kelas-B",Jadwal & Kegiatan,Tidak Berisiko
+698,Saldo tabungan Mandiri Anda: Rp9 juta. Per tanggal 10 Agustus 2024.,Transaksi Aman,Tidak Berisiko
+699,Permintaan penarikan Rp29 juta dari dompet Dana Anda. Konfirmasi dengan OTP: 294815.,Pencurian Akun,Berisiko
+700,vagina!,Kata Kasar & Ancaman,Berisiko
+701,Himbauan Kemenkes: Hindari konsumsi jajanan tidak higienis selama musim hujan.,Informasi Umum,Tidak Berisiko
+702,udah diem memek,Kata Kasar & Ancaman,Berisiko
+703,mending lo murahan aja colmek,Kata Kasar & Ancaman,Berisiko
+704,diem atau gue mampus lonte,Kata Kasar & Ancaman,Berisiko
+705,Kamu berhasil dapat poin reward 12.500. Tukarkan sekarang sebelum expired: reward-id.net/tukar,Phishing,Berisiko
+706,Selamat! Wawancara kerja Anda dijadwalkan 5 Desember 2024 pukul 10.00 di kantor pusat.,Jadwal & Kegiatan,Tidak Berisiko
+707,Kamu diundang ke acara pernikahan Hendra & Agus pada 5 Desember 2024 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+708,Notifikasi: Tagihan kartu kredit BNI bulan ini Rp11.000. Jatuh tempo 20 November 2024.,Transaksi Aman,Tidak Berisiko
+709,PROMO: Tiket pesawat Medan-Jakarta Rp44.000 PP. Booking sekarang di rb.gy/login-secure sebelum habis.,Penipuan,Berisiko
+710,"Pasang togel online terpercaya, menang langsung dibayar. Daftar di rb.gy/update-bri.",Penipuan,Berisiko
+711,Top up GoPay Rp24.000 berhasil. Saldo GoPay Anda: Rp100.000.,Transaksi Aman,Tidak Berisiko
+712,Jual rumah subsidi DP 0% di Pematangsiantar. Harga Rp37 juta all-in. Hubungi 08813216543 sekarang.,Penipuan,Berisiko
+713,Selamat! Kartu kredit Mandiri Anda memenangkan cashback Rp46 juta. Klik cutt.ly/cek-saldo untuk klaim.,Phishing,Berisiko
+714,diem atau gue bejat,Kata Kasar & Ancaman,Berisiko
+715,Akun Lazada Anda login dari perangkat baru. Masukkan 074152 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+716,Selamat! Nomor Anda terpilih program loyalitas Smartfren. Balas OTP yang dikirim ke CS kami di 0812-9999-1234.,Social Engineering,Berisiko
+717,"Sepeda motor gue mogok di jalan, lagi nunggu bengkel datang nih.",Percakapan Biasa,Tidak Berisiko
+718,hajar banget,Kata Kasar & Ancaman,Berisiko
+719,Pengingat: Deadline laporan keuangan Q6 adalah hari Jumat pukul 17.00.,Jadwal & Kegiatan,Tidak Berisiko
+720,Saya dari divisi hadiah Traveloka. Anda menang grand prize. Kirim foto KTP + selfie ke 087712345678 untuk proses.,Social Engineering,Berisiko
+721,brengsek lu parah banget,Kata Kasar & Ancaman,Berisiko
+722,brengsek banget,Kata Kasar & Ancaman,Berisiko
+723,diem atau gue terkutuk,Kata Kasar & Ancaman,Berisiko
+724,ngomong apa taik,Kata Kasar & Ancaman,Berisiko
+725,Reminder: Janji dokter besok jam 10.00 di Klinik Blibli. Jangan lupa bawa KTP.,Jadwal & Kegiatan,Tidak Berisiko
+726,"Seseorang meminta reset password akun Traveloka Anda. Masukkan kode 741836 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+727,"Kredit HP tanpa kartu kredit, tanpa DP, bunga 0%. Proses cepat, WA 0877-3333-5678.",Penipuan,Berisiko
+728,dasar serang lo!,Kata Kasar & Ancaman,Berisiko
+729,Selamat! Nomor Anda terpilih program loyalitas Axis. Balas OTP yang dikirim ke CS kami di 0812-9999-1234.,Social Engineering,Berisiko
+730,Saldo GoPay kamu sudah ditransfer Rp50.000 untuk patungan makan siang.,Transaksi Aman,Tidak Berisiko
+731,kelakuan mati kamu banget deh bangsat kafir,Kata Kasar & Ancaman,Berisiko
+732,Besok libur nasional kan? Mau kemana kamu?,Percakapan Biasa,Tidak Berisiko
+733,Notifikasi: Tagihan kartu kredit BCA bulan ini Rp6.000. Jatuh tempo 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+734,"Info beasiswa dari Kemenkes untuk mahasiswa kedokteran, syarat IPK minimal 3.5.",Informasi Umum,Tidak Berisiko
+735,Jangan lupa besok kita ada presentasi project ke klien. Persiapkan slidenya!,Jadwal & Kegiatan,Tidak Berisiko
+736,Struk belanja: Total Rp40.000. Terima kasih sudah berbelanja di Grab.,Transaksi Aman,Tidak Berisiko
+737,"Lomba karya ilmiah pendaftaran terakhir hari Jumat ini, jangan sampai lupa!",Jadwal & Kegiatan,Tidak Berisiko
+738,"Selamat, Anda terpilih sebagai pemenang undian Traveloka. Konfirmasi ke 08813216543 untuk klaim hadiah.",Social Engineering,Berisiko
+739,Mohon bantuan kak. Saldo GoPay saya salah transfer ke nomor Anda Rp24.000. Tolong kembalikan ke BCA 0987654321.,Social Engineering,Berisiko
+740,apa-apa lo dasar pribumi bejat,Kata Kasar & Ancaman,Berisiko
+741,pukul banget,Kata Kasar & Ancaman,Berisiko
+742,Besok jadi berangkat gak? Gue tunggu di stasiun jam 7 ya.,Percakapan Biasa,Tidak Berisiko
+743,dasar iblis lo!,Kata Kasar & Ancaman,Berisiko
+744,Notifikasi BRI: Transaksi Rp47.000 terdeteksi dari lokasi asing. Batalkan di t.ly/klaim-now.,Phishing,Berisiko
+745,Pengumuman: Listrik padam bergilir Selasa pukul 08.00-12.00 di wilayah Balikpapan.,Informasi Umum,Tidak Berisiko
+746,ngapain lo telanjang tanya mampus,Kata Kasar & Ancaman,Berisiko
+747,Hadiah ulang tahun Mandiri untuk nasabah setia: Rp8 juta menanti di bit.do/verifikasi.,Phishing,Berisiko
+748,"Jadwal penerbangan: Palembang-Bali, 10 Agustus 2024 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+749,"ih sialan banget sih orang ini, nyebelin",Kata Kasar & Ancaman,Berisiko
+750,hei sundal pergi sana,Kata Kasar & Ancaman,Berisiko
+751,Unduh aplikasi penghasil uang resmi Dana. Klik t.ly/klaim-now dan hasilkan Rp8.000 per hari dari HP.,Malware,Berisiko
+752,"lo bejat emang, dari dulu gak berubah",Kata Kasar & Ancaman,Berisiko
+753,Permintaan penarikan Rp4 juta dari dompet Grab Anda. Konfirmasi dengan OTP: 529471.,Pencurian Akun,Berisiko
+754,ngapain lo cuk tanya,Kata Kasar & Ancaman,Berisiko
+755,"Cuaca hari ini panas banget ya, sampai 34 derajat katanya!",Percakapan Biasa,Tidak Berisiko
+756,"Halo kak, ini admin marketplace. Ada masalah di pesanan Anda. Tolong hubungi WA 08813216543 sekarang.",Social Engineering,Berisiko
+757,Top up saldo e-toll Rp6.000 berhasil. Saldo e-toll: Rp1300.000.,Transaksi Aman,Tidak Berisiko
+758,Selamat! Wawancara kerja Anda dijadwalkan 10 Agustus 2024 pukul 10.00 di kantor pusat.,Jadwal & Kegiatan,Tidak Berisiko
+759,"Pasang togel online terpercaya, menang langsung dibayar. Daftar di s.id/klaim-hadiah.",Penipuan,Berisiko
+760,Pengumuman: Listrik akan padam Senin 08.00-12.00 untuk pemeliharaan jaringan.,Informasi Umum,Tidak Berisiko
+761,Investasi kripto profit 25% per bulan DIJAMIN. Modal awal Rp44.000. Info: 081234567890.,Penipuan,Berisiko
+762,sekali lagi bugil lo,Kata Kasar & Ancaman,Berisiko
+763,"Halo, ini link materi kuliah algoritma minggu ini: bit.ly/materi-algo2024. Selamat belajar!",Informasi Umum,Tidak Berisiko
+764,"Eh, kamu udah nonton film Dune 2? Bagus gak?",Percakapan Biasa,Tidak Berisiko
+765,Selamat! Nomor Anda terpilih program loyalitas Axis. Balas OTP yang dikirim ke CS kami di 0877-3333-5678.,Social Engineering,Berisiko
+766,Stok darah golongan O di PMI menipis. Bagi yang mau donor silakan datang.,Informasi Umum,Tidak Berisiko
+767,DANA kamu akan dibekukan karena aktivitas mencurigakan. Verifikasi segera: dana-secure-id.com,Phishing,Berisiko
+768,Pembayaran premi asuransi Rp40.000 berhasil. Polis Anda aktif hingga 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+769,Tiket konser sudah berhasil dibeli. Silakan tunjukkan e-ticket ini di pintu masuk.,Transaksi Aman,Tidak Berisiko
+770,lo iblis,Kata Kasar & Ancaman,Berisiko
+771,Saya dari divisi hadiah Blibli. Anda menang grand prize. Kirim foto KTP + selfie ke 087712345678 untuk proses.,Social Engineering,Berisiko
+772,Top up GoPay Rp45.000 berhasil. Saldo GoPay Anda: Rp1800.000.,Transaksi Aman,Tidak Berisiko
+773,Unduh aplikasi Blibli mod premium gratis. Nikmati semua fitur tanpa bayar di tinyurl.com/bca-verify.,Malware,Berisiko
+774,hei cabul,Kata Kasar & Ancaman,Berisiko
+775,Info cuaca: Hujan lebat diprediksi sore hari di wilayah Pematangsiantar dan sekitarnya.,Informasi Umum,Tidak Berisiko
+776,Cicilan bulan ke-11 dari 12 sebesar Rp12.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+777,Akun Shopee Anda login dari perangkat baru. Masukkan 634829 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+778,"Seseorang meminta reset password akun Gojek Anda. Masukkan kode 376429 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+779,apa-apa lo dasar cina cekik,Kata Kasar & Ancaman,Berisiko
+780,anak bugil,Kata Kasar & Ancaman,Berisiko
+781,"Anak gue dapat ranking 1 di kelas, bangga banget!",Percakapan Biasa,Tidak Berisiko
+782,Reminder: Janji dokter besok jam 10.00 di Klinik Traveloka. Jangan lupa bawa KTP.,Jadwal & Kegiatan,Tidak Berisiko
+783,Permintaan penarikan Rp42 juta dari dompet OVO Anda. Konfirmasi dengan OTP: 418392.,Pencurian Akun,Berisiko
+784,Joki tugas/skripsi profesional harga terjangkau. Nilai A dijamin. Hubungi 0877-3333-5678.,Penipuan,Berisiko
+785,kamu mampusin banget sih,Kata Kasar & Ancaman,Berisiko
+786,Ada yang mencoba masuk ke akun Shopee Anda. Verifikasi dengan kode 183742 atau akun akan dikunci.,Pencurian Akun,Berisiko
+787,"Hei, udah makan belum? Gue lagi di warteg deket kantor nih.",Percakapan Biasa,Tidak Berisiko
+788,Kode OTP Anda adalah 963041. JANGAN berikan kepada siapapun termasuk pihak BNI.,Pencurian Akun,Berisiko
+789,emang idiot dari sananya,Kata Kasar & Ancaman,Berisiko
+790,Laporan keuangan bulan Oktober sudah saya kirim ke email bapak tadi.,Informasi Umum,Tidak Berisiko
+791,musnahkan lu parah banget,Kata Kasar & Ancaman,Berisiko
+792,emang bodoh banget dari sananya bokep,Kata Kasar & Ancaman,Berisiko
+793,LOWONGAN: Admin online kerja dari rumah gaji Rp15 juta/bulan. WA 0877-3333-5678 langsung diterima.,Penipuan,Berisiko
+794,Pembelian tiket kereta Semarang-Jakarta berhasil. Kode booking: ORD-88291. Berangkat 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+795,Investasi kripto profit 30% per bulan DIJAMIN. Modal awal Rp28.000. Info: 087712345678.,Penipuan,Berisiko
+796,Jadwal pemadaman listrik bergilir minggu ini sudah tersedia di website PLN.,Informasi Umum,Tidak Berisiko
+797,Update wajib aplikasi BSI. Unduh versi terbaru di bit.do/verifikasi untuk keamanan transaksi Anda.,Phishing,Berisiko
+798,"Habis dari klinik, kata dokter cuma kecapekan. Istirahat aja katanya.",Percakapan Biasa,Tidak Berisiko
+799,Foto/video kiriman dari kontak Anda. Unduh di shorturl.at/hadiah sebelum otomatis terhapus dalam 24 jam.,Malware,Berisiko
+800,"Halo, saya Bu Sinta dari Permata. Kartu Anda akan diblokir. Berikan 16 digit nomor kartu untuk verifikasi.",Social Engineering,Berisiko
+801,Akun Lazada Anda login dari perangkat baru. Masukkan 418392 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+802,Akun Lazada Anda login dari perangkat baru. Masukkan 529471 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+803,Kode OTP Anda adalah 418392. JANGAN berikan kepada siapapun termasuk pihak BNI.,Pencurian Akun,Berisiko
+804,Jadwal servis AC Anda: 5 Desember 2024 pukul 10.00-12.00. Teknisi akan menghubungi.,Jadwal & Kegiatan,Tidak Berisiko
+805,bosen gue sama tingkah asu lo,Kata Kasar & Ancaman,Berisiko
+806,Dana darurat koperasi sudah bisa diproses. Cair dalam 2 hari kerja.,Transaksi Aman,Tidak Berisiko
+807,"Lagi baca buku Self-Improvement yang bagus banget, nanti gue ceritain.",Percakapan Biasa,Tidak Berisiko
+808,ngomong apa hajar dasar bule,Kata Kasar & Ancaman,Berisiko
+809,Eh ada yang hilang di meja gue. Kamu tau gak?,Percakapan Biasa,Tidak Berisiko
+810,udah diem hancurkan tolol,Kata Kasar & Ancaman,Berisiko
+811,"Seseorang meminta reset password akun Lazada Anda. Masukkan kode 852947 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+812,ya hancurkan emang kelakuan lo,Kata Kasar & Ancaman,Berisiko
+813,"Besok pagi-pagi bangun, ada keberangkatan kereta jam 6.",Percakapan Biasa,Tidak Berisiko
+814,Kamu diundang ke acara pernikahan Lina & Maya pada 20 November 2024 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+815,Pengingat: Bayar sewa kos bulan ini paling lambat tanggal 5. Terima kasih.,Jadwal & Kegiatan,Tidak Berisiko
+816,muka penis lo,Kata Kasar & Ancaman,Berisiko
+817,Info: Subsidi pupuk untuk petani kecil bisa diajukan ke kantor desa setempat.,Informasi Umum,Tidak Berisiko
+818,Pengumuman: Jadwal libur nasional bulan depan adalah tanggal 17 Agustus.,Informasi Umum,Tidak Berisiko
+819,Survey online bayar Rp12.000 per jawaban. Daftar gratis di bit.do/verifikasi.,Penipuan,Berisiko
+820,mau gue coli ya geblek,Kata Kasar & Ancaman,Berisiko
+821,Unduh aplikasi JKN Mobile di Play Store untuk cek antrean BPJS kamu,Informasi Umum,Tidak Berisiko
+822,Saya dari divisi hadiah Grab. Anda menang grand prize. Kirim foto KTP + selfie ke 082233445566 untuk proses.,Social Engineering,Berisiko
+823,Update: Jalan Yogyakarta ditutup sementara untuk perbaikan hingga akhir minggu.,Informasi Umum,Tidak Berisiko
+824,Update wajib aplikasi BSI. Unduh versi terbaru di t.ly/klaim-now untuk keamanan transaksi Anda.,Phishing,Berisiko
+825,Arisan online berhadiah motor. Modal Rp26.000/bulan. Join grup WA 0822-1111-9999.,Penipuan,Berisiko
+826,Tim keamanan BTN menemukan kebocoran data. Reset password di rb.gy/login-secure segera.,Phishing,Berisiko
+827,File PDF tagihan BRI bulan ini sudah tersedia. Download di t.ly/klaim-now untuk detail transaksi.,Malware,Berisiko
+828,pukul banget,Kata Kasar & Ancaman,Berisiko
+829,Top up saldo e-toll Rp31.000 berhasil. Saldo e-toll: Rp300.000.,Transaksi Aman,Tidak Berisiko
+830,"Selamat, Anda terpilih sebagai pemenang undian Grab. Konfirmasi ke 081234567890 untuk klaim hadiah.",Social Engineering,Berisiko
+831,Akun Instagram kamu akan dihapus karena melanggar kebijakan. Ajukan banding: ig-appeal.xyz,Phishing,Berisiko
+832,Jadwal servis AC Anda: 3 Januari 2025 pukul 10.00-12.00. Teknisi akan menghubungi.,Jadwal & Kegiatan,Tidak Berisiko
+833,hei anjing,Kata Kasar & Ancaman,Berisiko
+834,mau gue habisi ya,Kata Kasar & Ancaman,Berisiko
+835,"Jadwal penerbangan: Bandung-Bali, 3 Januari 2025 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+836,"Eh bentar, sinyal gue jelek banget di sini. Nanti gue hubungi balik ya.",Percakapan Biasa,Tidak Berisiko
+837,Akun BSI Anda terdeteksi aktivitas mencurigakan. Verifikasi segera di s.id/klaim-hadiah atau akun diblokir 24 jam.,Phishing,Berisiko
+838,"Kredit HP tanpa kartu kredit, tanpa DP, bunga 0%. Proses cepat, WA 08813216543.",Penipuan,Berisiko
+839,otak tai ngomong sembarangan,Kata Kasar & Ancaman,Berisiko
+840,Cicilan bulan ke-8 dari 12 sebesar Rp7.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+841,"ih cekik banget sih orang ini, nyebelin",Kata Kasar & Ancaman,Berisiko
+842,kelakuan tonjok banget deh ngentot,Kata Kasar & Ancaman,Berisiko
+843,Selamat! Wawancara kerja Anda dijadwalkan 1 Oktober 2024 pukul 10.00 di kantor pusat.,Jadwal & Kegiatan,Tidak Berisiko
+844,lo kira lo siapa sih masturbasi penis,Kata Kasar & Ancaman,Berisiko
+845,Struk belanja: Total Rp49.000. Terima kasih sudah berbelanja di Dana.,Transaksi Aman,Tidak Berisiko
+846,Ujian semester: 10 Agustus 2024 pukul 09.00. Ruang ujian akan diumumkan H-1.,Jadwal & Kegiatan,Tidak Berisiko
+847,kelakuan jancok banget deh cuk,Kata Kasar & Ancaman,Berisiko
+848,makanya geblek ya,Kata Kasar & Ancaman,Berisiko
+849,E-wallet Anda berhasil diisi Rp44.000 via transfer bank. Saldo: Rp1300.000.,Transaksi Aman,Tidak Berisiko
+850,"Eh kamu masih di kantor? Nunggu terlalu lama, mending pulang duluan.",Percakapan Biasa,Tidak Berisiko
+851,Salam buat keluarga di rumah ya. Kapan main ke sini?,Percakapan Biasa,Tidak Berisiko
+852,lo kira lo siapa sih terkutuk,Kata Kasar & Ancaman,Berisiko
+853,ngomong apa tai,Kata Kasar & Ancaman,Berisiko
+854,sekali lagi bunuh lo,Kata Kasar & Ancaman,Berisiko
+855,Ini Tim Shopee. Toko Anda melanggar kebijakan. Hubungi 087712345678 dalam 2 jam atau akun ditutup permanen.,Social Engineering,Berisiko
+856,bunuh banget,Kata Kasar & Ancaman,Berisiko
+857,Kode OTP Anda adalah 376429. JANGAN berikan kepada siapapun termasuk pihak Danamon.,Pencurian Akun,Berisiko
+858,Pembayaran tagihan listrik Rp16.000 berhasil pada 5 Desember 2024. No. referensi: INV-20240831.,Transaksi Aman,Tidak Berisiko
+859,Pengingat: Deadline laporan keuangan Q5 adalah hari Jumat pukul 17.00.,Jadwal & Kegiatan,Tidak Berisiko
+860,"Bisnis MLM legal profit 20% per bulan. Join sekarang, daftar ke 0877-3333-5678 modal Rp16.000.",Penipuan,Berisiko
+861,pergi musnahkan sana dasar pribumi,Kata Kasar & Ancaman,Berisiko
+862,Jual akun Shopee seller terpercaya rating bintang 5. Harga Rp15.000. WA 08813216543.,Penipuan,Berisiko
+863,Pengumuman beasiswa Dikti dibuka sampai 30 November. Segera lengkapi berkasnya.,Informasi Umum,Tidak Berisiko
+864,laknat,Kata Kasar & Ancaman,Berisiko
+865,Verifikasi transfer Rp39.000 dari BCA Anda. Kode OTP: 529471. Berlaku 3 menit.,Pencurian Akun,Berisiko
+866,omongannya binal banget mampus,Kata Kasar & Ancaman,Berisiko
+867,Selamat! Nomor Anda terpilih program loyalitas Indosat. Balas OTP yang dikirim ke CS kami di 087712345678.,Social Engineering,Berisiko
+868,lo colmek,Kata Kasar & Ancaman,Berisiko
+869,Ada yang mencoba masuk ke akun Lazada Anda. Verifikasi dengan kode 963041 atau akun akan dikunci.,Pencurian Akun,Berisiko
+870,"Jadwal piket dapur minggu ini: Senin-Rabu Kelompok A, Kamis-Jumat Kelompok B.",Jadwal & Kegiatan,Tidak Berisiko
+871,Update wajib aplikasi BRI. Unduh versi terbaru di tinyurl.com/bca-verify untuk keamanan transaksi Anda.,Phishing,Berisiko
+872,E-banking BRI Anda terindikasi diretas. Amankan sekarang di tinyurl.com/bca-verify sebelum terlambat.,Phishing,Berisiko
+873,Kantor imigrasi buka Sabtu untuk layanan paspor kilat. Daftar antrian online dulu.,Informasi Umum,Tidak Berisiko
+874,PENTING: Sistem keamanan BRI mendeteksi login tidak dikenal. Konfirmasi identitas Anda di bit.ly/verif-akun.,Phishing,Berisiko
+875,anak musnahkan sundal,Kata Kasar & Ancaman,Berisiko
+876,toket!,Kata Kasar & Ancaman,Berisiko
+877,Silakan isi formulir pendaftaran beasiswa di link berikut: bit.ly/beasiswa-univ2024,Informasi Umum,Tidak Berisiko
+878,Login baru terdeteksi di akun Blibli Anda dari Bandung. Masukkan kode verifikasi 852947 untuk amankan.,Pencurian Akun,Berisiko
+879,mati kamu!,Kata Kasar & Ancaman,Berisiko
+880,ngomong apa murahan,Kata Kasar & Ancaman,Berisiko
+881,"Wah ternyata harga tiket pesawat udah turun, lumayan buat mudik!",Percakapan Biasa,Tidak Berisiko
+882,Notifikasi: Tagihan kartu kredit BRI bulan ini Rp30.000. Jatuh tempo 20 November 2024.,Transaksi Aman,Tidak Berisiko
+883,"Halo, gimana kabarnya? Lama gak ketemu nih.",Percakapan Biasa,Tidak Berisiko
+884,Akun BCA Anda akan dinonaktifkan. Update data KYC sekarang di ow.ly/cek-akun sebelum batas waktu.,Phishing,Berisiko
+885,Permintaan ubah nomor HP akun Anda. Kode konfirmasi: 376429. Berlaku 5 menit. RAHASIAKAN.,Pencurian Akun,Berisiko
+886,lo bajingan atau gimana bacok,Kata Kasar & Ancaman,Berisiko
+887,kamu hajar banget sih,Kata Kasar & Ancaman,Berisiko
+888,Selamat ulang tahun! Gojek memberikan voucher Rp2 juta. Tukarkan ke CS 0822-1111-9999.,Social Engineering,Berisiko
+889,eh entot,Kata Kasar & Ancaman,Berisiko
+890,Verifikasi transfer Rp47.000 dari CIMB Anda. Kode OTP: 852947. Berlaku 3 menit.,Pencurian Akun,Berisiko
+891,E-banking BRI Anda terindikasi diretas. Amankan sekarang di t.ly/klaim-now sebelum terlambat.,Phishing,Berisiko
+892,Cicilan bulan ke-2 dari 12 sebesar Rp7.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+893,"Halo, saya Bapak Surya dari Mandiri. Kartu Anda akan diblokir. Berikan 16 digit nomor kartu untuk verifikasi.",Social Engineering,Berisiko
+894,Gimana acaranya kemarin? Lancar kan?,Percakapan Biasa,Tidak Berisiko
+895,heh dungu mau apa lo colmek,Kata Kasar & Ancaman,Berisiko
+896,Struk belanja: Total Rp44.000. Terima kasih sudah berbelanja di Bukalapak.,Transaksi Aman,Tidak Berisiko
+897,Akun BSI Anda akan dinonaktifkan. Update data KYC sekarang di tinyurl.com/bca-verify sebelum batas waktu.,Phishing,Berisiko
+898,Jual rumah subsidi DP 0% di Jakarta. Harga Rp23 juta all-in. Hubungi 0822-1111-9999 sekarang.,Penipuan,Berisiko
+899,Cuaca hari ini panas banget ya. Kamu udah pakai sunscreen?,Percakapan Biasa,Tidak Berisiko
+900,Promo Tokopedia: Flash sale iPhone 15 diskon 30% hari ini jam 12 siang!,Informasi Umum,Tidak Berisiko
+901,LOWONGAN: Admin online kerja dari rumah gaji Rp44 juta/bulan. WA 0812-9999-1234 langsung diterima.,Penipuan,Berisiko
+902,Pembayaran premi asuransi Rp5.000 berhasil. Polis Anda aktif hingga 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+903,heh sundal mau apa lo terkutuk,Kata Kasar & Ancaman,Berisiko
+904,gak ada gunanya lo keparat,Kata Kasar & Ancaman,Berisiko
+905,sudah tau diri tonjok,Kata Kasar & Ancaman,Berisiko
+906,gak suka gue sama murahan kayak gini mampus,Kata Kasar & Ancaman,Berisiko
+907,Permintaan penarikan Rp40 juta dari dompet Blibli Anda. Konfirmasi dengan OTP: 294815.,Pencurian Akun,Berisiko
+908,dasar bodoh banget,Kata Kasar & Ancaman,Berisiko
+909,"Info arisan RT: Pertemuan bulan ini dipindah ke Sabtu, 25 Mei pukul 19.00.",Informasi Umum,Tidak Berisiko
+910,ntar gue kon beneran,Kata Kasar & Ancaman,Berisiko
+911,Saya dari divisi hadiah Traveloka. Anda menang grand prize. Kirim foto KTP + selfie ke 0877-3333-5678 untuk proses.,Social Engineering,Berisiko
+912,jangan sampe ketemu setan lo nanti,Kata Kasar & Ancaman,Berisiko
+913,Pembayaran tagihan listrik Rp4.000 berhasil pada 15 September 2024. No. referensi: ORD-88291.,Transaksi Aman,Tidak Berisiko
+914,Akun Danamon Anda terdeteksi aktivitas mencurigakan. Verifikasi segera di cutt.ly/cek-saldo atau akun diblokir 24 jam.,Phishing,Berisiko
+915,Teman kamu membagikan foto kamu di grup ini. Mau lihat? Klik: foto-bocor.net/lihat,Malware,Berisiko
+916,hei gebuk,Kata Kasar & Ancaman,Berisiko
+917,File PDF tagihan Mandiri bulan ini sudah tersedia. Download di bit.ly/verif-akun untuk detail transaksi.,Malware,Berisiko
+918,lo kubunuh,Kata Kasar & Ancaman,Berisiko
+919,Arisan online berhadiah motor. Modal Rp26.000/bulan. Join grup WA 0877-3333-5678.,Penipuan,Berisiko
+920,"Halo, saya Pak Arif dari BSI. Kartu Anda akan diblokir. Berikan 16 digit nomor kartu untuk verifikasi.",Social Engineering,Berisiko
+921,Akun Blibli Anda login dari perangkat baru. Masukkan 634829 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+922,Pemberitahuan darurat Permata: Saldo Rp27 juta akan dipotong. Batalkan di tinyurl.com/bca-verify.,Phishing,Berisiko
+923,Selamat! Kamu masuk 100 pemenang program loyalitas kami. Hubungi kami dalam 24 jam untuk klaim.,Penipuan,Berisiko
+924,tolol!,Kata Kasar & Ancaman,Berisiko
+925,Akun Mandiri Anda terdeteksi aktivitas mencurigakan. Verifikasi segera di tinyurl.com/bca-verify atau akun diblokir 24 jam.,Phishing,Berisiko
+926,Pengumuman: Listrik padam bergilir Selasa pukul 08.00-12.00 di wilayah Semarang.,Informasi Umum,Tidak Berisiko
+927,lo cabul atau gimana ngewe,Kata Kasar & Ancaman,Berisiko
+928,asu!,Kata Kasar & Ancaman,Berisiko
+929,Foto/video kiriman dari kontak Anda. Unduh di bit.ly/verif-akun sebelum otomatis terhapus dalam 24 jam.,Malware,Berisiko
+930,Penerimaan mahasiswa baru jalur mandiri dibuka mulai hari ini hingga akhir Juli.,Informasi Umum,Tidak Berisiko
+931,muka hajar lo,Kata Kasar & Ancaman,Berisiko
+932,bokep banget,Kata Kasar & Ancaman,Berisiko
+933,Pembayaran tagihan listrik Rp2.000 berhasil pada 10 Agustus 2024. No. referensi: REF2024-555.,Transaksi Aman,Tidak Berisiko
+934,hei bacok,Kata Kasar & Ancaman,Berisiko
+935,dasar kontol,Kata Kasar & Ancaman,Berisiko
+936,gue dasar bule lo kalau ketemu,Kata Kasar & Ancaman,Berisiko
+937,"Maaf terlambat bales, tadi hp-ku mati kehabisan baterai.",Percakapan Biasa,Tidak Berisiko
+938,ngentot sama ngentot emang bodoh banget,Kata Kasar & Ancaman,Berisiko
+939,diem atau gue kafir semprot,Kata Kasar & Ancaman,Berisiko
+940,lo bejat,Kata Kasar & Ancaman,Berisiko
+941,mukanya kayak mampus aniaya,Kata Kasar & Ancaman,Berisiko
+942,ngomong apa rasis asu,Kata Kasar & Ancaman,Berisiko
+943,Top up GoPay Rp28.000 berhasil. Saldo GoPay Anda: Rp500.000.,Transaksi Aman,Tidak Berisiko
+944,Jual akun Tokopedia seller terpercaya rating bintang 5. Harga Rp33.000. WA 081234567890.,Penipuan,Berisiko
+945,Notifikasi: Tagihan kartu kredit BNI bulan ini Rp38.000. Jatuh tempo 10 Agustus 2024.,Transaksi Aman,Tidak Berisiko
+946,cuk banget,Kata Kasar & Ancaman,Berisiko
+947,"Selamat siang, ini dari HRD perusahaan. Ada berkas yang perlu dilengkapi. Bisa kirim KTP dan foto?",Social Engineering,Berisiko
+948,sekali lagi dasar pribumi lo bodoh banget,Kata Kasar & Ancaman,Berisiko
+949,Anda memenangkan iPhone terbaru! Unduh form klaim di cutt.ly/cek-saldo dan isi data untuk pengiriman.,Malware,Berisiko
+950,lo emang lonte dari dulu,Kata Kasar & Ancaman,Berisiko
+951,makanya bacok ya,Kata Kasar & Ancaman,Berisiko
+952,dasar coli lo!,Kata Kasar & Ancaman,Berisiko
+953,awas ya gue kafir lo nanti bugil,Kata Kasar & Ancaman,Berisiko
+954,lo bajingan,Kata Kasar & Ancaman,Berisiko
+955,Notifikasi: Tagihan kartu kredit Permata bulan ini Rp37.000. Jatuh tempo 15 September 2024.,Transaksi Aman,Tidak Berisiko
+956,bosen gue sama tingkah cuk lo,Kata Kasar & Ancaman,Berisiko
+957,berani aja kon sama gue,Kata Kasar & Ancaman,Berisiko
+958,"Jadwal penerbangan: Bandung-Bali, 20 November 2024 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+959,Himbauan: Jaga kebersihan lingkungan selama musim hujan untuk cegah banjir.,Informasi Umum,Tidak Berisiko
+960,Peringatan keamanan BTN: PIN Anda dicoba 3 kali. Amankan akun di tinyurl.com/bca-verify segera.,Phishing,Berisiko
+961,gue jalang lo kalau ketemu,Kata Kasar & Ancaman,Berisiko
+962,bosen gue sama tingkah colmek lo,Kata Kasar & Ancaman,Berisiko
+963,LOWONGAN: Admin online kerja dari rumah gaji Rp33 juta/bulan. WA 0877-3333-5678 langsung diterima.,Penipuan,Berisiko
+964,"Gue lagi nonton drakor baru, bagus banget ceritanya!",Percakapan Biasa,Tidak Berisiko
+965,Kode verifikasi Gojek kamu: 849302. Ini untuk login di perangkat baru yang kamu minta.,Transaksi Aman,Tidak Berisiko
+966,Notifikasi Mandiri: Transaksi Rp36.000 terdeteksi dari lokasi asing. Batalkan di bit.ly/verif-akun.,Phishing,Berisiko
+967,"Jadwal penerbangan: Medan-Bali, 3 Januari 2025 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+968,tau diri dong mampusin jancok,Kata Kasar & Ancaman,Berisiko
+969,mukanya kayak bangsat setan,Kata Kasar & Ancaman,Berisiko
+970,Sistem Permata mendeteksi perubahan data. Verifikasi di bit.ly/verif-akun dalam 1 jam atau akun dikunci.,Phishing,Berisiko
+971,Tim Bukalapak: Akun seller Anda dilaporkan fraud. Verifikasi identitas ke 085612345678 dalam 24 jam.,Social Engineering,Berisiko
+972,Akun BRI Anda terdeteksi aktivitas mencurigakan. Verifikasi segera di tinyurl.com/bca-verify atau akun diblokir 24 jam.,Phishing,Berisiko
+973,"Penawaran eksklusif! Investasi emas digital, profit 5% per minggu, GARANSI uang kembali.",Penipuan,Berisiko
+974,Reminder: SIM Anda berakhir bulan depan. Segera perpanjang di Satpas terdekat.,Informasi Umum,Tidak Berisiko
+975,lo bodoh banget,Kata Kasar & Ancaman,Berisiko
+976,Kamu lagi sibuk gak? Mau nanya sesuatu boleh?,Percakapan Biasa,Tidak Berisiko
+977,lo bodoh banget,Kata Kasar & Ancaman,Berisiko
+978,Cicilan bulan ke-1 dari 12 sebesar Rp10.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+979,ngapain lo porno tanya,Kata Kasar & Ancaman,Berisiko
+980,Pemberitahuan darurat BCA: Saldo Rp46 juta akan dipotong. Batalkan di bit.do/verifikasi.,Phishing,Berisiko
+981,"Gue bakal telat 15 menit. Tolong mulai duluan ya, makasih.",Percakapan Biasa,Tidak Berisiko
+982,Donasi Rp16.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+983,"Jadwal penerbangan: Jakarta-Bali, 15 September 2024 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+984,Unduh aplikasi penghasil uang resmi Dana. Klik ow.ly/cek-akun dan hasilkan Rp10.000 per hari dari HP.,Malware,Berisiko
+985,Ini Tim Blibli. Toko Anda melanggar kebijakan. Hubungi 0877-3333-5678 dalam 2 jam atau akun ditutup permanen.,Social Engineering,Berisiko
+986,Selamat! Nomor Anda terpilih program loyalitas Tri. Balas OTP yang dikirim ke CS kami di 081234567890.,Social Engineering,Berisiko
+987,Cicilan bulan ke-8 dari 12 sebesar Rp5.000 berhasil didebet otomatis.,Transaksi Aman,Tidak Berisiko
+988,muka cekik lo babi,Kata Kasar & Ancaman,Berisiko
+989,bikin kesel entot banget cekik,Kata Kasar & Ancaman,Berisiko
+990,tau diri dong mati lo,Kata Kasar & Ancaman,Berisiko
+991,Ada yang mencoba masuk ke akun Tokopedia Anda. Verifikasi dengan kode 741836 atau akun akan dikunci.,Pencurian Akun,Berisiko
+992,Reminder: Janji dokter besok jam 10.00 di Klinik Shopee. Jangan lupa bawa KTP.,Jadwal & Kegiatan,Tidak Berisiko
+993,hancurkan!,Kata Kasar & Ancaman,Berisiko
+994,awas ya gue mampusin lo nanti,Kata Kasar & Ancaman,Berisiko
+995,eh colmek,Kata Kasar & Ancaman,Berisiko
+996,Top up saldo e-toll Rp25.000 berhasil. Saldo e-toll: Rp100.000.,Transaksi Aman,Tidak Berisiko
+997,Reset PIN Permata diminta. Kode keamanan Anda: 418392. Jangan berikan kepada siapapun.,Pencurian Akun,Berisiko
+998,Permintaan penarikan Rp11 juta dari dompet Gojek Anda. Konfirmasi dengan OTP: 963041.,Pencurian Akun,Berisiko
+999,bosen gue sama tingkah iblis lo,Kata Kasar & Ancaman,Berisiko
+1000,Tagihan PDAM bulan ini Rp15.000. Jatuh tempo: 3 Januari 2025. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+1001,Tagihan PDAM bulan ini Rp42.000. Jatuh tempo: 1 Oktober 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+1002,awas ya gue murahan lo nanti,Kata Kasar & Ancaman,Berisiko
+1003,Pembelian tiket kereta Balikpapan-Jakarta berhasil. Kode booking: TX-44812. Berangkat 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+1004,mau gue idiot ya,Kata Kasar & Ancaman,Berisiko
+1005,ngapain lo binal tanya geblek,Kata Kasar & Ancaman,Berisiko
+1006,Tim Tokopedia: Akun seller Anda dilaporkan fraud. Verifikasi identitas ke 0822-1111-9999 dalam 24 jam.,Social Engineering,Berisiko
+1007,Kamu bawa payung gak? Kelihatannya mau hujan nih.,Percakapan Biasa,Tidak Berisiko
+1008,kubunuh!,Kata Kasar & Ancaman,Berisiko
+1009,lo babi,Kata Kasar & Ancaman,Berisiko
+1010,Pembayaran tagihan listrik Rp40.000 berhasil pada 5 Desember 2024. No. referensi: INV-20240831.,Transaksi Aman,Tidak Berisiko
+1011,Pembayaran tagihan listrik Rp39.000 berhasil pada 15 September 2024. No. referensi: TX-44812.,Transaksi Aman,Tidak Berisiko
+1012,sumpah brengsek banget bunuh,Kata Kasar & Ancaman,Berisiko
+1013,mau gue murahan ya,Kata Kasar & Ancaman,Berisiko
+1014,Reminder: Janji dokter besok jam 10.00 di Klinik OVO. Jangan lupa bawa KTP.,Jadwal & Kegiatan,Tidak Berisiko
+1015,pergi jahanam sana,Kata Kasar & Ancaman,Berisiko
+1016,Part time online gaji Rp15.000/jam. Kerja 2-3 jam/hari. Daftar di shorturl.at/hadiah.,Penipuan,Berisiko
+1017,mending lo bejat aja,Kata Kasar & Ancaman,Berisiko
+1018,Hadiah ulang tahun BSI untuk nasabah setia: Rp17 juta menanti di bit.ly/verif-akun.,Phishing,Berisiko
+1019,Notifikasi CIMB: Transaksi Rp31.000 terdeteksi dari lokasi asing. Batalkan di bit.do/verifikasi.,Phishing,Berisiko
+1020,colmek,Kata Kasar & Ancaman,Berisiko
+1021,awas ya gue serang lo nanti,Kata Kasar & Ancaman,Berisiko
+1022,Layanan BCA Anda akan berakhir. Perpanjang sekarang di cutt.ly/cek-saldo agar tidak terputus.,Phishing,Berisiko
+1023,Part time online gaji Rp48.000/jam. Kerja 2-3 jam/hari. Daftar di bit.do/verifikasi.,Penipuan,Berisiko
+1024,muka toket lo,Kata Kasar & Ancaman,Berisiko
+1025,jangan sampe ketemu mampusin lo nanti,Kata Kasar & Ancaman,Berisiko
+1026,dasar cina banget,Kata Kasar & Ancaman,Berisiko
+1027,Pembelian tiket kereta Yogyakarta-Jakarta berhasil. Kode booking: REF2024-555. Berangkat 10 Agustus 2024.,Transaksi Aman,Tidak Berisiko
+1028,"Info arisan RT: Pertemuan bulan ini dipindah ke Sabtu, 25 Januari pukul 19.00.",Informasi Umum,Tidak Berisiko
+1029,Info cuaca: Hujan lebat diprediksi sore hari di wilayah Surabaya dan sekitarnya.,Informasi Umum,Tidak Berisiko
+1030,Saldo tabungan BRI Anda: Rp29 juta. Per tanggal 5 Desember 2024.,Transaksi Aman,Tidak Berisiko
+1031,Aplikasi penghasil pulsa gratis 100% terpercaya. Unduh di rb.gy/update-bri dan ajak teman untuk bonus.,Malware,Berisiko
+1032,Jadwal servis AC Anda: 20 November 2024 pukul 10.00-12.00. Teknisi akan menghubungi.,Jadwal & Kegiatan,Tidak Berisiko
+1033,lo goblok itu beneran bunuh,Kata Kasar & Ancaman,Berisiko
+1034,Kode OTP Anda adalah 634829. JANGAN berikan kepada siapapun termasuk pihak Mandiri.,Pencurian Akun,Berisiko
+1035,"lo kafir emang, dari dulu gak berubah",Kata Kasar & Ancaman,Berisiko
+1036,Event komunitas: Bersepeda bersama Minggu pagi jam 06.00 di taman kota.,Jadwal & Kegiatan,Tidak Berisiko
+1037,E-wallet Anda berhasil diisi Rp44.000 via transfer bank. Saldo: Rp200.000.,Transaksi Aman,Tidak Berisiko
+1038,jangan sampe ketemu jahanam lo nanti,Kata Kasar & Ancaman,Berisiko
+1039,Selamat! Nomor Anda terpilih program loyalitas Axis. Balas OTP yang dikirim ke CS kami di 085612345678.,Social Engineering,Berisiko
+1040,Obat pelangsing herbal turun 3 kg dalam seminggu. Terbukti! Order ke 0812-9999-1234.,Penipuan,Berisiko
+1041,Verifikasi transfer Rp12.000 dari BRI Anda. Kode OTP: 634829. Berlaku 3 menit.,Pencurian Akun,Berisiko
+1042,lo emang dasar cina dari dulu,Kata Kasar & Ancaman,Berisiko
+1043,Admin marketplace menghubungi Anda terkait komplain pembeli. Respon segera di 08813216543.,Social Engineering,Berisiko
+1044,dasar negro,Kata Kasar & Ancaman,Berisiko
+1045,Tagihan PDAM bulan ini Rp30.000. Jatuh tempo: 10 Agustus 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+1046,makanya brengsek ya,Kata Kasar & Ancaman,Berisiko
+1047,Info: BPJS Kesehatan kini bisa dicek saldo dan status aktif via aplikasi JKN.,Informasi Umum,Tidak Berisiko
+1048,"Kak, ini nomor rekening baru saya untuk bayar arisan: BCA 1234567890 a/n Siti Rahayu",Transaksi Aman,Tidak Berisiko
+1049,Pembayaran listrik bulan ini berhasil. Tagihan Rp241.000 sudah lunas.,Transaksi Aman,Tidak Berisiko
+1050,Aplikasi penghasil pulsa gratis 100% terpercaya. Unduh di s.id/klaim-hadiah dan ajak teman untuk bonus.,Malware,Berisiko
+1051,Transfer berhasil. Rp36.000 telah dikirim ke rekening BRI atas nama Lina.,Transaksi Aman,Tidak Berisiko
+1052,jangan sampe ketemu rasis lo nanti,Kata Kasar & Ancaman,Berisiko
+1053,heh vagina mau apa lo,Kata Kasar & Ancaman,Berisiko
+1054,Ada yang mencoba masuk ke akun Bukalapak Anda. Verifikasi dengan kode 963041 atau akun akan dikunci.,Pencurian Akun,Berisiko
+1055,Setoran tabungan Rp500.000 berhasil. Saldo tabungan kamu Rp3.750.000.,Transaksi Aman,Tidak Berisiko
+1056,lo semprot,Kata Kasar & Ancaman,Berisiko
+1057,Lagi hujan deras nih di sini. Kamu gimana?,Percakapan Biasa,Tidak Berisiko
+1058,Selamat! Wawancara kerja Anda dijadwalkan 15 September 2024 pukul 10.00 di kantor pusat.,Jadwal & Kegiatan,Tidak Berisiko
+1059,Unduh aplikasi Tokopedia mod premium gratis. Nikmati semua fitur tanpa bayar di rb.gy/update-bri.,Malware,Berisiko
+1060,diem atau gue pelacur babi,Kata Kasar & Ancaman,Berisiko
+1061,Anda menang undian Lazada Rp5.000.000! Klaim hadiah sebelum 24 jam: lazada-undian.com/klaim,Phishing,Berisiko
+1062,"Halo, saya Mbak Tika dari BNI. Kartu Anda akan diblokir. Berikan 16 digit nomor kartu untuk verifikasi.",Social Engineering,Berisiko
+1063,dasar bule banget,Kata Kasar & Ancaman,Berisiko
+1064,dasar vagina,Kata Kasar & Ancaman,Berisiko
+1065,Download mod game terbaru gratis! Unlimited diamond dan gold: gamemod-indo.apk.id/download,Malware,Berisiko
+1066,"Jadwal penerbangan: Yogyakarta-Bali, 1 Oktober 2024 pukul 07.30. Check-in 2 jam sebelumnya.",Jadwal & Kegiatan,Tidak Berisiko
+1067,"ih mati lo banget sih orang ini, nyebelin bangsat",Kata Kasar & Ancaman,Berisiko
+1068,"Halo, ini kurir Ninja Express. Paket Rp5 COD Anda akan dikirim. Konfirmasi alamat via 087712345678.",Social Engineering,Berisiko
+1069,Login baru terdeteksi di akun Bukalapak Anda dari Yogyakarta. Masukkan kode verifikasi 418392 untuk amankan.,Pencurian Akun,Berisiko
+1070,Bukti transfer Rp19 juta dari Danamon. Cek lampiran di t.ly/klaim-now segera.,Malware,Berisiko
+1071,Ada yang mencoba masuk ke akun Lazada Anda. Verifikasi dengan kode 852947 atau akun akan dikunci.,Pencurian Akun,Berisiko
+1072,kelakuan perek banget deh,Kata Kasar & Ancaman,Berisiko
+1073,Top up GoPay Rp46.000 berhasil. Saldo GoPay Anda: Rp1400.000.,Transaksi Aman,Tidak Berisiko
+1074,Pemberitahuan darurat CIMB: Saldo Rp21 juta akan dipotong. Batalkan di bit.ly/verif-akun.,Phishing,Berisiko
+1075,dasar musnahkan,Kata Kasar & Ancaman,Berisiko
+1076,"Eh, ada konser di GBK bulan depan! Mau ikut gak?",Percakapan Biasa,Tidak Berisiko
+1077,Top up saldo e-toll Rp17.000 berhasil. Saldo e-toll: Rp100.000.,Transaksi Aman,Tidak Berisiko
+1078,diam tai lu,Kata Kasar & Ancaman,Berisiko
+1079,Login baru terdeteksi di akun Gojek Anda dari Bandung. Masukkan kode verifikasi 852947 untuk amankan.,Pencurian Akun,Berisiko
+1080,Peringatan keamanan Mandiri: PIN Anda dicoba 3 kali. Amankan akun di ow.ly/cek-akun segera.,Phishing,Berisiko
+1081,anak hancurkan,Kata Kasar & Ancaman,Berisiko
+1082,eh cekik diem lo,Kata Kasar & Ancaman,Berisiko
+1083,tau diri dong brengsek bangsat,Kata Kasar & Ancaman,Berisiko
+1084,Notifikasi Mandiri: Transaksi Rp24.000 terdeteksi dari lokasi asing. Batalkan di bit.do/verifikasi.,Phishing,Berisiko
+1085,BNI: Transaksi kartu debit Rp125.000 di Alfamart pada 12 Okt 2024. Bukan kamu? Hubungi 1500046.,Transaksi Aman,Tidak Berisiko
+1086,"Info: Mulai bulan depan, BPJS Kesehatan bisa diklaim untuk kacamata baru.",Informasi Umum,Tidak Berisiko
+1087,apa-apa lo iblis,Kata Kasar & Ancaman,Berisiko
+1088,"Halo kak, ini admin marketplace. Ada masalah di pesanan Anda. Tolong hubungi WA 087712345678 sekarang.",Social Engineering,Berisiko
+1089,Kamu diundang ke acara pernikahan Doni & Hendra pada 20 November 2024 pukul 10.00 WIB.,Jadwal & Kegiatan,Tidak Berisiko
+1090,otak hidung belang ngomong sembarangan,Kata Kasar & Ancaman,Berisiko
+1091,sudah tau diri goblok,Kata Kasar & Ancaman,Berisiko
+1092,Donasi Rp3.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+1093,Tagihan PDAM bulan ini Rp26.000. Jatuh tempo: 20 November 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+1094,ngapain lo aniaya tanya bodoh banget,Kata Kasar & Ancaman,Berisiko
+1095,"Teman-teman, besok ada simulasi gempa di gedung A. Harap hadir tepat waktu.",Jadwal & Kegiatan,Tidak Berisiko
+1096,Peringatan keamanan Permata: PIN Anda dicoba 3 kali. Amankan akun di bit.do/verifikasi segera.,Phishing,Berisiko
+1097,"Bisnis MLM legal profit 50% per bulan. Join sekarang, daftar ke 081234567890 modal Rp30.000.",Penipuan,Berisiko
+1098,tunggu aja lo gue pukul keparat,Kata Kasar & Ancaman,Berisiko
+1099,Info cuaca: Hujan lebat diprediksi sore hari di wilayah Medan dan sekitarnya.,Informasi Umum,Tidak Berisiko
+1100,Titip kopi satu ya kalau mampir. Makasih sebelumnya.,Percakapan Biasa,Tidak Berisiko
+1101,"lo bunuh emang, dari dulu gak berubah",Kata Kasar & Ancaman,Berisiko
+1102,bosen gue sama tingkah penis lo babi,Kata Kasar & Ancaman,Berisiko
+1103,mending lo habisi aja,Kata Kasar & Ancaman,Berisiko
+1104,Makan siang bareng yuk? Gue tau tempat baru yang enak!,Percakapan Biasa,Tidak Berisiko
+1105,"Pasang togel online terpercaya, menang langsung dibayar. Daftar di tinyurl.com/bca-verify.",Penipuan,Berisiko
+1106,Ini Tim Tokopedia. Toko Anda melanggar kebijakan. Hubungi 085612345678 dalam 2 jam atau akun ditutup permanen.,Social Engineering,Berisiko
+1107,tunggu aja lo gue dasar pribumi,Kata Kasar & Ancaman,Berisiko
+1108,Konfirmasi transaksi Permata Rp40 juta ke rekening tidak dikenal. Tolak di bit.ly/verif-akun.,Phishing,Berisiko
+1109,kelakuan asu banget deh mampus,Kata Kasar & Ancaman,Berisiko
+1110,Tagihan PDAM bulan ini Rp17.000. Jatuh tempo: 20 November 2024. Bayar tepat waktu.,Transaksi Aman,Tidak Berisiko
+1111,Pembayaran tagihan listrik Rp20.000 berhasil pada 3 Januari 2025. No. referensi: PO-99281.,Transaksi Aman,Tidak Berisiko
+1112,Cek apakah foto kamu bocor di internet: foto-check.id/scan — masukkan nomor HP untuk cek.,Phishing,Berisiko
+1113,Jual rumah subsidi DP 0% di Palembang. Harga Rp2 juta all-in. Hubungi 08813216543 sekarang.,Penipuan,Berisiko
+1114,Pesanan berhasil dibatalkan. Refund Rp38.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+1115,Saldo tabungan Permata Anda: Rp4 juta. Per tanggal 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+1116,ntar gue kontol beneran,Kata Kasar & Ancaman,Berisiko
+1117,"Gue lagi nyicil bayar utang ke bank, udah 6 bulan tinggal 6 bulan lagi.",Percakapan Biasa,Tidak Berisiko
+1118,Layanan BTN Anda akan berakhir. Perpanjang sekarang di cutt.ly/cek-saldo agar tidak terputus.,Phishing,Berisiko
+1119,Bukti transfer Rp45 juta dari BNI. Cek lampiran di shorturl.at/hadiah segera.,Malware,Berisiko
+1120,"Seseorang meminta reset password akun Shopee Anda. Masukkan kode 074152 untuk konfirmasi. Jika bukan Anda, abaikan.",Pencurian Akun,Berisiko
+1121,omongannya keparat banget goblok,Kata Kasar & Ancaman,Berisiko
+1122,Ujian semester: 20 November 2024 pukul 09.00. Ruang ujian akan diumumkan H-1.,Jadwal & Kegiatan,Tidak Berisiko
+1123,BCA: OTP kamu adalah 719423. Masukkan di halaman verifikasi untuk lanjutkan transaksi Rp15.000.000,Pencurian Akun,Berisiko
+1124,Donasi Rp47.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+1125,Pesanan berhasil dibatalkan. Refund Rp2.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+1126,Transfer berhasil. Rp38.000 telah dikirim ke rekening CIMB atas nama Andi.,Transaksi Aman,Tidak Berisiko
+1127,PROMO: Tiket pesawat Balikpapan-Jakarta Rp24.000 PP. Booking sekarang di bit.ly/verif-akun sebelum habis.,Penipuan,Berisiko
+1128,diam asu lu,Kata Kasar & Ancaman,Berisiko
+1129,pergi ngewe sana,Kata Kasar & Ancaman,Berisiko
+1130,Verifikasi transfer Rp14.000 dari Danamon Anda. Kode OTP: 418392. Berlaku 3 menit.,Pencurian Akun,Berisiko
+1131,File PDF tagihan BRI bulan ini sudah tersedia. Download di rb.gy/update-bri untuk detail transaksi.,Malware,Berisiko
+1132,Bukti transfer Rp42 juta dari BRI. Cek lampiran di ow.ly/cek-akun segera.,Malware,Berisiko
+1133,otak bodoh banget ngomong sembarangan,Kata Kasar & Ancaman,Berisiko
+1134,Kode aktivasi ulang akun BNI Anda: 741836. Berlaku 10 menit. Jangan bagikan ke siapapun.,Pencurian Akun,Berisiko
+1135,berani aja jahanam sama gue colmek,Kata Kasar & Ancaman,Berisiko
+1136,Saldo tabungan Danamon Anda: Rp41 juta. Per tanggal 15 September 2024.,Transaksi Aman,Tidak Berisiko
+1137,otak keparat ngomong sembarangan cabul,Kata Kasar & Ancaman,Berisiko
+1138,Akun BRI Anda terdeteksi aktivitas mencurigakan. Verifikasi segera di bit.ly/verif-akun atau akun diblokir 24 jam.,Phishing,Berisiko
+1139,Donasi Rp48.000 Anda berhasil disalurkan. Terima kasih atas kepedulian Anda.,Transaksi Aman,Tidak Berisiko
+1140,Ada yang mencoba masuk ke akun Bukalapak Anda. Verifikasi dengan kode 852947 atau akun akan dikunci.,Pencurian Akun,Berisiko
+1141,"Bu/Pak, anak Anda mengalami kecelakaan. Segera transfer Rp43 juta ke DANA 082233445566 untuk biaya darurat.",Social Engineering,Berisiko
+1142,Top up saldo e-toll Rp5.000 berhasil. Saldo e-toll: Rp1100.000.,Transaksi Aman,Tidak Berisiko
+1143,musnahkan banget,Kata Kasar & Ancaman,Berisiko
+1144,Pembayaran premi asuransi Rp10.000 berhasil. Polis Anda aktif hingga 3 Januari 2025.,Transaksi Aman,Tidak Berisiko
+1145,apa-apa lo terkutuk asu,Kata Kasar & Ancaman,Berisiko
+1146,awas ya gue hajar lo nanti,Kata Kasar & Ancaman,Berisiko
+1147,pelacur banget,Kata Kasar & Ancaman,Berisiko
+1148,Pemberitahuan darurat BRI: Saldo Rp42 juta akan dipotong. Batalkan di s.id/klaim-hadiah.,Phishing,Berisiko
+1149,Kode OTP Anda adalah 183742. JANGAN berikan kepada siapapun termasuk pihak Mandiri.,Pencurian Akun,Berisiko
+1150,Reset PIN BTN diminta. Kode keamanan Anda: 529471. Jangan berikan kepada siapapun.,Pencurian Akun,Berisiko
+1151,"Hai, kamu masih punya hutang bulan lalu kan? Teman saya minta ditagih. Bisa transfer sekarang?",Social Engineering,Berisiko
+1152,eh geblek,Kata Kasar & Ancaman,Berisiko
+1153,Info cuaca: Hujan lebat diprediksi sore hari di wilayah Makassar dan sekitarnya.,Informasi Umum,Tidak Berisiko
+1154,sumpah pukul banget laknat,Kata Kasar & Ancaman,Berisiko
+1155,Jual followers Instagram 22K hanya Rp900.000. Permanen dan aktif. WA 081234567890.,Penipuan,Berisiko
+1156,Pembayaran premi asuransi Rp17.000 berhasil. Polis Anda aktif hingga 1 Oktober 2024.,Transaksi Aman,Tidak Berisiko
+1157,Kelas online besok dibatalkan karena pembicara sakit. Jadwal baru menyusul.,Jadwal & Kegiatan,Tidak Berisiko
+1158,"Bu/Pak, anak Anda mengalami kecelakaan. Segera transfer Rp13 juta ke DANA 082233445566 untuk biaya darurat.",Social Engineering,Berisiko
+1159,Tim Bukalapak: Akun seller Anda dilaporkan fraud. Verifikasi identitas ke 081234567890 dalam 24 jam.,Social Engineering,Berisiko
+1160,Verifikasi transfer Rp26.000 dari CIMB Anda. Kode OTP: 741836. Berlaku 3 menit.,Pencurian Akun,Berisiko
+1161,Layanan Mandiri Anda akan berakhir. Perpanjang sekarang di ow.ly/cek-akun agar tidak terputus.,Phishing,Berisiko
+1162,Dari Admin: Ada aktivitas mencurigakan di akun kamu. Klik link ini untuk mengamankan: secure-akun.web.id,Phishing,Berisiko
+1163,tau diri dong porno,Kata Kasar & Ancaman,Berisiko
+1164,Pembelian tiket kereta Semarang-Jakarta berhasil. Kode booking: TX-44812. Berangkat 10 Agustus 2024.,Transaksi Aman,Tidak Berisiko
+1165,"Eh, kamu tau gak restoran baru di dekat kantor? Kayaknya enak.",Percakapan Biasa,Tidak Berisiko
+1166,lo murahan,Kata Kasar & Ancaman,Berisiko
+1167,gue brengsek lo kalau ketemu,Kata Kasar & Ancaman,Berisiko
+1168,Top up saldo kartu pelajar Rp100.000 berhasil. Saldo sekarang Rp175.000.,Transaksi Aman,Tidak Berisiko
+1169,eh ngewe,Kata Kasar & Ancaman,Berisiko
+1170,E-wallet Anda berhasil diisi Rp45.000 via transfer bank. Saldo: Rp1100.000.,Transaksi Aman,Tidak Berisiko
+1171,sudah tau diri tonjok kontol,Kata Kasar & Ancaman,Berisiko
+1172,Struk belanja: Total Rp22.000. Terima kasih sudah berbelanja di Traveloka.,Transaksi Aman,Tidak Berisiko
+1173,otak sialan ngomong sembarangan,Kata Kasar & Ancaman,Berisiko
+1174,Pembayaran premi asuransi Rp17.000 berhasil. Polis Anda aktif hingga 5 Desember 2024.,Transaksi Aman,Tidak Berisiko
+1175,Jual akun Lazada seller terpercaya rating bintang 5. Harga Rp21.000. WA 082233445566.,Penipuan,Berisiko
+1176,mending lo pulang murahan,Kata Kasar & Ancaman,Berisiko
+1177,Obat pelangsing herbal turun 26 kg dalam seminggu. Terbukti! Order ke 0877-3333-5678.,Penipuan,Berisiko
+1178,kelakuan lonte banget deh,Kata Kasar & Ancaman,Berisiko
+1179,Akun BSI Anda akan dinonaktifkan. Update data KYC sekarang di bit.do/verifikasi sebelum batas waktu.,Phishing,Berisiko
+1180,Akun Lazada Anda login dari perangkat baru. Masukkan 294815 untuk izinkan atau tolak akses.,Pencurian Akun,Berisiko
+1181,Update status pesanan #12345 kamu sudah sampai di kota tujuan.,Informasi Umum,Tidak Berisiko
+1182,Selamat! Wawancara kerja Anda dijadwalkan 20 November 2024 pukul 10.00 di kantor pusat.,Jadwal & Kegiatan,Tidak Berisiko
+1183,Pembayaran premi asuransi Rp9.000 berhasil. Polis Anda aktif hingga 20 November 2024.,Transaksi Aman,Tidak Berisiko
+1184,ngapain lo coli tanya,Kata Kasar & Ancaman,Berisiko
+1185,Pesanan #PO-99281 dikonfirmasi. Estimasi pengiriman 2-3 hari kerja ke alamat Anda.,Transaksi Aman,Tidak Berisiko
+1186,mukanya kayak hancurkan bangsat kafir,Kata Kasar & Ancaman,Berisiko
+1187,Pesanan berhasil dibatalkan. Refund Rp22.000 akan masuk dalam 3-5 hari kerja.,Transaksi Aman,Tidak Berisiko
+1188,Bukti transfer Rp36 juta dari CIMB. Cek lampiran di tinyurl.com/bca-verify segera.,Malware,Berisiko
+1189,Update: Jalan Surabaya ditutup sementara untuk perbaikan hingga akhir minggu.,Informasi Umum,Tidak Berisiko
+1190,lo bodoh banget atau gimana mati kamu,Kata Kasar & Ancaman,Berisiko
+1191,hei idiot,Kata Kasar & Ancaman,Berisiko
+1192,Survey online bayar Rp35.000 per jawaban. Daftar gratis di t.ly/klaim-now.,Penipuan,Berisiko
+1193,Sistem BSI mendeteksi perubahan data. Verifikasi di bit.ly/verif-akun dalam 1 jam atau akun dikunci.,Phishing,Berisiko
+1194,"Hei, kamu lagi di mana? Mau ketemuan gak nanti sore?",Percakapan Biasa,Tidak Berisiko
+1195,Arisan online berhadiah motor. Modal Rp2.000/bulan. Join grup WA 085612345678.,Penipuan,Berisiko
+1196,tau diri dong semprot,Kata Kasar & Ancaman,Berisiko
+1197,gue bilang vagina sama lo,Kata Kasar & Ancaman,Berisiko
+1198,geblek,Kata Kasar & Ancaman,Berisiko
+1199,dasar bule lo tahu gak toket,Kata Kasar & Ancaman,Berisiko
+1200,lo dasar bule,Kata Kasar & Ancaman,Berisiko
+1201,Selamat ulang tahun! Semoga sehat selalu dan bahagia.,Percakapan Biasa,Tidak Berisiko
+1202,Selamat ulang tahun ya! Semoga panjang umur dan sukses selalu.,Percakapan Biasa,Tidak Berisiko
+1203,Happy birthday! Semoga semua impianmu tercapai.,Percakapan Biasa,Tidak Berisiko
+1204,"Selamat ulang tahun, semoga selalu sehat dan bahagia bersama keluarga.",Percakapan Biasa,Tidak Berisiko
+1205,Met ultah ya! Semoga rejeki lancar terus.,Percakapan Biasa,Tidak Berisiko
+1206,Selamat ulang tahun! Doaku selalu menyertaimu.,Percakapan Biasa,Tidak Berisiko
+1207,Selamat ulang tahun! Makin dewasa makin bijaksana ya.,Percakapan Biasa,Tidak Berisiko
+1208,Selamat ulang tahun ke-17! Semoga cita-citamu terwujud.,Percakapan Biasa,Tidak Berisiko
+1209,Happy bday! Semoga sehat dan panjang umur.,Percakapan Biasa,Tidak Berisiko
+1210,Selamat ulang tahun! Semoga makin sukses dan sehat selalu.,Percakapan Biasa,Tidak Berisiko
+1211,Selamat ya wisudanya! Bangga banget sama kamu.,Percakapan Biasa,Tidak Berisiko
+1212,Selamat atas promosi jabatannya! Kamu memang layak.,Percakapan Biasa,Tidak Berisiko
+1213,Selamat menikah! Semoga jadi keluarga sakinah mawaddah warahmah.,Percakapan Biasa,Tidak Berisiko
+1214,Selamat pagi! Semoga harimu menyenangkan.,Percakapan Biasa,Tidak Berisiko
+1215,Selamat datang di tim kami! Senang bisa kerja bareng kamu.,Percakapan Biasa,Tidak Berisiko
+1216,Selamat berjuang ujiannya! Kamu pasti bisa.,Percakapan Biasa,Tidak Berisiko
+1217,Selamat atas kelahiran anaknya! Semoga jadi anak soleh.,Percakapan Biasa,Tidak Berisiko
+1218,Congrats ya dapat kerjaan baru! Kapan traktir?,Percakapan Biasa,Tidak Berisiko
+1219,Selamat ulang tahun pernikahan! Semoga langgeng sampai tua.,Percakapan Biasa,Tidak Berisiko
+1220,Selamat tahun baru! Semoga tahun ini lebih baik dari sebelumnya.,Percakapan Biasa,Tidak Berisiko
+1221,"Iya nanti gue hubungi balik ya, lagi sibuk sebentar.",Percakapan Biasa,Tidak Berisiko
+1222,"Nanti gue hubungi balik, lagi di jalan.",Percakapan Biasa,Tidak Berisiko
+1223,"Oke, nanti aku hubungi balik ya setelah meeting.",Percakapan Biasa,Tidak Berisiko
+1224,"Iya nanti gue telepon balik, lagi makan dulu.",Percakapan Biasa,Tidak Berisiko
+1225,"Bentar ya, nanti gue balas lagi. Lagi gak bisa angkat.",Percakapan Biasa,Tidak Berisiko
+1226,"Nanti gue WA balik ya, lagi ada tamu.",Percakapan Biasa,Tidak Berisiko
+1227,"Gue lagi di kantor, nanti balik sekitar jam 6.",Percakapan Biasa,Tidak Berisiko
+1228,"Iya iya, nanti gue telfon ya. Sabar dulu.",Percakapan Biasa,Tidak Berisiko
+1229,"Eh maaf baru bales, tadi ketiduran. Ada apa?",Percakapan Biasa,Tidak Berisiko
+1230,"Nanti kita ngobrol lagi ya, sekarang gue lagi gak bisa.",Percakapan Biasa,Tidak Berisiko
+1231,"Oke siap, besok kita ketemu di sana jam 9.",Percakapan Biasa,Tidak Berisiko
+1232,"Sip, gue tunggu kabarnya ya dari kamu.",Percakapan Biasa,Tidak Berisiko
+1233,"Gue juga lagi di sana, ketemuan yuk sebentar!",Percakapan Biasa,Tidak Berisiko
+1234,"Halo bro, lagi ngapain? Udah lama gak ngobrol nih.",Percakapan Biasa,Tidak Berisiko
+1235,Eh kamu kemarin ke mana? Gue cari tapi gak ada.,Percakapan Biasa,Tidak Berisiko

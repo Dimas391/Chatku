@@ -16,7 +16,7 @@ MAX_VIDEO_SIZE = 100 * 1024 * 1024   # 100 MB
 MAX_AUDIO_SIZE = 50 * 1024 * 1024    # 50 MB
 MAX_FILE_SIZE = 50 * 1024 * 1024     # 50 MB
 
-ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/gif", "image/webp"}
+ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"}
 ALLOWED_VIDEO_TYPES = {"video/mp4", "video/quicktime", "video/x-msvideo"}
 ALLOWED_AUDIO_TYPES = {"audio/mpeg", "audio/ogg", "audio/wav", "audio/aac", "audio/m4a"}
 ALLOWED_DOCUMENT_TYPES = {
@@ -31,8 +31,10 @@ class MediaService:
     """Layanan upload media ke local storage."""
 
     def __init__(self):
-        # Buat folder uploads jika belum ada
-        self.base_upload_dir = "uploads"
+        # Buat folder uploads jika belum ada menggunakan path absolut
+        current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.base_upload_dir = os.path.join(current_dir, "uploads")
+        logger.info(f"Base upload directory set to: {self.base_upload_dir}")
         self.ensure_upload_directories()
 
     def ensure_upload_directories(self):
@@ -40,11 +42,13 @@ class MediaService:
         folders = ["avatars", "chat", "temp"]
         for folder in folders:
             folder_path = os.path.join(self.base_upload_dir, folder)
-            os.makedirs(folder_path, exist_ok=True)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path, exist_ok=True)
+                logger.info(f"Created folder: {folder_path}")
 
     def get_base_url(self) -> str:
         """Dapatkan base URL dari settings atau default."""
-        base_url = getattr(settings, 'BASE_URL', 'http://192.168.88.236:8000')
+        base_url = getattr(settings, 'BASE_URL', 'http://192.168.1.3:8000')
         return base_url.rstrip('/')
 
     # ── Upload File ───────────────────────────────────────
@@ -63,6 +67,8 @@ class MediaService:
             content = await file.read()
             content_type = file.content_type or "application/octet-stream"
             file_size = len(content)
+            
+            logger.info(f"Starting media upload: {file.filename}, type: {content_type}, size: {file_size} bytes")
 
             # Validasi
             valid, error = self._validate_file(content, content_type, file_size)
@@ -103,9 +109,15 @@ class MediaService:
     ) -> Tuple[bool, Optional[str], Optional[str]]:
         """Upload foto profil dengan resize otomatis ke local storage."""
         try:
+            print(f"DEBUG: upload_avatar called for user {user_id}")
+            await file.seek(0)
             content = await file.read()
             content_type = file.content_type or "image/jpeg"
             file_size = len(content)
+            
+            print(f"DEBUG: Received file: {file.filename}, type: {content_type}, size: {file_size}")
+            
+            logger.info(f"👤 Uploading avatar for user {user_id}: {file.filename}, size: {file_size} bytes")
 
             # Validasi format
             if content_type not in ALLOWED_IMAGE_TYPES:
@@ -128,10 +140,12 @@ class MediaService:
             
             # Path lengkap file
             file_path = os.path.join(upload_dir, filename)
+            print(f"DEBUG: Saving to {file_path}")
             
             # Simpan file ke disk
             with open(file_path, "wb") as f:
                 f.write(resized_content)
+            print(f"DEBUG: File saved successfully")
             
             # Generate URL
             base_url = self.get_base_url()

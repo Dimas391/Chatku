@@ -180,6 +180,16 @@ class ChatService {
       return { success: false, error: error.message };
     }
   }
+
+  async deleteChat(chatId: string): Promise<ApiResponse<{ success: boolean }>> {
+    try {
+      const token = await storageService.getAccessToken();
+      if (!token) return { success: false, error: 'Token tidak ditemukan' };
+      return await api.delete<{ success: boolean }>(`/chats/${chatId}`, token);
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
 }
 
 const chatServiceInstance = new ChatService();

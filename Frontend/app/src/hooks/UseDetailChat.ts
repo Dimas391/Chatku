@@ -31,6 +31,7 @@ export interface Message {
   isRisky?: boolean;
   isVerified?: boolean;
   confidence?: number;
+  date?: string; // ISO format or YYYY-MM-DD
 }
 
 export const useChatDetail = () => {
@@ -41,6 +42,8 @@ export const useChatDetail = () => {
 
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
+  const [currentChatName, setCurrentChatName] = useState(chatName);
+  const [currentChatAvatar, setCurrentChatAvatar] = useState(chatAvatar);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>('');
@@ -106,13 +109,26 @@ export const useChatDetail = () => {
         websocketService.joinChat(chatId);
         setupMessageListener();
         
+        // Listen for profile updates to refresh header
+        const profileUpdateHandler = (data: any) => {
+          if (data && data.user_id === otherUserId) {
+            if (data.display_name) setCurrentChatName(data.display_name);
+            if (data.avatar_url) setCurrentChatAvatar(data.avatar_url);
+          }
+        };
+        websocketService.onProfileUpdated(profileUpdateHandler);
+        
         // 2. Load Messages
         await loadMessages();
         markMessagesAsRead();
+        
+        return () => {
+          websocketService.off('profile_updated', profileUpdateHandler);
+        };
       };
       setup();
     }
-  }, [chatId, currentUserId]);
+  }, [chatId, currentUserId, otherUserId]);
 
   const getOtherUserId = async () => {
     try {
@@ -219,6 +235,7 @@ export const useChatDetail = () => {
         classificationLabel: newMessage.classification_label,
         isDestroyed: isDestroyed,
         isVerified: newMessage.is_verified,
+        date: new Date().toISOString(),
       };
 
       setMessages(currentMessages => {
@@ -259,15 +276,13 @@ export const useChatDetail = () => {
   const loadMessages = async () => {
     if (!isMounted.current) return;
     
-    console.log('📨 [LOAD] Loading messages for chat:', chatId);
+    // console.log('📨 [LOAD] Loading messages for chat:', chatId);
     setLoading(true);
     try {
       const res = await chatService.getMessages(chatId);
       
-      console.log('📨 [LOAD] Response success:', res.success);
-      
       if (res.success && res.data?.messages) {
-        console.log('📨 [LOAD] Messages count:', res.data.messages.length);
+        // console.log('📨 [LOAD] Messages count:', res.data.messages.length);
         
         const senderIds = [...new Set(res.data.messages.map((msg: any) => msg.sender_id))];
         const senderDetails: Record<string, any> = {};
@@ -305,7 +320,7 @@ export const useChatDetail = () => {
           // Try to decrypt if encrypted
           if (encryptedContent && encryptedAesKey && myPrivateKey) {
             try {
-              console.log(`🔐 [LOAD] Decrypting message ${msg.id}...`);
+              // console.log(`🔐 [LOAD] Decrypting message ${msg.id}...`);
               const result = await encryptionService.dualDecryptMessage(
                 encryptedContent,
                 encryptedAesKey,
@@ -322,7 +337,7 @@ export const useChatDetail = () => {
                                     errMsg.includes('decrypt') ||
                                     errMsg.includes('PKCS_DECODING_ERROR') ||
                                     errMsg.includes('OPENSSL');
-              console.warn(`🔐 [LOAD] Cannot decrypt message ${msg.id}:`, errMsg);
+              // console.warn(`🔐 [LOAD] Cannot decrypt message ${msg.id}:`, errMsg);
               if (isMe) {
                 displayContent = '[Pesan Anda (terenkripsi)]';
               } else {
@@ -354,10 +369,11 @@ export const useChatDetail = () => {
             classificationLabel: msg.classification_label,
             isDestroyed: msg.is_destroyed || msg.classification_label === "Berisiko",
             isVerified: msg.is_verified,
+            date: msg.created_at,
           };
         }));
         
-        console.log('📨 [LOAD] Formatted messages count:', formatted.length);
+        // console.log('📨 [LOAD] Formatted messages count:', formatted.length);
         setMessages(formatted);
       } else {
         console.error('📨 [LOAD] Failed to load messages:', res.error);
@@ -386,29 +402,29 @@ export const useChatDetail = () => {
     console.log('📤 [SEND] Original message length:', originalMessage.length);
     
     try {
-      // 🔐 Get recipient's public key
+      // Get recipient's public key
       const recipientPublicKey = await userService.getUserPublicKey(otherUserId);
       if (!recipientPublicKey || !recipientPublicKey.data?.public_key) {
         Alert.alert('Error', 'Tidak dapat mengambil kunci enkripsi penerima');
         return;
       }
       
-      // 🔐 Get server public key
+      //  Get server public key
       const serverPublicKey = await authService.getServerPublicKey();
       if (!serverPublicKey) {
         Alert.alert('Error', 'Tidak dapat mengambil kunci enkripsi server');
         return;
       }
       
-      // 🔐 Dual encrypt message
-      console.log('🔐 [SEND] Dual encrypting message...');
+      // Dual encrypt message
+      console.log('[SEND] Dual encrypting message...');
       const encryptedData = await encryptionService.dualEncryptMessage(
         originalMessage,
         recipientPublicKey.data.public_key,
         serverPublicKey
       );
       
-      console.log('🔐 [SEND] Message dual encrypted');
+      console.log('[SEND] Message dual encrypted');
       
       // Create temporary message
       const newMessage: Message = {
@@ -421,6 +437,7 @@ export const useChatDetail = () => {
         isMe: true,
         status: 'sending',
         isVerified: true,
+        date: new Date().toISOString(),
       };
 
       setMessages(prev => [...prev, newMessage]);
@@ -433,8 +450,8 @@ export const useChatDetail = () => {
       const res = await chatService.sendDualEncryptedMessage(chatId, encryptedData);
       
       if (res.success && res.data) {
-        console.log('✅ [SEND] Message sent successfully');
-        console.log('📊 [SEND] Classification:', res.data.classification_label);
+        console.log('[SEND] Message sent successfully');
+        console.log('[SEND] Classification:', res.data.classification_label);
         
         // Update message with actual content
         setMessages(prev =>
@@ -477,7 +494,6 @@ export const useChatDetail = () => {
     navigation.goBack();
   }, [navigation]);
 
-  const handleAttach = () => Alert.alert('Info', 'Fitur lampiran akan segera tersedia');
 
   const handleCall = useCallback(async () => {
     if (!otherUserId) {
@@ -539,8 +555,8 @@ export const useChatDetail = () => {
 
   return {
     chatId,
-    chatName,
-    chatAvatar,
+    chatName: currentChatName,
+    chatAvatar: currentChatAvatar,
     online,
     message,
     messages,
@@ -554,7 +570,6 @@ export const useChatDetail = () => {
     setMessage: handleTyping,
     handleSend,
     handleBack,
-    handleAttach,
     handleCall,
     handleVideoCall,
   };
