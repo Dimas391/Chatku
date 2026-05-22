@@ -17,10 +17,10 @@ class UploadService {
       } as any);
       
       // Gunakan URL langsung, jangan pakai API_CONFIG
-      const baseUrl = 'http://192.168.1.3:8000';
+      const baseUrl = 'http://192.168.1.16:8000';
       const uploadUrl = `${baseUrl}/api/v1/users/me/avatar`;
       
-      console.log('📤 Upload URL:', uploadUrl);
+      console.log(' Upload URL:', uploadUrl);
 
       const response = await fetch(uploadUrl, {
         method: 'POST',

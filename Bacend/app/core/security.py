@@ -11,7 +11,6 @@ from app.core.config import settings
 # ── Password hashing ──────────────────────────────────────
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-
 def hash_password(password: str) -> str:
     """Hash password menggunakan bcrypt."""
     return pwd_context.hash(password)
