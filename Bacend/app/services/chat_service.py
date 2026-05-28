@@ -14,8 +14,7 @@ from app.models.chat import (
     CallStatus
 )
 from app.services.encryption_service import encryption_service
-from app.services.classification_service import classification_service
-
+from app.services.encryption_service import encryption_service
 logger = logging.getLogger(__name__)
 
 
@@ -139,19 +138,8 @@ class ChatService:
         messages_col = get_collection("messages")
         chats_col = get_collection("chats")
 
-        # Klasifikasi pesan jika tipenya teks
-        classification_label = "Tidak Berisiko"
-        confidence = 1.0
-        
-        if msg_type == MessageType.TEXT and content:
-            logger.info(" Classifying legacy message...")
-            classification_label, confidence = classification_service.classify(content)
-            
-            # Jika Berisiko, hancurkan isi pesan (hash)
-            if classification_label == "Berisiko":
-                import hashlib
-                content = f"[KONTEN BERBAHAYA DIHANCURKAN]: {hashlib.sha256(content.encode()).hexdigest()[:20]}..."
-                logger.warning("Dangerous legacy content destroyed/hashed.")
+            # Legacy plain text is not classified anymore by server
+            # It will just be stored as is.
 
         new_msg = MessageDocument(
             chat_id=chat_id,
@@ -162,8 +150,8 @@ class ChatService:
             media_url=media_url,
             media_size=media_size,
             media_duration=media_duration,
-            classification_label=classification_label,
-            classification_confidence=confidence,
+            classification_label=classification_label, # type: ignore
+            classification_confidence=confidence, # type: ignore
             status=MessageStatus.SENT,
         )
         result = await messages_col.insert_one(
@@ -194,9 +182,11 @@ class ChatService:
         sender_id: str,
         encrypted_content: str,
         encrypted_aes_key: str,
+        encrypted_aes_key_sender: Optional[str],
         iv: str,
         message_hash: str,
-        reply_to_id: Optional[str] = None
+        reply_to_id: Optional[str] = None,
+        classification_label: Optional[str] = "Tidak Berisiko"
     ) -> Dict:
         """
         Proses dan simpan pesan terenkripsi:
@@ -212,179 +202,27 @@ class ChatService:
         messages_col = get_collection("messages")
         chats_col = get_collection("chats")
         
-        try:
-            # Step 1: Decrypt AES key dengan RSA
-            logger.info("Decrypting AES key...")
-            aes_key = encryption_service.decrypt_aes_key(encrypted_aes_key)
-            
-            # Step 2: Decrypt message dengan AES
-            logger.info("Decrypting message...")
-            plaintext = encryption_service.decrypt_message(encrypted_content, aes_key, iv)
-            
-            # Step 3: Verify hash
-            logger.info("Verifying hash...")
-            is_verified = encryption_service.verify_message_hash(plaintext, message_hash)
-            
-            # Step 4: Klasifikasi pesan
-            logger.info("Classifying message...")
-            classification_label, confidence = classification_service.classify(plaintext)
-            
-            confidence = float(confidence) if confidence else 0.5
-
-            # Dan label adalah string
-            if isinstance(classification_label, (bytes, bytearray)):
-                classification_label = classification_label.decode('utf-8')
-            elif hasattr(classification_label, '__str__'):
-                classification_label = str(classification_label)
-            
-            # HAPUS PLAINTEXT DARI MEMORI (AMAN)
-            encryption_service.clear_memory(plaintext, aes_key)
-            plaintext = None
-            aes_key = None
-            
-            # Step 5: Jika BERISIKO, hancurkan SEMUA data agar tidak bisa didekripsi user
-            if classification_label == "Berisiko":
-                import hashlib
-                logger.warning(f"DANGEROUS MESSAGE DETECTED! Destroying all message data.")
-                
-                # Hancurkan semua komponen pesan
-                destroyed_content = f"[KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM - {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}⚠️]"
-                destroyed_hash = hashlib.sha256(destroyed_content.encode()).hexdigest()
-                
-                message_doc = MessageDocument(
-                    chat_id=chat_id,
-                    sender_id=sender_id,
-                    type=MessageType.TEXT,
-                    #  Pesan asli TIDAK bisa direcover - semua data encryption dihancurkan
-                    encrypted_content=f"BLOCKED_BY_SECURITY_{destroyed_hash[:32]}",
-                    encrypted_aes_key="DESTROYED_FOR_SAFETY",
-                    iv="DESTROYED_FOR_SAFETY",
-                    message_hash=destroyed_hash,
-                    # Untuk keperluan display di UI, simpan pesan peringatan (tidak terenkripsi)
-                    content=destroyed_content,
-                    classification_label=classification_label,
-                    classification_confidence=confidence,
-                    is_verified=False,  # Mark as tampered/unverified
-                    reply_to_id=reply_to_id,
-                    status=MessageStatus.SENT,
-                )
-            else:
-                # TIDAK BERISIKO - Simpan ciphertext seperti biasa
-                message_doc = MessageDocument(
-                    chat_id=chat_id,
-                    sender_id=sender_id,
-                    type=MessageType.TEXT,
-                    encrypted_content=encrypted_content,
-                    encrypted_aes_key=encrypted_aes_key,
-                    iv=iv,
-                    message_hash=message_hash,
-                    classification_label=classification_label,
-                    classification_confidence=confidence,
-                    is_verified=is_verified,
-                    reply_to_id=reply_to_id,
-                    status=MessageStatus.SENT,
-                )
-            
-            result = await messages_col.insert_one(
-                message_doc.model_dump(by_alias=True, exclude={"id"})
-            )
-            
-            # Update last message preview di chat room
-            if classification_label == "Berisiko":
-                preview = "Pesan berbahaya telah diblokir oleh sistem"
-            else:
-                preview = "[Pesan terenkripsi]"
-                
-            await chats_col.update_one(
-                {"_id": ObjectId(chat_id)},
-                {
-                    "$set": {
-                        "last_message_id": str(result.inserted_id),
-                        "last_message_text": preview[:100],
-                        "last_message_at": datetime.now(timezone.utc),
-                        "last_message_by": sender_id,
-                        "updated_at": datetime.now(timezone.utc),
-                    }
-                },
-            )
-            
-            logger.info(f"Message saved. Classification: {classification_label}")
-            
-            return {
-                "message_id": str(result.inserted_id),
-                "classification_label": classification_label,
-                "is_verified": is_verified if classification_label != "Berisiko" else False,
-                "confidence": confidence,
-                "is_destroyed": classification_label == "Berisiko"
-            }
-            
-        except Exception as e:
-            logger.error(f"Failed to process encrypted message: {e}")
-            encryption_service.clear_memory(plaintext, aes_key)
-            raise
-    
-    @staticmethod
-    async def send_dual_encrypted_message(
-        chat_id: str,
-        sender_id: str,
-        encrypted_content_user: str,
-        encrypted_content_server: str,
-        encrypted_aes_key_user: str,
-        encrypted_aes_key_server: str,
-        iv: str,
-        message_hash: str,
-        reply_to_id: Optional[str] = None
-    ) -> Dict:
-        """
-        Proses pesan dual-encrypted:
-        1. Server decrypt dengan server key untuk klasifikasi
-        2. Server TIDAK bisa decrypt user key
-        3. Simpan user ciphertext untuk penerima
-        """
-        messages_col = get_collection("messages")
-        chats_col = get_collection("chats")
+        # Server tidak lagi melakukan dekripsi atau klasifikasi.
+        # Proses klasifikasi sekarang dilakukan di sisi klien.
+        # Server hanya menyimpan ciphertext buta.
+        
+        from app.services.security_service import SecurityService
         
         try:
-            # SERVER DECRYPT untuk klasifikasi
-            logger.info("Server decrypting with server key...")
-            
-            # Decrypt server key (server punya private key sendiri)
-            # TODO: Gunakan private key server yang sudah ada
-            from app.services.encryption_service import encryption_service
-            server_key = encryption_service.decrypt_aes_key(encrypted_aes_key_server)
-            
-            # Decrypt message for classification
-            plaintext = encryption_service.decrypt_message(encrypted_content_server, server_key, iv)
-            
-            # Verify hash
-            is_verified = encryption_service.verify_message_hash(plaintext, message_hash)
-            
-            # KLASIFIKASI
-            logger.info("Classifying message...")
-            result = classification_service.prediksi(plaintext)
-            classification_label = result["label"]
-            confidence = result["keyakinan"] / 100
-            
-            logger.info(f"Classification: {classification_label} ({confidence:.2f})")
-            
-            # HAPUS PLAINTEXT DARI MEMORI
-            encryption_service.clear_memory(plaintext, server_key)
-            
-            # IMPAN ke database (hanya user ciphertext, bukan server)
+            # Create message document with blind encrypted data mapped to correct DB fields
             message_doc = MessageDocument(
                 chat_id=chat_id,
                 sender_id=sender_id,
                 type=MessageType.TEXT,
-                encrypted_content_user=encrypted_content_user,
-                encrypted_aes_key_user=encrypted_aes_key_user,
+                encrypted_content_user=encrypted_content,
+                encrypted_aes_key_user=encrypted_aes_key,
+                encrypted_aes_key_sender=encrypted_aes_key_sender,
                 iv=iv,
                 message_hash=message_hash,
-                classification_label=classification_label,
-                classification_confidence=confidence,
-                is_verified=is_verified,
-                is_destroyed=classification_label == "Berisiko",
+                is_verified=True,
                 reply_to_id=reply_to_id,
                 status=MessageStatus.SENT,
+                classification_label=classification_label,
             )
             
             result = await messages_col.insert_one(
@@ -392,17 +230,12 @@ class ChatService:
             )
             
             # Update last message preview di chat room
-            if classification_label == "Berisiko":
-                preview = " Pesan berbahaya telah diblokir oleh sistem"
-            else:
-                preview = "[Pesan terenkripsi]"
-                
             await chats_col.update_one(
                 {"_id": ObjectId(chat_id)},
                 {
                     "$set": {
                         "last_message_id": str(result.inserted_id),
-                        "last_message_text": preview,
+                        "last_message_text": "[Pesan Terenkripsi]",
                         "last_message_at": datetime.now(timezone.utc),
                         "last_message_by": sender_id,
                         "updated_at": datetime.now(timezone.utc),
@@ -410,18 +243,28 @@ class ChatService:
                 },
             )
             
-            logger.info(f"Dual encrypted message saved. Classification: {classification_label}")
+            logger.info("Message saved blindly and chat room updated.")
+            
+            # Catat ke forensic_log jika pesan berisiko
+            if classification_label == "Berisiko":
+                await SecurityService.add_forensic_log(
+                    user_id=sender_id,
+                    event="Pesan Berisiko Terdeteksi (Client-Side)",
+                    detail=f"Sistem mendeteksi pesan berisiko pada chat_id {chat_id}. Konten otomatis diubah oleh client sebelum enkripsi.",
+                    category="integrity",
+                    severity="critical"
+                )
+                logger.info(f"Forensic log recorded for risky message from user {sender_id}")
             
             return {
                 "message_id": str(result.inserted_id),
-                "classification_label": classification_label,
-                "is_verified": is_verified,
-                "is_destroyed": classification_label == "Berisiko"
+                "is_verified": True,
             }
             
         except Exception as e:
-            logger.error(f"Failed to process dual encrypted message: {e}")
+            logger.error(f"Failed to process encrypted message: {e}")
             raise
+    
 
     # ── Get Messages (Support Both Formats) ─────────────────────
     @staticmethod
@@ -602,7 +445,7 @@ class ChatService:
                 encrypted_content = msg.get("encrypted_content") if has_encrypted else None
                 encrypted_content_user = None
                 encrypted_aes_key_user = None
-                encrypted_aes_key_sender = None
+                encrypted_aes_key_sender = msg.get("encrypted_aes_key_sender")
             
             # Handle ObjectId
             msg_id = msg.get("_id")

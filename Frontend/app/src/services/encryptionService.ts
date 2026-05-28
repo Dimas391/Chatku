@@ -39,12 +39,10 @@ if (!IS_WEB) {
 
 // ─────────────────────────────────────────────────────────────────────────
 
-export interface DualEncryptedMessage {
-  ciphertextUser: string;
-  ciphertextServer: string;
-  encryptedUserKey: string;
-  encryptedServerKey: string;
-  encryptedSenderKey: string;  // AES key encrypted with sender's own RSA public key
+export interface EncryptedMessagePayload {
+  ciphertext: string;
+  encryptedKey: string;
+  encryptedSenderKey: string;
   iv: string;
   hash: string;
   timestamp: number;
@@ -427,43 +425,34 @@ class EncryptionService {
     return hash;
   }
 
-  // ═══════════════════════ DUAL ENCRYPTION ════════════════════════════════
-
-  async dualEncryptMessage(
+  async encryptMessage(
     message: string,
     recipientPublicKey: string,
-    serverPublicKey: string
-  ): Promise<DualEncryptedMessage> {
-    console.log('🔐 [DUAL] Starting dual encryption... platform:', Platform.OS);
-    console.log('🔐 [DUAL] Message length:', message.length);
+  ): Promise<EncryptedMessagePayload> {
+    console.log('🔐 [ENCRYPT] Starting encryption... platform:', Platform.OS);
+    console.log('🔐 [ENCRYPT] Message length:', message.length);
 
-    const userKey   = await this.generateAESKey();
-    const serverKey = await this.generateAESKey();
-    const iv        = await this.generateIV();
-    const hash      = await this.hashMessage(message);
+    const aesKey = await this.generateAESKey();
+    const iv = await this.generateIV();
+    const hash = await this.hashMessage(message);
 
-    console.log('🔐 [DUAL] Keys and IV generated');
+    console.log('🔐 [ENCRYPT] Keys and IV generated');
 
-    const ciphertextUser   = await this.encryptAES(message, userKey, iv);
-    const ciphertextServer = await this.encryptAES(message, serverKey, iv);
+    const ciphertext = await this.encryptAES(message, aesKey, iv);
+    const encryptedKey = await this.encryptWithRSA(aesKey, recipientPublicKey);
 
-    const encryptedUserKey   = await this.encryptWithRSA(userKey, recipientPublicKey);
-    const encryptedServerKey = await this.encryptWithRSA(serverKey, serverPublicKey);
-    
     // Encrypt the AES key for the sender themselves so they can read their own message later
     const myPublicKey = await this.getMyPublicKey();
     let encryptedSenderKey = '';
     if (myPublicKey) {
-      encryptedSenderKey = await this.encryptWithRSA(userKey, myPublicKey);
+      encryptedSenderKey = await this.encryptWithRSA(aesKey, myPublicKey);
     }
 
-    console.log('🔐 [DUAL] Dual encryption completed');
+    console.log('🔐 [ENCRYPT] Encryption completed');
 
     return {
-      ciphertextUser,
-      ciphertextServer,
-      encryptedUserKey,
-      encryptedServerKey,
+      ciphertext,
+      encryptedKey,
       encryptedSenderKey,
       iv,
       hash,
@@ -471,34 +460,26 @@ class EncryptionService {
     };
   }
 
-  async dualDecryptMessage(
-    ciphertextUser: string,
-    encryptedUserKey: string,
+  async decryptMessagePayload(
+    ciphertext: string,
+    encryptedKey: string,
     iv: string,
     hash: string,
     myPrivateKey: string
   ): Promise<{ plaintext: string; isValid: boolean }> {
-    // console.log('🔐 [DUAL DECRYPT] Starting... platform:', Platform.OS);
-    // console.log('🔐 [DUAL DECRYPT] ciphertext length:', ciphertextUser.length);
-    // console.log('🔐 [DUAL DECRYPT] IV available:', !!iv, '| hash available:', !!hash);
-
     try {
       // 1. Decrypt AES key via RSA private key
-      const userKey = await this.decryptWithRSA(encryptedUserKey, myPrivateKey);
-      // console.log('🔐 [DUAL DECRYPT] AES key decrypted, length:', userKey.length);
+      const userKey = await this.decryptWithRSA(encryptedKey, myPrivateKey);
 
       // 2. Decrypt message via AES
-      const plaintext = await this.decryptAES(ciphertextUser, userKey, iv);
-      // console.log('🔐 [DUAL DECRYPT] Plaintext:', plaintext.substring(0, 50));
+      const plaintext = await this.decryptAES(ciphertext, userKey, iv);
 
       // 3. Verify hash
       const computedHash = await this.hashMessage(plaintext);
       const isValid = computedHash === hash;
-      // console.log('🔐 [DUAL DECRYPT] Hash match:', isValid ? '✅ VALID' : '❌ INVALID');
 
       return { plaintext, isValid };
     } catch (error) {
-      // console.error('❌ [DUAL DECRYPT] Failed:', error);
       throw error;
     }
   }

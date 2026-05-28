@@ -1,4 +1,3 @@
-// app/src/pages/PrivacyPolicy/index.tsx
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

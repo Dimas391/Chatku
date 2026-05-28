@@ -1,13 +1,13 @@
 import logging
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from bson import ObjectId
+from fastapi import APIRouter, Depends, HTTPException, status, Query # type: ignore
+from bson import ObjectId # type: ignore
 from datetime import datetime, timezone
 
 from app.middleware.auth import get_current_user
 from app.core.database import get_collection
 from app.services.websocket_manager import manager
-from pydantic import BaseModel
+from pydantic import BaseModel # type: ignore
 
 router = APIRouter(prefix="/contacts", tags=["Contacts"])
 logger = logging.getLogger(__name__)

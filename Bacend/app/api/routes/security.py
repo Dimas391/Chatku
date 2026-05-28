@@ -7,7 +7,6 @@ from datetime import datetime, timezone
 from app.middleware.auth import get_current_user, get_current_user_id
 from app.core.database import get_collection
 from app.services.encryption_service import encryption_service
-from app.services.classification_service import classification_service
 from app.services.security_service import SecurityService
 
 router = APIRouter(prefix="/security", tags=["Security"])

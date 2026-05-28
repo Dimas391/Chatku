@@ -142,13 +142,15 @@ class SendMessageRequest(BaseModel):
 
 
 class SendEncryptedMessageRequest(BaseModel):
-    """Request untuk mengirim pesan terenkripsi (LEGACY)."""
+    """Request untuk mengirim pesan terenkripsi (Client-side classification)."""
     encrypted_content: str
     encrypted_aes_key: str
+    encrypted_aes_key_sender: Optional[str] = None
     iv: str
     message_hash: str
     type: MessageType = MessageType.TEXT
     reply_to_id: Optional[str] = None
+    classification_label: Optional[str] = "Tidak Berisiko"
 
 
 class DualEncryptedMessageRequest(BaseModel):

@@ -1,9 +1,10 @@
 from typing import Optional, List
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File # type: ignore
+from winreg import QueryValue
+from fastapi import APIRouter, Depends, HTTPException, Query, status, UploadFile, File # type: ignore
 from bson import ObjectId # type: ignore
 from datetime import datetime, timezone
 from pydantic import BaseModel  # type: ignore
-from app.middleware.auth import get_current_user, get_current_user_id
+from app.middleware.auth import get_current_admin, get_current_user, get_current_user_id
 from app.core.database import get_collection
 from app.services.media_service import MediaService
 from app.services.websocket_manager import manager
@@ -27,6 +28,11 @@ def _format_user_public(user: dict) -> dict:
         "bio": user.get("bio", ""),
         "is_online": manager.is_online(str(user["_id"])),
         "last_seen": user.get("last_seen", datetime.now(timezone.utc)).isoformat(),
+        "phone": user.get("phone"),
+        "email": user.get("email"),
+        "is_verified": user.get("is_verified", False),
+        "created_at": user.get("created_at", datetime.now(timezone.utc)).isoformat() if user.get("created_at") else None,
+        "message_count": 0,  # Will be calculated if needed
     }
 
 
@@ -133,6 +139,233 @@ async def get_privacy_settings(
         "typing_indicator": privacy.get("typing_indicator", True),
         "two_factor_auth": privacy.get("two_factor_auth", False),
     }
+    
+# ── Admin endpoints ────────────────────────────────────────
+@router.get("/admin/list", summary="[ADMIN] Daftar semua user")
+async def admin_list_users(
+    skip: int = 0,
+    limit: int = 50,
+    search: Optional[str] = None,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk mendapatkan daftar semua user"""
+    
+    query = {} # Menampilkan semua user (termasuk yang tidak aktif/diblokir)
+    
+    if search:
+        query["$or"] = [
+            {"display_name": {"$regex": search, "$options": "i"}},
+            {"username": {"$regex": search, "$options": "i"}},
+            {"phone": {"$regex": search, "$options": "i"}},
+            {"email": {"$regex": search, "$options": "i"}},
+        ]
+    
+    total = await get_collection("users").count_documents(query)
+    
+    cursor = get_collection("users").find(query).sort("created_at", -1).skip(skip).limit(limit)
+    users = await cursor.to_list(length=limit)
+    
+    # Hitung jumlah pesan per user
+    user_ids = [str(u["_id"]) for u in users]
+    message_counts = {}
+    if user_ids:
+        pipeline = [
+            {"$match": {"sender_id": {"$in": user_ids}}},
+            {"$group": {"_id": "$sender_id", "count": {"$sum": 1}}}
+        ]
+        counts = await get_collection("messages").aggregate(pipeline).to_list(length=None)
+        for c in counts:
+            message_counts[c["_id"]] = c["count"]
+    
+    result = []
+    for user in users:
+        user_data = _format_user_public(user)
+        user_data["message_count"] = message_counts.get(str(user["_id"]), 0)
+        user_data["is_active"] = user.get("is_active", True) # Tambahkan status aktif
+        result.append(user_data)
+    
+    return {
+        "users": result,
+        "total": total,
+        "skip": skip,
+        "limit": limit
+    }
+
+
+@router.get("/admin/stats", summary="[ADMIN] Statistik pengguna")
+async def get_user_stats(admin: dict = Depends(get_current_admin)):
+    """Admin endpoint untuk mendapatkan statistik user"""
+    
+    total = await get_collection("users").count_documents({}) # Hitung semua
+    online = len(manager.get_online_user_ids())
+    verified = await get_collection("users").count_documents({"is_verified": True})
+    blocked = await get_collection("users").count_documents({"is_active": False})
+    
+    # User dengan RSA key
+    encrypted_users = await get_collection("users").count_documents({
+        "rsa_public_key": {"$exists": True, "$ne": None}
+    })
+    
+    return {
+        "total": total,
+        "online": online,
+        "offline": max(0, total - online - blocked),
+        "verified": verified,
+        "blocked": blocked,
+        "encrypted_users": encrypted_users
+    }
+
+
+@router.get("/admin/search", summary="Cari Pengguna (Admin)")
+async def admin_search_users(
+    q: str = Query(..., min_length=1),
+    limit: int = 50,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk mencari pengguna"""
+    
+    query = {
+        "$or": [
+            {"display_name": {"$regex": q, "$options": "i"}},
+            {"username": {"$regex": q, "$options": "i"}},
+            {"phone": {"$regex": q, "$options": "i"}},
+            {"email": {"$regex": q, "$options": "i"}},
+        ]
+    }
+    
+    cursor = get_collection("users").find(query).limit(limit)
+    users = await cursor.to_list(length=limit)
+    
+    return {"users": [{**_format_user_public(u), "is_active": u.get("is_active", True)} for u in users]}
+
+
+@router.get("/admin/detail/{user_id}", summary="[ADMIN] Detail Pengguna")
+async def admin_get_user(
+    user_id: str,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk mendapatkan detail user"""
+    
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=400, detail="ID user tidak valid")
+    
+    user = await get_collection("users").find_one({"_id": ObjectId(user_id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan")
+    
+    # Hitung jumlah pesan
+    message_count = await get_collection("messages").count_documents({"sender_id": user_id})
+    
+    # Hitung jumlah chat
+    chat_count = await get_collection("chats").count_documents({"participants": user_id})
+    
+    user_data = _format_user_public(user)
+    user_data["message_count"] = message_count
+    user_data["chat_count"] = chat_count
+    user_data["is_active"] = user.get("is_active", True)
+    
+    return user_data
+
+
+@router.post("/admin/block/{user_id}", summary="[ADMIN] Blokir User")
+async def admin_block_user(
+    user_id: str,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk memblokir user"""
+    
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=400, detail="ID user tidak valid")
+    
+    user = await get_collection("users").find_one({"_id": ObjectId(user_id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan")
+    
+    await get_collection("users").update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {"is_active": False, "updated_at": datetime.now(timezone.utc)}}
+    )
+    
+    # Catat ke forensic log
+    from app.services.security_service import SecurityService
+    await SecurityService.add_forensic_log(
+        user_id=user_id,
+        event="User Blocked by Admin",
+        detail=f"User {user_id} has been blocked by admin {admin.get('username')}",
+        category="access",
+        severity="warning"
+    )
+    
+    return {"success": True, "message": f"User {user.get('display_name', user_id)} telah diblokir"}
+
+
+@router.post("/admin/unblock/{user_id}", summary="[ADMIN] Buka Blokir User")
+async def admin_unblock_user(
+    user_id: str,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk membuka blokir user"""
+    
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=400, detail="ID user tidak valid")
+    
+    user = await get_collection("users").find_one({"_id": ObjectId(user_id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan")
+    
+    await get_collection("users").update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {"is_active": True, "updated_at": datetime.now(timezone.utc)}}
+    )
+    
+    # Catat ke forensic log
+    from app.services.security_service import SecurityService
+    await SecurityService.add_forensic_log(
+        user_id=user_id,
+        event="User Unblocked by Admin",
+        detail=f"User {user_id} has been unblocked by admin {admin.get('username')}",
+        category="access",
+        severity="info"
+    )
+    
+    return {"success": True, "message": f"User {user.get('display_name', user_id)} telah diaktifkan kembali"}
+
+
+@router.delete("/admin/delete/{user_id}", summary="[ADMIN] Hapus User")
+async def admin_delete_user(
+    user_id: str,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk menghapus user"""
+    
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=400, detail="ID user tidak valid")
+    
+    user = await get_collection("users").find_one({"_id": ObjectId(user_id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan")
+    
+    # Hapus data terkait
+    await get_collection("messages").delete_many({"sender_id": user_id})
+    await get_collection("chats").update_many(
+        {"participants": user_id},
+        {"$pull": {"participants": user_id}}
+    )
+    await get_collection("users").delete_one({"_id": ObjectId(user_id)})
+    
+    # Catat ke forensic log
+    from app.services.security_service import SecurityService
+    await SecurityService.add_forensic_log(
+        user_id=admin.get("_id", "admin"),
+        event="User Deleted by Admin",
+        detail=f"User {user_id} ({user.get('display_name', 'Unknown')}) has been deleted by admin",
+        category="access",
+        severity="critical"
+    )
+    
+    return {"success": True, "message": f"User {user.get('display_name', user_id)} telah dihapus"}
+
+
     
 @router.put("/me/notification-token")
 async def update_notification_token(

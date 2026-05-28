@@ -2,6 +2,8 @@
 tests/test_call_service.py
 Unit tests untuk CallService.
 """
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import pytest
 from unittest.mock import AsyncMock, patch, MagicMock
 from app.services.call_service import CallService

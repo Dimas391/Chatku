@@ -79,6 +79,38 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
     );
   }
 
+  const isMessageRisky = isRisky || classificationLabel === 'Berisiko' || text === 'Pesan terindikasi berisiko';
+
+  if (isMessageRisky) {
+    return (
+      <View style={[
+        styles.container,
+        isMe ? styles.myContainer : styles.otherContainer,
+        { backgroundColor: '#FFF0F0', borderWidth: 1, borderColor: '#FF4444' }
+      ]}>
+        {!isMe && senderName && (
+          <Text style={[styles.senderName, { color: '#CC0000' }]}>
+            {senderName}
+          </Text>
+        )}
+        
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginVertical: 4, paddingRight: 8 }}>
+          <MaterialCommunityIcons name="shield-alert-outline" size={18} color="#FF0000" />
+          <Text style={{ fontSize: 13, fontWeight: '700', color: '#CC0000', flexShrink: 1 }}>
+            Pesan Terblokir (Indikasi Bahaya)
+          </Text>
+        </View>
+        
+        <View style={styles.footer}>
+          <Text style={[styles.timeText, { color: '#FF6666' }]}>
+            {time}
+          </Text>
+          {getStatusIcon()}
+        </View>
+      </View>
+    );
+  }
+
   // Normal message display
   return (
     <View style={[

@@ -1,4 +1,6 @@
 import logging
+import signal
+import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI # type: ignore
@@ -10,7 +12,8 @@ from fastapi.staticfiles import StaticFiles # type: ignore
 from app.core.config import settings
 from app.core.database import Database
 from app.core.redis_client import RedisClient
-from app.api.routes import auth, chat, users, calls, websocket, groups, notifications, media, contacts, security
+from app.api.routes import auth, chat,  users, calls, websocket, groups, notifications, media, contacts, security, admin,dashboard
+
 from app.api.routes import video_calls
 from app.utils.db_indexes import create_indexes
 from app.middleware.rate_limit import RateLimitMiddleware
@@ -45,10 +48,16 @@ async def lifespan(app: FastAPI):
     logger.info("Semua layanan siap.")
     yield
 
-    # Shutdown
+    # Shutdown — beri timeout agar tidak menggantung selamanya
     logger.info("Mematikan server ...")
-    await Database.disconnect()
-    await RedisClient.disconnect()
+    try:
+        await asyncio.wait_for(Database.disconnect(), timeout=5.0)
+    except (asyncio.TimeoutError, Exception) as e:
+        logger.warning("Database disconnect timeout/error: %s", e)
+    try:
+        await asyncio.wait_for(RedisClient.disconnect(), timeout=3.0)
+    except (asyncio.TimeoutError, Exception) as e:
+        logger.warning("Redis disconnect timeout/error: %s", e)
     logger.info("Server berhenti.")
     
 os.makedirs("uploads/avatars", exist_ok=True)
@@ -117,11 +126,12 @@ app.include_router(media.router,         prefix=API_PREFIX)
 app.include_router(video_calls.router,   prefix=API_PREFIX)
 app.include_router(contacts.router,      prefix=API_PREFIX)
 app.include_router(security.router,      prefix=API_PREFIX)
+app.include_router(admin.router,         prefix=API_PREFIX)
+app.include_router(dashboard.router,     prefix=API_PREFIX) 
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # PERBAIKAN: WebSocket router TANPA prefix
 app.include_router(websocket.router)  # Tidak pakai prefix
-
 
 # ── Health Check ──────────────────────────────────────────
 @app.get("/", tags=["Health"])

@@ -1,6 +1,6 @@
 import api, { ApiResponse } from './api';
 import storageService from '@/app/src/services/storageService';
-import encryptionService, { DualEncryptedMessage } from '@/app/src/services/encryptionService';
+import encryptionService from '@/app/src/services/encryptionService';
 
 export interface Chat {
   id: string;
@@ -63,12 +63,10 @@ export interface SendMessageResponse {
   is_verified?: boolean;
 }
 
-export interface DualEncryptedMessageResponse {
+export interface SendEncryptedMessageResponse {
   success: boolean;
   message_id: string;
-  classification_label: string;
   is_verified: boolean;
-  is_destroyed: boolean;
 }
 
 class ChatService {
@@ -122,51 +120,49 @@ class ChatService {
     }
   }
 
-  // Dual Encryption Methods
-  async sendDualEncryptedMessage(
-  chatId: string,
-  encryptedData: DualEncryptedMessage
-): Promise<ApiResponse<DualEncryptedMessageResponse>> {
-  try {
-    const token = await storageService.getAccessToken();
-    
-    if (!token) {
+  async sendEncryptedMessage(
+    chatId: string,
+    encryptedData: any,
+    classificationLabel?: 'Berisiko' | 'Tidak Berisiko'
+  ): Promise<ApiResponse<SendEncryptedMessageResponse>> {
+    try {
+      const token = await storageService.getAccessToken();
+      
+      if (!token) {
+        return {
+          success: false,
+          error: 'Token tidak ditemukan',
+          message: 'Token tidak ditemukan',
+        };
+      }
+
+      console.log('[ENCRYPTED] Mengirim pesan terenkripsi...');
+      
+      const response = await api.post<SendEncryptedMessageResponse>(
+        `/chats/${chatId}/messages/encrypted`,
+        {
+          encrypted_content: encryptedData.ciphertext,
+          encrypted_aes_key: encryptedData.encryptedKey,
+          encrypted_aes_key_sender: encryptedData.encryptedSenderKey,
+          iv: encryptedData.iv,
+          message_hash: encryptedData.hash,
+          type: 'text',
+          classification_label: classificationLabel || 'Tidak Berisiko',
+        },
+        token
+      );
+      
+      console.log('[ENCRYPTED] Pesan terkirim');
+      return response;
+    } catch (error) {
+      console.error('[ENCRYPTED] Error:', error);
       return {
         success: false,
-        error: 'Token tidak ditemukan',
-        message: 'Token tidak ditemukan',
+        error: error instanceof Error ? error.message : 'Network error',
+        message: error instanceof Error ? error.message : 'Network error',
       };
     }
-
-    console.log('[DUAL] Sending dual encrypted message...');
-    
-    const response = await api.post<DualEncryptedMessageResponse>(
-      `/chats/${chatId}/messages/dual-encrypted`,
-      {
-        encrypted_content_user: encryptedData.ciphertextUser,
-        encrypted_content_server: encryptedData.ciphertextServer,
-        encrypted_aes_key_user: encryptedData.encryptedUserKey,
-        encrypted_aes_key_sender: encryptedData.encryptedSenderKey,
-        encrypted_aes_key_server: encryptedData.encryptedServerKey,
-        iv: encryptedData.iv,
-        message_hash: encryptedData.hash,
-        type: 'text'
-      },
-      token
-    );
-    
-    console.log('[DUAL] Message sent, classification:', response.data?.classification_label);
-    
-    return response;
-  } catch (error) {
-    console.error('[DUAL] Error:', error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Network error',
-      message: error instanceof Error ? error.message : 'Network error',
-    };
   }
-}
 
   async createPersonalChat(participantId: string): Promise<ApiResponse<CreateChatResponse>> {
     try {

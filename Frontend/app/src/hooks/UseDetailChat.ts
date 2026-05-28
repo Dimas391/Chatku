@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { FlatList, Alert } from 'react-native';
+import { FlatList, Alert, Platform } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import storageService from '@/app/src/services/storageService';
 import callService from '@/app/src/services/callService';
 import videoCallService from '@/app/src/services/videoCallService';
 import encryptionService from '@/app/src/services/encryptionService';
+import clientClassificationService from '@/app/src/services/clientClassificationService';
 import { BASE_URL } from '@/app/src/config/api';
 
 type ChatDetailScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -194,7 +195,7 @@ export const useChatDetail = () => {
             console.error('🔐 [WEBSOCKET] No encrypted AES key available');
             displayContent = '[Pesan terenkripsi - kunci tidak ditemukan]';
           } else {
-            const result = await encryptionService.dualDecryptMessage(
+            const result = await encryptionService.decryptMessagePayload(
               encryptedContent,
               encryptedAesKey,
               newMessage.iv,
@@ -321,7 +322,7 @@ export const useChatDetail = () => {
           if (encryptedContent && encryptedAesKey && myPrivateKey) {
             try {
               // console.log(`🔐 [LOAD] Decrypting message ${msg.id}...`);
-              const result = await encryptionService.dualDecryptMessage(
+              const result = await encryptionService.decryptMessagePayload(
                 encryptedContent,
                 encryptedAesKey,
                 msg.iv || '',
@@ -350,11 +351,6 @@ export const useChatDetail = () => {
             displayContent = msg.content;
           }
           
-          // Jika pesan dihancurkan, tampilkan peringatan
-          if (msg.is_destroyed || msg.classification_label === "Berisiko") {
-            displayContent = '⚠️ [KONTEN BERBAHAYA TELAH DIHANCURKAN OLEH SISTEM] ⚠️';
-          }
-
           return {
             id: msg.id,
             text: displayContent,
@@ -366,8 +362,8 @@ export const useChatDetail = () => {
               : senderDetails[msg.sender_id]?.avatar_url || chatAvatar,
             isMe,
             status: msg.status,
-            classificationLabel: msg.classification_label,
-            isDestroyed: msg.is_destroyed || msg.classification_label === "Berisiko",
+            classificationLabel: null,   // Klasifikasi dilakukan client-side sebelum kirim
+            isDestroyed: false,          // Server tidak lagi menghancurkan pesan
             isVerified: msg.is_verified,
             date: msg.created_at,
           };
@@ -392,41 +388,35 @@ export const useChatDetail = () => {
     } catch (error) {}
   };
 
-  // Send message with dual encryption - UPDATED VERSION
-  const handleSend = useCallback(async () => {
-    if (message.trim().length === 0) return;
-
+  /**
+   * Fungsi internal untuk mengirim pesan yang sudah lolos klasifikasi.
+   * Dipanggil langsung jika pesan aman, atau setelah user konfirmasi jika berisiko.
+   */
+  const _doSendMessage = useCallback(async (
+    originalMessage: string,
+    classificationLabel: 'Berisiko' | 'Tidak Berisiko',
+    isRisky: boolean
+  ) => {
     const tempId = Date.now().toString();
-    const originalMessage = message;
-    
-    console.log('📤 [SEND] Original message length:', originalMessage.length);
-    
+
     try {
-      // Get recipient's public key
+      // Ambil public key penerima
       const recipientPublicKey = await userService.getUserPublicKey(otherUserId);
       if (!recipientPublicKey || !recipientPublicKey.data?.public_key) {
         Alert.alert('Error', 'Tidak dapat mengambil kunci enkripsi penerima');
         return;
       }
-      
-      //  Get server public key
-      const serverPublicKey = await authService.getServerPublicKey();
-      if (!serverPublicKey) {
-        Alert.alert('Error', 'Tidak dapat mengambil kunci enkripsi server');
-        return;
-      }
-      
-      // Dual encrypt message
-      console.log('[SEND] Dual encrypting message...');
-      const encryptedData = await encryptionService.dualEncryptMessage(
+
+      // Enkripsi pesan untuk penerima
+      console.log('[SEND] Mengenkripsi pesan...');
+      const encryptedData = await encryptionService.encryptMessage(
         originalMessage,
-        recipientPublicKey.data.public_key,
-        serverPublicKey
+        recipientPublicKey.data.public_key
       );
-      
-      console.log('[SEND] Message dual encrypted');
-      
-      // Create temporary message
+
+      console.log('[SEND] Pesan berhasil dienkripsi');
+
+      // Buat pesan sementara (optimistic UI)
       const newMessage: Message = {
         id: tempId,
         text: '[Mengirim...]',
@@ -441,28 +431,27 @@ export const useChatDetail = () => {
       };
 
       setMessages(prev => [...prev, newMessage]);
-      setMessage('');
       setSending(true);
-      
+
       setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
 
-      // Send dual encrypted message
-      const res = await chatService.sendDualEncryptedMessage(chatId, encryptedData);
-      
+      // Kirim pesan terenkripsi ke server (sertakan label klasifikasi untuk forensic log)
+      const res = await chatService.sendEncryptedMessage(chatId, encryptedData, classificationLabel);
+
       if (res.success && res.data) {
-        console.log('[SEND] Message sent successfully');
-        console.log('[SEND] Classification:', res.data.classification_label);
-        
-        // Update message with actual content
+        console.log('[SEND] Pesan berhasil terkirim');
+
+        // Perbarui pesan dengan konten aktual
         setMessages(prev =>
           prev.map(msg =>
-            msg.id === tempId ? { 
-              ...msg, 
-              id: res.data!.message_id, 
+            msg.id === tempId ? {
+              ...msg,
+              id: res.data!.message_id,
               status: 'delivered',
               text: originalMessage,
-              classificationLabel: res.data!.classification_label as any,
-              isDestroyed: res.data!.is_destroyed || false,
+              classificationLabel: classificationLabel,
+              isDestroyed: false,
+              isRisky: isRisky,
               isVerified: res.data!.is_verified || true
             } : msg
           )
@@ -478,7 +467,25 @@ export const useChatDetail = () => {
     } finally {
       setSending(false);
     }
-  }, [message, chatId, currentUserId, currentUser, otherUserId]);
+  }, [chatId, currentUserId, currentUser, otherUserId]);
+
+  const handleSend = useCallback(async () => {
+    if (message.trim().length === 0) return;
+
+    let originalMessage = message;
+    console.log('📤 [SEND] Panjang pesan asli:', originalMessage.length);
+
+    // Klasifikasi lokal (Client-side) menggunakan model Naive Bayes
+    const classification = clientClassificationService.classify(originalMessage);
+    const isRisky = classification.label === 'Berisiko';
+
+    if (isRisky) {
+       originalMessage = "Pesan terindikasi berisiko";
+    }
+
+    setMessage('');
+    _doSendMessage(originalMessage, classification.label, isRisky);
+  }, [message, _doSendMessage]);
 
   const handleTyping = useCallback(
     (text: string) => {

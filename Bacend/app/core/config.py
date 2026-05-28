@@ -16,12 +16,12 @@ class Settings(BaseSettings):
     MONGODB_DB_NAME: str = "Safe_Chat"
 
     # ── Redis ─────────────────────────────────────────────────
-    REDIS_URL: str = "redis://192.168.1.16:6379/0"
+    REDIS_URL: str = "redis://192.168.1.84:6379/0"
 
-    BASE_URL: str = "http://192.168.1.16:8000"
-    
+    BASE_URL: str = "http://192.168.1.84:8000"
+
     EMAIL_HOST: str = "smtp.gmail.com"
-    EMAIL_PORT: int = 587
+    EMAIL_PORT: int = 465
     EMAIL_USER: str = "dimskur98@gmail.com"
     EMAIL_PASSWORD: str = "ouex yhhe acbt zoyo"
 
@@ -35,6 +35,12 @@ class Settings(BaseSettings):
     SENDGRID_API_KEY: str = ""
     SENDGRID_FROM_EMAIL: str = "noreply@chatku.id"
     SENDGRID_FROM_NAME: str = "ChatKu"
+
+    # ── Resend (HTTP email API, alternatif SMTP) ───────────────
+    RESEND_API_KEY: str = ""
+
+    # ── Dev mode: log OTP ke konsol jika semua email gagal ─────
+    DEV_OTP_LOG_ONLY: bool = True
 
     # ── AWS S3 ────────────────────────────────────────────────
     AWS_ACCESS_KEY_ID: str = ""

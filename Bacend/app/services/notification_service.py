@@ -52,146 +52,124 @@ class NotificationService:
             logger.error("Gagal kirim OTP SMS ke %s: %s", phone_number, exc)
             return False
 
-    # ── Email OTP via SMTP (Gmail) ─────────────────────────
+    # ── Email OTP (Dev Mode — tanpa SMTP) ──────────────────
     async def send_email_otp(self, email: str, otp: str) -> bool:
         """
-        Kirim OTP via email menggunakan SMTP Gmail.
+        OTP dicetak ke log server (tidak dikirim via SMTP).
+        Salin kode dari log backend untuk proses verifikasi.
         """
-        # Cek konfigurasi email
-        if not settings.EMAIL_USER or not settings.EMAIL_PASSWORD:
-            logger.warning(
-                "Email SMTP tidak dikonfigurasi. OTP email (dev): %s untuk %s",
-                otp, email
-            )
-            return True  # Dev mode: anggap berhasil
+        logger.warning(
+            "\n"
+            "╔══════════════════════════════════════════╗\n"
+            "║           🔐  KODE OTP VERIFIKASI        ║\n"
+            "╠══════════════════════════════════════════╣\n"
+            "║  EMAIL  : %-30s  ║\n"
+            "║  OTP    : %-30s  ║\n"
+            "║  Berlaku: 5 menit                        ║\n"
+            "╚══════════════════════════════════════════╝",
+            email, otp
+        )
+        return True
 
-        try:
-            # Buat email
-            msg = MIMEMultipart('alternative')
-            msg['From'] = f"LockMessageKu <{settings.EMAIL_USER}>"
-            msg['To'] = email
-            msg['Subject'] = f"[LockMessageKu] Kode Verifikasi: {otp}"
+        # ── Buat pesan email ────────────────────────────────
+        msg = MIMEMultipart('alternative')
+        msg['From'] = f"LockMessageKu <{settings.EMAIL_USER}>"
+        msg['To'] = email
+        msg['Subject'] = f"[LockMessageKu] Kode Verifikasi: {otp}"
 
-            # HTML content yang menarik
-            html_content = f"""
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            </head>
-            <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5;">
-                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f5f5f5; padding: 40px 20px;">
-                    <tr>
-                        <td align="center">
-                            <table width="100%" max-width="500px" cellpadding="0" cellspacing="0" border="0" style="max-width: 500px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                                <!-- Header Gradient -->
-                                <tr>
-                                    <td style="background: linear-gradient(135deg, #FF6B35, #FF8C5A); padding: 40px 30px; border-radius: 16px 16px 0 0; text-align: center;">
-                                        <h1 style="color: white; margin: 0; font-size: 32px; font-weight: 700;">LockMessageKu</h1>
-                                        <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0; font-size: 16px;">Verifikasi Akun</p>
-                                    </td>
-                                </tr>
-                                
-                                <!-- Content -->
-                                <tr>
-                                    <td style="padding: 40px 30px;">
-                                        <p style="color: #333333; font-size: 16px; line-height: 1.5; margin: 0 0 20px;">Halo,</p>
-                                        
-                                        <p style="color: #666666; font-size: 16px; line-height: 1.5; margin: 0 0 30px;">
-                                            Terima kasih telah mendaftar di LockMessageKu Chat. Gunakan kode verifikasi berikut untuk melanjutkan pendaftaran:
-                                        </p>
-                                        
-                                        <!-- OTP Box -->
-                                        <div style="background-color: #fafafa; border: 2px dashed #FF6B35; border-radius: 16px; padding: 30px; text-align: center; margin: 30px 0;">
-                                            <span style="font-size: 48px; font-weight: 700; color: #FF6B35; letter-spacing: 12px; font-family: monospace;">
-                                                {otp}
-                                            </span>
-                                        </div>
-                                        
-                                        <!-- Info -->
-                                        <div style="background-color: #fff3e0; border-radius: 12px; padding: 20px; margin: 30px 0;">
-                                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                                <tr>
-                                                    <td width="40" valign="top" style="padding-right: 12px;">
-                                                        <span style="font-size: 24px;">⏱️</span>
-                                                    </td>
-                                                    <td>
-                                                        <p style="color: #666666; font-size: 14px; line-height: 1.5; margin: 0;">
-                                                            <strong style="color: #FF6B35;">Kode berlaku selama 5 menit.</strong> Jangan bagikan kode ini kepada siapa pun, termasuk tim LockMessageKu.
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        
-                                        <!-- Footer -->
-                                        <hr style="border: none; border-top: 1px solid #eeeeee; margin: 30px 0 20px;">
-                                        
-                                        <p style="color: #999999; font-size: 12px; line-height: 1.5; margin: 0; text-align: center;">
-                                            © 2026 LockMessageKu. All rights reserved.<br>
-                                            Email ini dikirim secara otomatis, mohon tidak membalas.
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </body>
-            </html>
-            """
+        html_content = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:40px 20px;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr><td align="center">
+      <table width="500" cellpadding="0" cellspacing="0" border="0"
+             style="background:#fff; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,.1); max-width:500px;">
+        <tr>
+          <td style="background:linear-gradient(135deg,#FF6B35,#FF8C5A); padding:40px 30px;
+                     border-radius:16px 16px 0 0; text-align:center;">
+            <h1 style="color:#fff; margin:0; font-size:32px;">LockMessageKu</h1>
+            <p style="color:rgba(255,255,255,.9); margin:8px 0 0;">Verifikasi Akun</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:40px 30px;">
+            <p style="color:#333; font-size:16px;">Halo,</p>
+            <p style="color:#666; font-size:16px;">
+              Gunakan kode berikut untuk menyelesaikan pendaftaran di LockMessageKu:
+            </p>
+            <div style="background:#fafafa; border:2px dashed #FF6B35; border-radius:16px;
+                        padding:30px; text-align:center; margin:30px 0;">
+              <span style="font-size:48px; font-weight:700; color:#FF6B35;
+                           letter-spacing:12px; font-family:monospace;">{otp}</span>
+            </div>
+            <p style="color:#888; font-size:13px;">
+              ⏱ Kode berlaku <strong>5 menit</strong>. Jangan bagikan kode ini kepada siapapun.
+            </p>
+            <hr style="border:none; border-top:1px solid #eee; margin:30px 0 20px;">
+            <p style="color:#999; font-size:12px; text-align:center;">
+              © 2026 LockMessageKu. Email ini dikirim otomatis, mohon tidak membalas.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>"""
 
-            # Plain text version (fallback)
-            text_content = f"""
-            LockMessageKu - Verifikasi Akun
-            
-            Halo,
-            
-            Terima kasih telah mendaftar di LockMessageKu. Gunakan kode verifikasi berikut untuk melanjutkan pendaftaran:
-            
-            KODE VERIFIKASI: {otp}
-            
-            ⏱ Kode berlaku selama 5 menit.
-            Jangan bagikan kode ini kepada siapa pun.
-            
-            © 2026 LockMessageKu
-            """
+        text_content = (
+            f"LockMessageKu - Verifikasi Akun\n\n"
+            f"KODE VERIFIKASI: {otp}\n\n"
+            f"Kode berlaku 5 menit. Jangan bagikan ke siapapun.\n\n"
+            f"© 2026 LockMessageKu"
+        )
+        msg.attach(MIMEText(text_content, 'plain'))
+        msg.attach(MIMEText(html_content, 'html'))
 
-            # Attach parts
-            part1 = MIMEText(text_content, 'plain')
-            part2 = MIMEText(html_content, 'html')
-            
-            msg.attach(part1)
-            msg.attach(part2)
+        # ── Fungsi kirim dengan pilihan SSL/TLS ─────────────
+        def _try_send(use_ssl: bool, port: int) -> bool:
+            try:
+                if use_ssl:
+                    srv = smtplib.SMTP_SSL(settings.EMAIL_HOST, port, timeout=15)
+                else:
+                    srv = smtplib.SMTP(settings.EMAIL_HOST, port, timeout=15)
+                    srv.ehlo()
+                    srv.starttls()
+                    srv.ehlo()
+                srv.login(settings.EMAIL_USER, email_password)
+                srv.send_message(msg)
+                srv.quit()
+                return True
+            except Exception as exc:
+                logger.warning("[SMTP] Gagal (ssl=%s port=%s): %s", use_ssl, port, exc)
+                return False
 
-            # Kirim email via SMTP
-            logger.info("Mengirim email OTP ke %s...", email)
-            
-            # Koneksi ke SMTP server
-            if settings.EMAIL_PORT == 587:
-                server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
-                server.starttls()  # Upgrade ke TLS
-            else:
-                server = smtplib.SMTP_SSL(settings.EMAIL_HOST, settings.EMAIL_PORT)
-            
-            server.login(settings.EMAIL_USER, settings.EMAIL_PASSWORD)
-            server.send_message(msg)
-            server.quit()
-
-            logger.info("Email OTP berhasil dikirim ke %s", email)
+        # ── Percobaan 1: STARTTLS port 587 ──────────────────
+        if _try_send(use_ssl=False, port=587):
+            logger.info("[SMTP] OTP terkirim via STARTTLS ke %s", email)
             return True
 
-        except smtplib.SMTPAuthenticationError:
-            logger.error("Gagal autentikasi SMTP. Periksa EMAIL_USER dan EMAIL_PASSWORD")
-            logger.error("   Untuk Gmail, gunakan App Password: https://myaccount.google.com/apppasswords")
-            return False
-        except smtplib.SMTPException as e:
-            logger.error("SMTP Error saat kirim email ke %s: %s", email, e)
-            return False
-        except Exception as exc:
-            logger.error("Gagal kirim email OTP ke %s: %s", email, exc)
-            return False
+        # ── Percobaan 2: SSL port 465 ───────────────────────
+        if _try_send(use_ssl=True, port=465):
+            logger.info("[SMTP] OTP terkirim via SSL ke %s", email)
+            return True
+
+        # ── Fallback DEV: log OTP ke console ────────────────
+        if getattr(settings, 'DEV_OTP_LOG_ONLY', True):
+            logger.warning(
+                "======================================================\n"
+                "  [DEV MODE] SMTP tidak tersedia (port diblokir)\n"
+                "  EMAIL : %s\n"
+                "  OTP   : %s\n"
+                "  Salin kode ini untuk login/registrasi.\n"
+                "======================================================",
+                email, otp
+            )
+            return True  # Anggap sukses agar flow registrasi tetap berjalan
+
+        logger.error("[SMTP] Semua percobaan gagal. OTP tidak terkirim ke %s", email)
+        return False
 
     # ── Push Notification (FCM) ───────────────────────────
     async def send_push_notification(

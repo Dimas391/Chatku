@@ -1,4 +1,3 @@
-// services/uploadService.ts
 import storageService from './storageService';
 
 class UploadService {
@@ -17,7 +16,7 @@ class UploadService {
       } as any);
       
       // Gunakan URL langsung, jangan pakai API_CONFIG
-      const baseUrl = 'http://192.168.1.16:8000';
+      const baseUrl = 'http://192.168.1.84:8000';
       const uploadUrl = `${baseUrl}/api/v1/users/me/avatar`;
       
       console.log(' Upload URL:', uploadUrl);

@@ -1,5 +1,4 @@
 import os
-import base64
 from typing import Optional, List
 
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form # type: ignore
@@ -8,12 +7,10 @@ from bson import ObjectId # type: ignore
 import logging
 
 from app.core.database import get_collection
-from app.middleware.auth import get_current_user, get_current_user_id
+from app.middleware.auth import get_current_admin, get_current_user, get_current_user_id
 from app.services.chat_service import ChatService
 from app.services.media_service import MediaService
 from app.services.websocket_manager import manager
-from app.services.classification_service import ClassificationService, classification_service
-from app.services.encryption_service import encryption_service
 from app.services.security_service import SecurityService
 from app.models.chat import (
     CreateChatRequest,
@@ -22,8 +19,6 @@ from app.models.chat import (
     MessageType,
     SendEncryptedMessageRequest,
     DualEncryptedMessageRequest,
-    MessageDocument,
-    MessageStatus,
 )
 
 logger = logging.getLogger(__name__)
@@ -155,268 +150,292 @@ async def get_messages(
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Terjadi kesalahan server: {str(e)}")
 
+@router.get("/admin/list", summary="[ADMIN] Daftar semua chat")
+async def admin_list_chats(
+    skip: int = 0,
+    limit: int = 50,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk mendapatkan daftar semua chat"""
+    
+    chats_col = get_collection("chats")
+    
+    total = await chats_col.count_documents({"is_active": True})
+    
+    cursor = chats_col.find({"is_active": True}).sort("last_message_at", -1).skip(skip).limit(limit)
+    chats = await cursor.to_list(length=limit)
+    
+    result = []
+    for chat in chats:
+        chat_data = {
+            "id": str(chat["_id"]),
+            "type": chat.get("type", "personal"),
+            "name": chat.get("name"),
+            "avatar_url": chat.get("avatar_url"),
+            "participants": chat.get("participants", []),
+            "last_message_text": chat.get("last_message_text"),
+            "last_message_at": chat.get("last_message_at").isoformat() if chat.get("last_message_at") else None,
+            "unread_count": 0,  # For admin, we don't track per-admin unread
+            "created_at": chat.get("created_at").isoformat() if chat.get("created_at") else None,
+        }
+        
+        # Untuk personal chat, ambil nama peserta lain
+        if chat_data["type"] == "personal" and len(chat.get("participants", [])) == 2:
+            participants = chat.get("participants", [])
+            other_participant_id = None
+            for p in participants:
+                # Perbaikan: admin token tidak selalu punya sub yang sama dengan participant
+                # Kita hanya ingin info user lain
+                other_participant_id = p
+                break # Ambil yang pertama saja untuk identitas
+            
+            if other_participant_id:
+                other_user = await get_collection("users").find_one(
+                    {"_id": ObjectId(other_participant_id)},
+                    {"display_name": 1, "avatar_url": 1, "username": 1}
+                )
+                if other_user:
+                    chat_data["participant_name"] = other_user.get("display_name") or other_user.get("username")
+                    chat_data["participant_avatar"] = other_user.get("avatar_url")
+        
+        result.append(chat_data)
+    
+    return {
+        "chats": result,
+        "total": total
+    }
 
-# ── Kirim Pesan Dual Encrypted (RECOMMENDED) ──────────────
-@router.post("/{chat_id}/messages/dual-encrypted", summary="Kirim Pesan Dual Encrypted")
+
+@router.get("/admin/stats", summary="[ADMIN] Statistik chat")
+async def get_chat_stats(admin: dict = Depends(get_current_admin)):
+    """Admin endpoint untuk mendapatkan statistik chat"""
+    
+    total_chats = await get_collection("chats").count_documents({"is_active": True})
+    total_messages = await get_collection("messages").count_documents({})
+    
+    # Chat aktif hari ini (yang punya pesan hari ini)
+    today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    active_chats = await get_collection("messages").distinct("chat_id", {"created_at": {"$gte": today_start}})
+    active_today = len(active_chats)
+    
+    # Personal vs Group
+    personal_chats = await get_collection("chats").count_documents({"type": "personal", "is_active": True})
+    group_chats = await get_collection("chats").count_documents({"type": "group", "is_active": True})
+    
+    return {
+        "total_chats": total_chats,
+        "total_messages": total_messages,
+        "active_today": active_today,
+        "personal_chats": personal_chats,
+        "group_chats": group_chats
+    }
+
+
+@router.get("/admin/participants/{chat_id}", summary="[ADMIN] Daftar peserta chat")
+async def get_chat_participants(
+    chat_id: str,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk mendapatkan daftar peserta chat"""
+    
+    if not ObjectId.is_valid(chat_id):
+        raise HTTPException(status_code=400, detail="ID chat tidak valid")
+    
+    chat = await get_collection("chats").find_one({"_id": ObjectId(chat_id)})
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat tidak ditemukan")
+    
+    participants = chat.get("participants", [])
+    result = []
+    
+    for pid in participants:
+        user = await get_collection("users").find_one(
+            {"_id": ObjectId(pid)},
+            {"display_name": 1, "username": 1, "avatar_url": 1, "is_online": 1}
+        )
+        if user:
+            result.append({
+                "id": str(user["_id"]),
+                "name": user.get("display_name") or user.get("username"),
+                "avatar_url": user.get("avatar_url"),
+                "is_online": user.get("is_online", False)
+            })
+    
+    return {"participants": result}
+
+
+@router.delete("/admin/delete/{chat_id}", summary="[ADMIN] Hapus chat")
+async def admin_delete_chat(
+    chat_id: str,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk menghapus chat"""
+    
+    if not ObjectId.is_valid(chat_id):
+        raise HTTPException(status_code=400, detail="ID chat tidak valid")
+    
+    # Hapus semua pesan dalam chat
+    await get_collection("messages").delete_many({"chat_id": chat_id})
+    
+    # Hapus chat
+    result = await get_collection("chats").delete_one({"_id": ObjectId(chat_id)})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Chat tidak ditemukan")
+    
+    # Catat ke forensic log
+    from app.services.security_service import SecurityService
+    await SecurityService.add_forensic_log(
+        user_id=str(admin["_id"]),
+        event="Chat Deleted by Admin",
+        detail=f"Chat {chat_id} has been deleted by admin",
+        category="access",
+        severity="warning"
+    )
+    
+    return {"success": True, "message": "Chat berhasil dihapus"}
+
+
+@router.get("/admin/messages/{chat_id}", summary="[ADMIN] Lihat pesan chat")
+async def admin_get_chat_messages(
+    chat_id: str,
+    limit: int = 100,
+    admin: dict = Depends(get_current_admin),
+):
+    """Admin endpoint untuk melihat pesan dalam chat"""
+    
+    if not ObjectId.is_valid(chat_id):
+        raise HTTPException(status_code=400, detail="ID chat tidak valid")
+    
+    chat = await get_collection("chats").find_one({"_id": ObjectId(chat_id)})
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat tidak ditemukan")
+    
+    messages = await get_collection("messages").find(
+        {"chat_id": chat_id}
+    ).sort("created_at", -1).limit(limit).to_list(length=limit)
+    
+    # Balik urutan agar dari lama ke baru
+    messages.reverse()
+    
+    result = []
+    for msg in messages:
+        sender = await get_collection("users").find_one(
+            {"_id": ObjectId(msg["sender_id"])},
+            {"display_name": 1, "username": 1, "avatar_url": 1}
+        )
+        
+        # Coba decrypt jika ada encrypted_content
+        content = msg.get("content")
+        if not content and msg.get("encrypted_content_user"):
+            content = "[Pesan Terenkripsi]"
+        elif not content and msg.get("encrypted_content"):
+            content = "[Pesan Terenkripsi (Legacy)]"
+        
+        result.append({
+            "id": str(msg["_id"]),
+            "sender_id": msg["sender_id"],
+            "sender_name": sender.get("display_name") or sender.get("username") if sender else "Unknown",
+            "sender_avatar": sender.get("avatar_url") if sender else None,
+            "content": content,
+            "type": msg.get("type", "text"),
+            "status": msg.get("status", "sent"),
+            "classification_label": msg.get("classification_label"),
+            "is_destroyed": msg.get("is_destroyed", False),
+            "created_at": msg.get("created_at").isoformat() if msg.get("created_at") else None,
+        })
+    
+    return {
+        "chat_id": chat_id,
+        "chat_name": chat.get("name"),
+        "chat_type": chat.get("type"),
+        "participants": chat.get("participants", []),
+        "messages": result,
+        "total": len(result)
+    }
+
+
+# ── Endpoint Lama (DEPRECATED — sudah dihapus) ───────────
+@router.post("/{chat_id}/messages/dual-encrypted", summary="[DEPRECATED] Gunakan /messages/encrypted")
 async def send_dual_encrypted_message(
     chat_id: str,
     request: DualEncryptedMessageRequest,
     current_user: dict = Depends(get_current_user),
 ):
     """
-    Menerima pesan dual-encrypted.
-    - Server decrypt dengan server key untuk klasifikasi
-    - Server TIDAK bisa decrypt user key (end-to-end)
+    Endpoint ini sudah dihapus dalam migrasi ke arsitektur Zero-Knowledge.
+    Gunakan POST /{chat_id}/messages/encrypted sebagai gantinya.
     """
-    user_id = str(current_user["_id"])
-    
-    # Gunakan field yang benar dari request
-    encrypted_content_user = request.encrypted_content_user
-    encrypted_content_server = request.encrypted_content_server
-    encrypted_aes_key_user = request.encrypted_aes_key_user
-    encrypted_aes_key_server = request.encrypted_aes_key_server
-    iv = request.iv
-    message_hash = request.message_hash
-    reply_to_id = request.reply_to_id
-    
-    print(f"[DUAL] Received dual encrypted message for chat: {chat_id}")
-    print(f"[DUAL] encrypted_content_user length: {len(encrypted_content_user) if encrypted_content_user else 0}")
-    print(f"[DUAL] encrypted_content_server length: {len(encrypted_content_server) if encrypted_content_server else 0}")
-    print(f"[DUAL] encrypted_aes_key_user length: {len(encrypted_aes_key_user) if encrypted_aes_key_user else 0}")
-    print(f"[DUAL] encrypted_aes_key_server length: {len(encrypted_aes_key_server) if encrypted_aes_key_server else 0}")
-    print(f"[DUAL] IV length: {len(iv) if iv else 0}")
-    print(f"[DUAL] Message hash: {message_hash[:20] if message_hash else 'None'}...")
-    
-    # Verifikasi chat
-    chat = await get_collection("chats").find_one({"_id": ObjectId(chat_id)})
-    if not chat:
-        raise HTTPException(status_code=404, detail="Chat tidak ditemukan")
-    
-    if user_id not in chat.get("participants", []):
-        raise HTTPException(status_code=403, detail="Anda bukan peserta chat")
-    
-    classification_label = "Tidak Berisiko"
-    confidence = 0.5
-    is_verified = True
-    is_destroyed = False
-    
-    try:
-        # SERVER DECRYPT untuk klasifikasi
-        print("[DUAL] Server decrypting with server key...")
-        
-        # Decrypt server key (server punya private key sendiri)
-        server_key = encryption_service.decrypt_aes_key(encrypted_aes_key_server)
-        
-        # Jika server_key hasil dekripsi RSA adalah string base64 (panjang ~44 untuk AES-256), 
-        # kita harus decode ke bytes mentah (32 bytes)
-        if len(server_key) != 32:
-            try:
-                print(f"[DUAL] Server key is not 32 bytes ({len(server_key)} bytes), attempting base64 decode...")
-                server_key = base64.b64decode(server_key)
-            except Exception as e:
-                print(f"[DUAL] Failed to decode server key from base64: {e}")
-                
-        print(f"[DUAL] Server key ready, length: {len(server_key)} bytes")
-        
-        # Decrypt message for classification
-        plaintext = encryption_service.decrypt_message(
-            encrypted_content_server, 
-            server_key, 
-            iv
+    raise HTTPException(
+        status_code=410,
+        detail=(
+            "Endpoint /dual-encrypted sudah tidak digunakan. "
+            "Gunakan /messages/encrypted (blind storage). "
+            "Klasifikasi dilakukan di sisi client."
         )
-        
-        print(f"[DUAL] Plaintext for classification: {plaintext[:50]}...")
-        print(f"[DUAL] Plaintext length: {len(plaintext)} chars")
-        
-        # Verify hash
-        is_verified = encryption_service.verify_message_hash(plaintext, message_hash)
-        print(f"[DUAL] Hash verification: {is_verified}")
-        
-        # KLASIFIKASI
-        print("[DUAL] Classifying message...")
-        classification_label, confidence = classification_service.classify(plaintext)
-        
-        print(f"[DUAL] Classification: {classification_label} ({confidence:.2%})")
-        
-        # Check if message is dangerous
-        is_destroyed = classification_label == "Berisiko"
-        if is_destroyed:
-            print("[DUAL] Dangerous content detected! Message will be destroyed.")
-            # Catat ke forensic log
-            await SecurityService.add_forensic_log(
-                user_id=user_id,
-                event="Dangerous Content Detected",
-                detail=f"Sistem mendeteksi konten berbahaya dalam pesan terenkripsi di chat {chat_id}",
-                category="integrity",
-                severity="critical"
-            )
-        
-        # HAPUS PLAINTEXT DARI MEMORI
-        encryption_service.clear_memory(plaintext, server_key)
-        print("[DUAL] Plaintext cleared from memory")
-        
-    except Exception as e:
-        print(f"[DUAL] Classification error: {e}")
-        import traceback
-        traceback.print_exc()
-        # Tetap simpan pesan meskipun klasifikasi gagal
-    
-    try:
-        # SIMPAN ke database (hanya user ciphertext)
-        print("[DUAL] Saving message to database...")
-        
-        message_doc = MessageDocument(
-            chat_id=chat_id,
-            sender_id=user_id,
-            type=MessageType.TEXT,
-            encrypted_content_user=encrypted_content_user,
-            encrypted_aes_key_user=encrypted_aes_key_user,
-            encrypted_aes_key_sender=request.encrypted_aes_key_sender,
-            encrypted_content_server=encrypted_content_server,
-            encrypted_aes_key_server=encrypted_aes_key_server,
-            iv=iv,
-            message_hash=message_hash,
-            classification_label=classification_label,
-            classification_confidence=confidence,
-            is_verified=is_verified,
-            is_destroyed=is_destroyed,
-            reply_to_id=reply_to_id,
-            status=MessageStatus.SENT,
-        )
-        
-        messages_col = get_collection("messages")
-        result = await messages_col.insert_one(
-            message_doc.model_dump(by_alias=True, exclude={"id"})
-        )
-        
-        message_id = str(result.inserted_id)
-        print(f"[DUAL] Message saved. ID: {message_id}")
-        
-        # ✅ Update last message preview di chat room
-        if is_destroyed:
-            preview = "⚠️ Pesan berbahaya telah diblokir oleh sistem"
-        else:
-            preview = "[Pesan terenkripsi]"
-            
-        await get_collection("chats").update_one(
-            {"_id": ObjectId(chat_id)},
-            {
-                "$set": {
-                    "last_message_id": message_id,
-                    "last_message_text": preview,
-                    "last_message_at": datetime.now(timezone.utc),
-                    "last_message_by": user_id,
-                    "updated_at": datetime.now(timezone.utc),
-                }
-            },
-        )
-        
-        #  BROADCAST ke participant lain (hanya user ciphertext)
-        print(" [DUAL] Broadcasting to chat participants...")
-        await manager.broadcast_to_chat(
-            chat_id=chat_id,
-            data={
-                "event": "new_message",
-                "data": {
-                    "id": message_id,
-                    "chat_id": chat_id,
-                    "sender_id": user_id,
-                    "sender_name": current_user.get("display_name"),
-                    "sender_avatar": current_user.get("avatar_url"),
-                    "encrypted_content": encrypted_content_user,
-                    "encrypted_aes_key": encrypted_aes_key_user,
-                    "encrypted_aes_key_sender": request.encrypted_aes_key_sender,
-                    "iv": iv,
-                    "message_hash": message_hash,
-                    "classification_label": classification_label,
-                    "is_destroyed": is_destroyed,
-                    "is_verified": is_verified,
-                    "created_at": datetime.now(timezone.utc).isoformat()
-                }
-            },
-            exclude_user_id=user_id
-        )
-        
-        return {
-            "success": True,
-            "message_id": message_id,
-            "classification_label": classification_label,
-            "is_verified": is_verified,
-            "is_destroyed": is_destroyed,
-            "confidence": confidence
-        }
-        
-    except Exception as e:
-        print(f"[DUAL] Error saving/broadcasting: {e}")
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f"Gagal menyimpan pesan: {str(e)}")
+    )
+
 
 
 # Kirim Pesan Terenkripsi (Legacy) 
-@router.post("/{chat_id}/messages/encrypted", summary="Kirim Pesan Terenkripsi (Legacy)")
+@router.post("/{chat_id}/messages/encrypted", summary="Kirim Pesan Terenkripsi (Blind Storage)")
 async def send_encrypted_message(
     chat_id: str,
     request: SendEncryptedMessageRequest,
     current_user: dict = Depends(get_current_user),
 ):
-    """
-    LEGACY: Menerima pesan terenkripsi dari client.
-    Gunakan endpoint /dual-encrypted untuk implementasi baru.
-    """
     user_id = str(current_user["_id"])
-    
-    # Verifikasi user adalah participant chat
     chat = await get_collection("chats").find_one({"_id": ObjectId(chat_id)})
     if not chat:
         raise HTTPException(status_code=404, detail="Chat tidak ditemukan")
-    
     if user_id not in chat.get("participants", []):
         raise HTTPException(status_code=403, detail="Anda bukan peserta chat")
     
     try:
-        # Proses pesan terenkripsi
+        logger.info("\n" + "="*60)
+        logger.info("[ZERO-KNOWLEDGE] Server menerima pesan terenkripsi dari: %s", user_id)
+        logger.info("[LOCK] Ciphertext AES (Isi Pesan) : %s... [TIDAK BISA DIBACA]", request.encrypted_content[:80])
+        logger.info("[LOCK] Encrypted AES Key (RSA)    : %s... [TIDAK BISA DI-DECRYPT]", request.encrypted_aes_key[:80])
+        logger.info("[LOCK] IV                         : %s", request.iv)
+        logger.info("[LOCK] Message Hash (SHA-256)     : %s", request.message_hash)
+        logger.info("[LOCK] Label Keamanan (Dari Klien): %s", request.classification_label)
+        logger.info("[LOCK] Server HANYA menyimpan data ini dan meneruskannya ke penerima.")
+        logger.info("="*60 + "\n")
+
         result = await ChatService.send_encrypted_message(
             chat_id=chat_id,
             sender_id=user_id,
             encrypted_content=request.encrypted_content,
             encrypted_aes_key=request.encrypted_aes_key,
+            encrypted_aes_key_sender=request.encrypted_aes_key_sender,
             iv=request.iv,
             message_hash=request.message_hash,
-            reply_to_id=request.reply_to_id
+            reply_to_id=request.reply_to_id,
+            classification_label=request.classification_label
         )
         
-        # Broadcast ke participant lain
-        await manager.broadcast_to_chat(
-            chat_id=chat_id,
-            data={
-                "event": "new_message",
-                "data": {
-                    "id": result["message_id"],
-                    "chat_id": chat_id,
-                    "sender_id": user_id,
-                    "sender_name": current_user.get("display_name"),
-                    "sender_avatar": current_user.get("avatar_url"),
-                    "classification_label": result["classification_label"],
-                    "is_destroyed": result.get("is_destroyed", False),
-                    "is_verified": result["is_verified"],
-                    "content_preview": "Pesan berbahaya telah diblokir" if result.get("is_destroyed") else None,
-                    "created_at": datetime.now(timezone.utc).isoformat()
-                }
-            },
-            exclude_user_id=user_id
-        )
+        # Ambil pesan yang baru saja disimpan untuk di-format dengan benar
+        msg_doc = await get_collection("messages").find_one({"_id": ObjectId(result["message_id"])})
+        if msg_doc:
+            formatted_msg = ChatService.format_message(msg_doc)
+            # Pastikan field sender tetap terisi
+            formatted_msg["sender_name"] = current_user.get("display_name")
+            formatted_msg["sender_avatar"] = current_user.get("avatar_url")
+            
+            await manager.broadcast_to_chat(
+                chat_id=chat_id,
+                data={
+                    "event": "new_message",
+                    "data": formatted_msg
+                },
+                exclude_user_id=user_id
+            )
         
         return {
             "success": True,
             "message_id": result["message_id"],
-            "classification_label": result["classification_label"],
-            "is_verified": result["is_verified"],
-            "is_destroyed": result.get("is_destroyed", False)
+            "is_verified": result.get("is_verified", True),
         }
-        
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         logger.error(f"Error sending message: {e}")
         raise HTTPException(status_code=500, detail="Gagal mengirim pesan")
@@ -571,56 +590,7 @@ async def hash_message(
     return {"success": True, "message": "Konten pesan berhasil dihancurkan"}
 
 
-# ── Test Klasifikasi (DEBUG) ──────────────────────────────
-@router.post("/test-classify", summary="Test Klasifikasi Langsung (DEBUG)")
-async def test_classify_direct(
-    request: dict,
-    current_user: dict = Depends(get_current_user),
-):
-    """
-    TESTING ONLY: Klasifikasi pesan langsung tanpa enkripsi
-    Menggunakan method prediksi() dari model
-    """
-    text = request.get("text", "")
-    if not text:
-        raise HTTPException(status_code=400, detail="Text is required")
-    
-    try:
-        # Panggil method classify
-        label, confidence = classification_service.classify(text)
-        
-        return {
-            "original_text": text,
-            "classification_label": label,
-            "confidence_percent": confidence * 100,
-            "model_loaded": classification_service.model is not None
-        }
-        
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return {
-            "original_text": text,
-            "error": str(e),
-            "classification_label": "Tidak Berisiko",
-            "model_loaded": False
-        }
 
-
-# ── Cek Status Model ──────────────────────────────────────
-@router.get("/model-status", summary="Cek Status Model")
-async def check_model_status(
-    current_user: dict = Depends(get_current_user),
-):
-    """Cek apakah model berhasil dimuat"""
-    from app.services.classification_service import classification_service
-    
-    return {
-        "model_loaded": classification_service.model is not None,
-        "vectorizer_loaded": classification_service.vectorizer is not None,
-        "stopwords_count": len(classification_service.stopwords),
-        "model_path": os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "model", "model_naive_bayes.joblib")
-    }
 
 
 # ── Ambil Pesan ──────────────────────────────────────
