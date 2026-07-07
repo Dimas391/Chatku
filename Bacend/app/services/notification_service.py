@@ -67,9 +67,8 @@ class NotificationService:
             "║  OTP    : %-30s  ║\n"
             "║  Berlaku: 5 menit                        ║\n"
             "╚══════════════════════════════════════════╝",
-            email, otp
-        )
-        return True
+            )
+        # return True  # Dihapus agar proses lanjut ke SMTP
 
         # ── Buat pesan email ────────────────────────────────
         msg = MIMEMultipart('alternative')
@@ -137,7 +136,7 @@ class NotificationService:
                     srv.ehlo()
                     srv.starttls()
                     srv.ehlo()
-                srv.login(settings.EMAIL_USER, email_password)
+                srv.login(settings.EMAIL_USER, settings.EMAIL_PASSWORD)
                 srv.send_message(msg)
                 srv.quit()
                 return True

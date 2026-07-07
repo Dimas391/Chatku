@@ -16,9 +16,9 @@ class Settings(BaseSettings):
     MONGODB_DB_NAME: str = "Safe_Chat"
 
     # ── Redis ─────────────────────────────────────────────────
-    REDIS_URL: str = "redis://192.168.1.84:6379/0"
+    REDIS_URL: str = "redis://192.168.1.14:6379/0"
 
-    BASE_URL: str = "http://192.168.1.84:8000"
+    BASE_URL: str = "http://192.168.1.14:8000"
 
     EMAIL_HOST: str = "smtp.gmail.com"
     EMAIL_PORT: int = 465

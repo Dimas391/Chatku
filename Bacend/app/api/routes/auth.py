@@ -19,7 +19,6 @@ class SendOTPRequest(BaseModel):
             "example": {"type": "phone", "value": "081234567890", "country_code": "+62"}
         }
 
-
 class VerifyOTPRequest(BaseModel):
     type: str
     value: str

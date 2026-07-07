@@ -1,11 +1,11 @@
 ### TEST KLASIFIKASI PESAN NAIVE BAYES
 ### Gunakan extension REST Client di VS Code
 
-@baseUrl = http://192.168.1.5:8000/api/v1
+@baseUrl = http://192.168.1.56:8000/api/v1
 @chatId = 69e205595c53a541d05fa1c2
 
 # Token untuk user AbaahVV (dari log sebelumnya)
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWUyMDUwYjVjNTNhNTQxZDA1ZmExYzEiLCJleHAiOjE3ODQxOTYxMDcsImlhdCI6MTc3NjQyMDEwNywidHlwZSI6InJlZnJlc2gifQ.0ec2_C_PumNp0pQe6Nqi9beVH3oWZJuD6kqOxh25iuc
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTE2NzQxODM4YmFiZWJjMjBkNTUwODAiLCJleHAiOjE3ODU4MjM5NzQsImlhdCI6MTc4MzIzMTk3NCwidHlwZSI6ImFjY2VzcyIsInJvbGUiOiJBZG1pbmlzdHJhdG9yIiwiaXNfYWRtaW4iOnRydWV9.JUcBCF5qivSLK_fmMzSGPur39NCay3q9LMoooynhvGE
 ###############################################
 ### 1. CEK STATUS MODEL (Apakah model berhasil dimuat)
 ###############################################
@@ -26,14 +26,25 @@ Content-Type: application/json
   "text": "Saya dari divisi hadiah Traveloka. Anda menang grand prize. Kirim foto KTP + selfie ke 0877-3333-5678 untuk proses."
 }
 
+
 ### Test: "terima kasih"
-POST {{baseUrl}}/chats/test-classify
-Authorization: Bearer {{authToken}}
+POST {{baseUrl}}/admin/login
 Content-Type: application/json
 
 {
-  "text": "akun bank anda adalah 1234"
+  "username": "admin",
+  "password": "chatku2024"
 }
+
+### Lihat statistik pengguna (Admin)
+POST {{baseUrl}}/auth/send-otp
+Content-Type: application/json
+
+{
+  "type": "email",
+  "value": "dimskur98@gmail.com"
+}
+
 
 ### Test: "apa kabar"
 POST {{baseUrl}}/chats/test-classify
@@ -225,3 +236,13 @@ Content-Type: application/json
 ### Lihat pesan terbaru di chat
 GET {{baseUrl}}/chats/{{chatId}}/messages?limit=20
 Authorization: Bearer {{authToken}}
+
+### Lihat statistik pengguna (Admin)
+GET {{baseUrl}}/users/admin/stats
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+### Lihat log klasifikasi dashboard (Admin)
+GET {{baseUrl}}/dashboard/classification-logs
+Authorization: Bearer {{authToken}}
+Content-Type: application/json

@@ -209,7 +209,7 @@ const CASES: TestCase[] = [
       return { pass: res.data.e2ee_messages_total >= 0, detail: `${res.data.e2ee_messages_total} pesan dikunci E2E` };
     },
   },
-  // --- GABUNGAN: UNIT TEST LAMA ---
+  // GABUNGAN: UNIT TEST LAMA
   {
     id: 13,
     name: 'Autentikasi Klien (User)',

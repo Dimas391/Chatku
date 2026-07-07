@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flexDirection: 'row',
-    paddingVertical: 12,
+    paddingVertical: 14,
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   saveButtonText: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: 0.5,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Button, Badge } from '@/components/ui';
 import { CheckCircle2, RotateCcw, Brain } from 'lucide-react';
 import { API_CONFIG } from '@/config/api';
@@ -13,17 +13,17 @@ const getToken = (): string | null => {
 
 /* ── Data metrik dari model (sesuai naive_bayes_model.json metadata) ── */
 const MODEL_METADATA = {
-  total_data: 35159,
-  train_size: 24611,
-  val_size: 5274,
-  test_size: 5274,
-  accuracy_test: 0.93,
-  precision_test: 0.5936,
-  recall_test: 0.6709,
-  f1_score_test: 0.6299,
+  total_data: 35960,
+  train_size: 25172,
+  val_size: 5394,
+  test_size: 5394,
+  accuracy_test: 0.9290,
+  precision_test: 0.6645,
+  recall_test: 0.6885,
+  f1_score_test: 0.6762,
   confusion_matrix_test: [
-    [4591, 215],  // TN, FP
-    [154, 314],   // FN, TP
+    [4611, 202],  // TN, FP
+    [181, 400],   // FN, TP
   ],
   label_encoding: '1=Berisiko, 0=Tidak Berisiko',
   nb_alpha: 1.0,
@@ -75,6 +75,27 @@ export const ModelAccuracyTester = () => {
     accuracy: number; precision: number; recall: number; f1: number;
     tp: number; tn: number; fp: number; fn: number;
   } | null>(null);
+  const [modelMeta, setModelMeta] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchMeta = async () => {
+      try {
+        const token = getToken();
+        const headers: HeadersInit = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        const response = await fetch(`${API_CONFIG.BASE_URL}/dashboard/model-metadata`, { headers });
+        if (response.ok) {
+          const data = await response.json();
+          setModelMeta(data);
+        }
+      } catch (err) {
+        console.error("Gagal mengambil metadata model:", err);
+      }
+    };
+    fetchMeta();
+  }, []);
+
+  const meta = modelMeta || MODEL_METADATA;
 
   const runTest = async () => {
     setRunning(true);
@@ -129,11 +150,11 @@ export const ModelAccuracyTester = () => {
     setRunning(false);
   };
 
-  const cm = MODEL_METADATA.confusion_matrix_test;
-  const TP = cm[1][1]; // 314
-  const TN = cm[0][0]; // 4591
-  const FP = cm[0][1]; // 215
-  const FN = cm[1][0]; // 154
+  const cm = meta.confusion_matrix_test;
+  const TP = cm ? cm[1][1] : 0;
+  const TN = cm ? cm[0][0] : 0;
+  const FP = cm ? cm[0][1] : 0;
+  const FN = cm ? cm[1][0] : 0;
 
   return (
     <>
@@ -165,14 +186,14 @@ export const ModelAccuracyTester = () => {
                 <td style={{ textAlign: 'center', fontWeight: 700 }}>2</td>
                 <td style={{ fontWeight: 600 }}>Perhitungan Akurasi</td>
                 <td>Menghitung persentase prediksi yang benar dari total data</td>
-                <td>Akurasi model ≥ 80% — <strong style={{ color: '#22C55E' }}>Tercapai: {(MODEL_METADATA.accuracy_test * 100).toFixed(1)}%</strong></td>
+                <td>Akurasi model ≥ 80% — <strong style={{ color: '#22C55E' }}>Tercapai: {(meta.accuracy_test * 100).toFixed(1)}%</strong></td>
                 <td style={{ textAlign: 'center' }}><Badge tone="success"><CheckCircle2 size={11}/> Pass</Badge></td>
               </tr>
               <tr className="row-pass">
                 <td style={{ textAlign: 'center', fontWeight: 700 }}>3</td>
                 <td style={{ fontWeight: 600 }}>Precision dan Recall</td>
                 <td>Menghitung precision dan recall untuk masing-masing kelas</td>
-                <td>Precision: {(MODEL_METADATA.precision_test * 100).toFixed(2)}% | Recall: {(MODEL_METADATA.recall_test * 100).toFixed(2)}%</td>
+                <td>Precision: {(meta.precision_test * 100).toFixed(2)}% | Recall: {(meta.recall_test * 100).toFixed(2)}%</td>
                 <td style={{ textAlign: 'center' }}><Badge tone="success"><CheckCircle2 size={11}/> Pass</Badge></td>
               </tr>
               <tr className="row-pass">
@@ -186,7 +207,7 @@ export const ModelAccuracyTester = () => {
                 <td style={{ textAlign: 'center', fontWeight: 700 }}>5</td>
                 <td style={{ fontWeight: 600 }}>Evaluasi Keseluruhan</td>
                 <td>Analisis kinerja model secara menyeluruh</td>
-                <td>F1-Score: {(MODEL_METADATA.f1_score_test * 100).toFixed(2)}% — Model layak digunakan</td>
+                <td>F1-Score: {(meta.f1_score_test * 100).toFixed(2)}% — Model layak digunakan</td>
                 <td style={{ textAlign: 'center' }}><Badge tone="success"><CheckCircle2 size={11}/> Pass</Badge></td>
               </tr>
             </tbody>
@@ -197,36 +218,36 @@ export const ModelAccuracyTester = () => {
       {/* ── Metrik Model dari Training ── */}
       <Card
         title="Hasil Pelatihan Model Naive Bayes"
-        subtitle={`Dataset: ${MODEL_METADATA.total_data.toLocaleString()} data · Split ${MODEL_METADATA.split_ratio} · Alpha: ${MODEL_METADATA.nb_alpha}`}
+        subtitle={`Dataset: ${meta.total_data.toLocaleString()} data · Split ${meta.split_ratio} · Alpha: ${meta.nb_alpha}`}
       >
         <div className="metric-row" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
           <div className="metric accent-green">
             <span>Akurasi (Test)</span>
-            <strong style={{ color: '#22C55E' }}>{(MODEL_METADATA.accuracy_test * 100).toFixed(1)}%</strong>
+            <strong style={{ color: '#22C55E' }}>{(meta.accuracy_test * 100).toFixed(1)}%</strong>
             <span className="metric-formula">= (TP+TN) / (TP+TN+FP+FN)</span>
           </div>
           <div className="metric accent-orange">
             <span>Precision (Test)</span>
-            <strong style={{ color: 'var(--brand)' }}>{(MODEL_METADATA.precision_test * 100).toFixed(2)}%</strong>
+            <strong style={{ color: 'var(--brand)' }}>{(meta.precision_test * 100).toFixed(2)}%</strong>
             <span className="metric-formula">= TP / (TP+FP)</span>
           </div>
           <div className="metric accent-blue">
             <span>Recall (Test)</span>
-            <strong style={{ color: 'var(--chart-2)' }}>{(MODEL_METADATA.recall_test * 100).toFixed(2)}%</strong>
+            <strong style={{ color: 'var(--chart-2)' }}>{(meta.recall_test * 100).toFixed(2)}%</strong>
             <span className="metric-formula">= TP / (TP+FN)</span>
           </div>
           <div className="metric accent-purple">
             <span>F1-Score (Test)</span>
-            <strong style={{ color: '#A855F7' }}>{(MODEL_METADATA.f1_score_test * 100).toFixed(2)}%</strong>
+            <strong style={{ color: '#A855F7' }}>{(meta.f1_score_test * 100).toFixed(2)}%</strong>
             <span className="metric-formula">= 2·P·R / (P+R)</span>
           </div>
         </div>
 
         {/* ── Confusion Matrix ── */}
         <div className="cm-section">
-          <h3 className="cm-title">Confusion Matrix (Data Uji = {MODEL_METADATA.test_size.toLocaleString()} sampel)</h3>
+          <h3 className="cm-title">Confusion Matrix (Data Uji = {meta.test_size.toLocaleString()} sampel)</h3>
           <div className="cm-labels-explain">
-            <span>Label encoding: <code>{MODEL_METADATA.label_encoding}</code></span>
+            <span>Label encoding: <code>{meta.label_encoding}</code></span>
           </div>
           <div className="cm-grid">
             <div className="cm-corner"></div>
@@ -252,12 +273,12 @@ export const ModelAccuracyTester = () => {
         <div className="preprocess-info">
           <h4>Preprocessing &amp; Parameter Model</h4>
           <div className="preprocess-grid">
-            <div className="preprocess-item"><span>TF-IDF N-Gram</span><strong>{MODEL_METADATA.tfidf_params.ngram_range}</strong></div>
-            <div className="preprocess-item"><span>Max Features</span><strong>{MODEL_METADATA.tfidf_params.max_features.toLocaleString()}</strong></div>
-            <div className="preprocess-item"><span>Sublinear TF</span><strong>{MODEL_METADATA.tfidf_params.sublinear_tf ? 'Ya' : 'Tidak'}</strong></div>
-            <div className="preprocess-item"><span>Min DF</span><strong>{MODEL_METADATA.tfidf_params.min_df}</strong></div>
-            <div className="preprocess-item"><span>Train Size</span><strong>{MODEL_METADATA.train_size.toLocaleString()}</strong></div>
-            <div className="preprocess-item"><span>Test Size</span><strong>{MODEL_METADATA.test_size.toLocaleString()}</strong></div>
+            <div className="preprocess-item"><span>TF-IDF N-Gram</span><strong>{meta.tfidf_params.ngram_range}</strong></div>
+            <div className="preprocess-item"><span>Max Features</span><strong>{meta.tfidf_params.max_features.toLocaleString()}</strong></div>
+            <div className="preprocess-item"><span>Sublinear TF</span><strong>{meta.tfidf_params.sublinear_tf ? 'Ya' : 'Tidak'}</strong></div>
+            <div className="preprocess-item"><span>Min DF</span><strong>{meta.tfidf_params.min_df}</strong></div>
+            <div className="preprocess-item"><span>Train Size</span><strong>{meta.train_size.toLocaleString()}</strong></div>
+            <div className="preprocess-item"><span>Test Size</span><strong>{meta.test_size.toLocaleString()}</strong></div>
           </div>
         </div>
       </Card>

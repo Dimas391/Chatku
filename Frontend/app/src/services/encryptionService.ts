@@ -22,7 +22,6 @@ function _extractPemBody(pem: string): string {
     .replace(/[\r\n\s]/g, '');
 }
 
-
 // ── Lazy imports (prevent crash on unsupported platform) ──────────────────
 let RSA: any = null;
 let RNAesCrypto: any = null;
@@ -121,8 +120,6 @@ class EncryptionService {
     const pub  = await platformStorage.getItem('user_public_key');
 
     if (!priv || !pub) return false;
-
-
 
     this.myPrivateKey = priv;
     this.myPublicKey  = pub;
@@ -429,14 +426,14 @@ class EncryptionService {
     message: string,
     recipientPublicKey: string,
   ): Promise<EncryptedMessagePayload> {
-    console.log('🔐 [ENCRYPT] Starting encryption... platform:', Platform.OS);
-    console.log('🔐 [ENCRYPT] Message length:', message.length);
+    console.log('[ENCRYPT] Starting encryption... platform:', Platform.OS);
+    console.log('[ENCRYPT] Message length:', message.length);
 
     const aesKey = await this.generateAESKey();
     const iv = await this.generateIV();
     const hash = await this.hashMessage(message);
 
-    console.log('🔐 [ENCRYPT] Keys and IV generated');
+    console.log('[ENCRYPT] Keys and IV generated');
 
     const ciphertext = await this.encryptAES(message, aesKey, iv);
     const encryptedKey = await this.encryptWithRSA(aesKey, recipientPublicKey);
@@ -448,7 +445,7 @@ class EncryptionService {
       encryptedSenderKey = await this.encryptWithRSA(aesKey, myPublicKey);
     }
 
-    console.log('🔐 [ENCRYPT] Encryption completed');
+    console.log('[ENCRYPT] Encryption completed');
 
     return {
       ciphertext,

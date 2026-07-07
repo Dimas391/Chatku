@@ -1,0 +1,73 @@
+{
+  "package_type": "hybrid_rule_based_plus_naive_bayes",
+  "label_encoding": "1=Berisiko, 0=Tidak Berisiko",
+  "total_data": 35625,
+  "train_size": 24937,
+  "val_size": 5344,
+  "test_size": 5344,
+  "accuracy_val": 0.9281,
+  "precision_val": 0.6332,
+  "recall_val": 0.6803,
+  "f1_score_val": 0.6559,
+  "accuracy_test": 0.9296,
+  "precision_test": 0.641,
+  "recall_test": 0.6816,
+  "f1_score_test": 0.6606,
+  "confusion_matrix_val": [
+    [
+      4594,
+      212
+    ],
+    [
+      172,
+      366
+    ]
+  ],
+  "confusion_matrix_test": [
+    [
+      4602,
+      205
+    ],
+    [
+      171,
+      366
+    ]
+  ],
+  "tfidf_params": {
+    "analyzer": "word",
+    "binary": false,
+    "decode_error": "strict",
+    "dtype": "<class 'numpy.float64'>",
+    "encoding": "utf-8",
+    "input": "content",
+    "lowercase": true,
+    "max_df": 1.0,
+    "max_features": 10000,
+    "min_df": 2,
+    "ngram_range": [
+      1,
+      2
+    ],
+    "norm": "l2",
+    "preprocessor": null,
+    "smooth_idf": true,
+    "stop_words": null,
+    "strip_accents": null,
+    "sublinear_tf": true,
+    "token_pattern": "(?u)\\b\\w\\w+\\b",
+    "tokenizer": null,
+    "use_idf": true,
+    "vocabulary": null
+  },
+  "nb_params": {
+    "alpha": 1.0,
+    "class_prior": null,
+    "fit_prior": true,
+    "force_alpha": true
+  },
+  "preprocessing_note": "Gunakan rule layer lebih dulu. Jika tidak match, baru gunakan preprocess_for_nb + TF-IDF + Naive Bayes.",
+  "preprocessing_cache_joblib": "cache/preprocessing_cache.joblib",
+  "preprocessing_cache_csv": "cache/preprocessing_cache.csv",
+  "preprocess_version": "preprocess_v1_case_token_stopword_stemming",
+  "dataset_signature": "7022758915085133366"
+}

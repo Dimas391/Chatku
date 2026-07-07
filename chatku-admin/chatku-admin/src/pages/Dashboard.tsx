@@ -73,6 +73,7 @@ export const Dashboard = () => {
   const [security, setSecurity] = useState<SecurityStatus | null>(null);
   const [encryption, setEncryption] = useState<EncryptionStats | null>(null);
   const [featureStats, setFeatureStats] = useState<FeatureStats | null>(null);
+  const [modelMeta, setModelMeta] = useState<any>(null);
 
   const catalog = [
     { name: 'Total Pesan',    value: stats?.total_messages ?? 0, fill: 'var(--brand)' },
@@ -112,6 +113,7 @@ export const Dashboard = () => {
           securityData,
           encryptionData,
           featureData,
+          modelMetaData,
         ] = await Promise.all([
           dashboardService.getDashboardStats(),
           dashboardService.getMessageTrend(),
@@ -122,6 +124,7 @@ export const Dashboard = () => {
           dashboardService.getSecurityStatus(),
           dashboardService.getEncryptionStats(),
           dashboardService.getFeatureStats(),
+          dashboardService.getModelMetadata().catch(() => null),
         ]);
 
         setStats(statsData);
@@ -133,6 +136,7 @@ export const Dashboard = () => {
         setSecurity(securityData);
         setEncryption(encryptionData);
         setFeatureStats(featureData);
+        setModelMeta(modelMetaData);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {
@@ -340,7 +344,9 @@ export const Dashboard = () => {
       <div className="grid-12">
         <Card
           title="Filter AI & Klasifikasi"
-          subtitle={`Distribusi 2 kelas (Aman vs Berisiko) · Akurasi Model 93.00%`}
+          subtitle={`Distribusi 2 kelas (Aman vs Berisiko) · Akurasi Model ${
+            modelMeta?.accuracy_test ? (modelMeta.accuracy_test * 100).toFixed(2) + '%' : '93.00%'
+          }`}
           className="col-4"
           action={
             <button onClick={() => navigate('/classification')} className="dash-cls-link">

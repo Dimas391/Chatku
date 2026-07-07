@@ -156,4 +156,3 @@ Arsitektur ini membuktikan bahwa:
 * **Aspek Integrity (Integritas):** Terpenuhi dengan pencocokan satu arah nilai hash SHA-256 baik pada arsitektur server-side maupun client-side.
 * **Aspek Non-repudiation (Anti-penyangkalan):** Terpenuhi karena kunci enkripsi terikat dengan pasangan kunci RSA masing-masing pengguna.
 * **Aspek Keamanan Forensik:** Terpenuhi dengan membatasi dekripsi teks hanya pada memori kerja volatile (RAM) pengirim/penerima atau RAM server sementara.
-

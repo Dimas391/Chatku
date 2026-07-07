@@ -261,11 +261,13 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.pa
 MODEL_PATH = os.path.join(ROOT_DIR, "model", "model_naive_bayes.joblib")
 
 _classifier_data = None
+_last_loaded_mtime = 0
 
 def get_classifier():
-    global _classifier_data
-    if _classifier_data is None:
-        if os.path.exists(MODEL_PATH):
+    global _classifier_data, _last_loaded_mtime
+    if os.path.exists(MODEL_PATH):
+        mtime = os.path.getmtime(MODEL_PATH)
+        if _classifier_data is None or mtime > _last_loaded_mtime:
             import warnings
             from sklearn.exceptions import InconsistentVersionWarning
             warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
@@ -276,14 +278,25 @@ def get_classifier():
                     'tfidf': data.get('vectorizer'),
                     'kata_kasar': set(data.get('kata_kasar', [])),
                     'stopwords': set(data.get('stopwords', [])),
-                    'pola_url': data.get('pola_url')
+                    'pola_url': data.get('pola_url'),
+                    'metadata': data.get('metadata', {})
                 }
-                logger.info(f"Model loaded successfully from {MODEL_PATH}")
+                _last_loaded_mtime = mtime
+                logger.info(f"Model loaded/reloaded successfully from {MODEL_PATH} (mtime: {mtime})")
             except Exception as e:
                 logger.error(f"Failed to load model: {e}")
-        else:
-            logger.warning(f"Model file not found at {MODEL_PATH}")
+    else:
+        logger.warning(f"Model file not found at {MODEL_PATH}")
     return _classifier_data
+
+@router.get("/model-metadata")
+async def get_model_metadata(admin_id: str = Depends(get_current_admin_id)):
+    """Ambil metadata model Naive Bayes yang sedang aktif"""
+    cdata = get_classifier()
+    if not cdata or not cdata.get('metadata'):
+        raise HTTPException(status_code=404, detail="Metadata model tidak ditemukan")
+    return cdata['metadata']
+
 
 @router.post("/classify-test")
 async def classify_test_message(request: ClassifyRequest, admin_id: str = Depends(get_current_admin_id)):
@@ -317,10 +330,27 @@ async def classify_test_message(request: ClassifyRequest, admin_id: str = Depend
         t = str(t).lower().strip()
         t = re.sub(pola_url or r'http\S+', 'URL_CURIGA', t)
         t = re.sub(r'\b0\d[\d\-]{8,12}\b', 'NOMOR_HP_ASING', t)
-        t = re.sub(r'[^a-z\s]', ' ', t)
-        tokens = [x for x in t.split() if len(x) > 0]
-        tokens = [x for x in tokens if x in kata_kasar or (x not in stopwords and len(x) > 1)]
-        return ' '.join(tokens) if tokens else 'PESAN_KOSONG'
+        t = re.sub(r'\b\d{5,8}\b', 'KODE_OTP', t)
+        t = re.sub(r'rp[\s]?\d+[\.,]?\d*\s*(juta|ribu|rb)?', 'NOMINAL_UANG', t)
+        t = re.sub(r'\b\d+\b', '', t)
+        t = re.sub(r'[^a-zA-Z_\s]', ' ', t)
+        tks = [x for x in t.split() if len(x) > 0]
+        
+        stopwords_set = set(stopwords)
+        tks_clean = []
+        from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+        factory = StemmerFactory()
+        stemmer = factory.create_stemmer()
+        
+        for x in tks:
+            if x.isupper() or x in kata_kasar or (x not in stopwords_set and len(x) > 1):
+                if x.isupper() or x in kata_kasar:
+                    tks_clean.append(x)
+                else:
+                    tks_clean.append(stemmer.stem(x))
+                    
+        return ' '.join(tks_clean) if tks_clean else 'PESAN_KOSONG'
+
 
     pesan_strip = request.text.strip()
     

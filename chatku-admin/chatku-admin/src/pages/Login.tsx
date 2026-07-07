@@ -186,14 +186,6 @@ export const Login: React.FC = () => {
           <Lock size={11} />
           Akses terbatas · Hanya untuk admin yang berwenang
         </div>
-
-        <details className="login-demo">
-          <summary>Kredensial demo</summary>
-          <div className="login-demo-body">
-            <div><code>admin</code> / <code>chatku2024</code> — Administrator</div>
-            <div><code>dimas</code> / <code>dimas123</code> — Moderator</div>
-          </div>
-        </details>
       </div>
     </div>
   );

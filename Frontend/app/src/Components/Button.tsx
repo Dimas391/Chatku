@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     flexDirection: 'row',
-    paddingVertical: 16,
+    paddingVertical: 14,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   registerButtonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: 0.5,

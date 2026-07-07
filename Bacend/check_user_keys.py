@@ -8,7 +8,7 @@ import urllib.error
 import json
 import sys
 
-BASE_URL = "http://192.168.1.84:8000/api/v1"
+BASE_URL = "http://192.168.1.16:8000/api/v1"
 
 # ── Ganti dengan token valid kamu ──────────────────────────────
 # Bisa ambil dari log Expo / AsyncStorage / SecureStore

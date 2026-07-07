@@ -237,7 +237,7 @@ function predictNaiveBayes(text: string): { label: 'Berisiko' | 'Tidak Berisiko'
   const prob0 = exp0 / sumExp;
   const prob1 = exp1 / sumExp;
 
-  const isRisky = prob1 >= 0.95;
+  const isRisky = prob1 >= 0.65;
   const label = isRisky ? 'Berisiko' : 'Tidak Berisiko';
   const confidence = isRisky ? prob1 : prob0;
 

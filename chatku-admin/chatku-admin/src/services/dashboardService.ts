@@ -187,6 +187,10 @@ class DashboardService {
   async getFeatureStats(): Promise<FeatureStats> {
     return this.request('/dashboard/feature-stats');
   }
+
+  async getModelMetadata(): Promise<any> {
+    return this.request('/dashboard/model-metadata');
+  }
 }
 
 export default new DashboardService();
